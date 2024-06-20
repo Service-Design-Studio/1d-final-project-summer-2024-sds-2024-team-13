@@ -1,11 +1,11 @@
 module NavigationHelpers
     def path_to(page_name)
       case page_name
-      when /the home\s?page/
+      when /Home View/
         '/home'
-      when /the history page/
+      when /History View/
         '/history'
-      when /the more page/
+      when /More View/
         '/more'
       when /the settings page/
         '/settings'
