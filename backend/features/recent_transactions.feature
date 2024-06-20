@@ -66,10 +66,21 @@ Scenario: transaction not reflected instantly
     And I should see the refresh timestamp showing "last refreshed at {current_time}"
     And I should see the transaction showing on the Most Recent transaction section in the top Red Card
     And I should see the transaction highlighted red at the top of the most recent 5 transactions section
-    
+
 Scenario: time past 12AM
 
     Given that I am on the Home View
     And the time has just turned 12 midnight
     Then I should see “Today’s Earnings” in the top Red Card reset to zero
+
+Scenario: time past 12AM and user wants to tabulate his day's earnings
+
+    Given that I am on the Home View
+    And the time has just turned 12 midnight
+    And I see “Today’s Earnings” in the top Red Card reset to zero
+    And I clicked into the More View
+    And I clicked on "Manage your Daily Earnings"
+    And I changed the End Time to 0300
+    And I clicked back to Home View
+    Then I should see “Today’s Earnings” in the top Red Card change my day's earnings (before 12am)
 
