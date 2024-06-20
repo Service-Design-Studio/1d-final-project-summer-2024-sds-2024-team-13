@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_20_132600) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_20_211145) do
   create_table "transactions", force: :cascade do |t|
     t.integer "transactionID"
     t.float "transactionSum"
@@ -20,7 +20,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_20_132600) do
     t.string "paymentMethod"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["transactionID"], name: "index_transactions_on_transactionID", unique: true
   end
 
 end
