@@ -7,9 +7,9 @@ module NavigationHelpers
         '/history'
       when /More View/
         '/more'
-      when /the settings page/
+      when /Settings page/
         '/settings'
-      when /the daily earnings settings page/
+      when /Daily earnings settings page/
         '/settings/daily_earnings'
       else
         raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
