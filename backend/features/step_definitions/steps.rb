@@ -139,7 +139,7 @@ end
 
 When /^the time has just turned 12 midnight$/ do
   # Simulate the passage of time to midnight
-  allow(Time).to receive(:now).and_return(Time.now.beginning_of_day)
+  allow(Time).to receive(:now).and_return(Time.now.tomorrow.beginning_of_day)
 end
 
 Then /^I should see “Today’s Earnings” in the top Red Card reset to zero$/ do
@@ -170,7 +170,9 @@ end
 
 Then /^I should see transactions made yesterday only$/ do
   within('.transactions-history') do
-    expect(all('.transaction').all? { |t| t[:'data-date'] == Date.yesterday.to_s }).to be true
+    all('.transaction').each do |transaction|
+      expect(transaction[:'data-date']).to eq(Date.yesterday.to_s)
+    end
   end
 end
 
