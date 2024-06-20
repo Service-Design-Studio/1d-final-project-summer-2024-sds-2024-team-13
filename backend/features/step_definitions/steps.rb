@@ -14,9 +14,8 @@ World(WithinHelpers)
 #end
 
 #Given /^I am on the Home View$/ do
- # visit path_to('the home page')
+#  visit path_to('the home page')
 #end
-
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
@@ -30,59 +29,14 @@ end
 
 Then /^I should see a maximum of the most recent 5 transactions in chronological order, with the newest at the top$/ do
   within('.recent-transactions') do
-
-    Your step definitions and accompanying steps are well-organized and cover the necessary scenarios. Here are some improvements and corrections to ensure clarity, correctness, and completeness:
-
-    Enhance Error Simulation: Ensure that error simulations are more explicit.
-    Clarify Amount Parsing: Use proper parsing for amounts to handle them as floats.
-    Dynamic Time Handling: Handle dynamic time within tests correctly.
-    Clean up CSS Selectors: Use more precise CSS selectors where necessary.
-    Consistency in Steps: Ensure consistency in language and method usage.
-    Here is the improved version:
-    
-    Improved Step Definitions
-    ruby
-    Copy code
-    require 'uri'
-    require 'cgi'
-    require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-    
-    module WithinHelpers
-      def with_scope(locator)
-        locator ? within(locator) { yield } : yield
-      end
-    end
-    World(WithinHelpers)
-    
-    #Given /^that I am logged into the app$/ do
-    #  login_as(user, scope: :user)
-    #end
-    
-    #Given /^I am on the Home View$/ do
-    #  visit path_to('the home page')
-    #end
-
-    Given /^(?:|I )am on (.+)$/ do |page_name|
-      visit path_to(page_name)
-    end
-    
-    Then /^I should see my daily earnings and my most recent transaction in the top Red Card$/ do
-      within('.top-red-card') do
-        expect(page).to have_content('Daily Earnings')
-        expect(page).to have_content('Most Recent Transaction')
-      end
-    end
-    
-    Then /^I should see a maximum of the most recent 5 transactions in chronological order, with the newest at the top$/ do
-      within('.recent-transactions') do
-        expect(page).to have_selector('.transaction', maximum: 5)
-        transactions = page.all('.transaction')
-        sorted_transactions = transactions.sort_by { |t| t[:'data-timestamp'] }.reverse
-        expect(transactions).to eq(sorted_transactions)
+    expect(page).to have_selector('.transaction', maximum: 5)
+    transactions = page.all('.transaction')
+    sorted_transactions = transactions.sort_by { |t| t[:'data-timestamp'] }.reverse
+    expect(transactions).to eq(sorted_transactions)
   end
 end
 
-When /^I clicks on the topmost transaction in the most recent 5 transactions section$/ do
+When /^I click on the topmost transaction in the most recent 5 transactions section$/ do
   within('.recent-transactions') do
     first('.transaction').click
   end
@@ -90,11 +44,11 @@ end
 
 Then /^I should see a popup Transaction Details View showing amount, timestamp, payment source, transaction id and customer mobile$/ do
   within('.transaction-details-popup') do
-    expect(page).to have_content('Amount: ')
-    expect(page).to have_content('Timestamp: ')
-    expect(page).to have_content('Payment Source: ')
-    expect(page).to have_content('Transaction ID: ')
-    expect(page).to have_content('Customer Mobile: ')
+    expect(page).to have_content('Amount:')
+    expect(page).to have_content('Timestamp:')
+    expect(page).to have_content('Payment Source:')
+    expect(page).to have_content('Transaction ID:')
+    expect(page).to have_content('Customer Mobile:')
   end
 end
 
@@ -138,6 +92,8 @@ Given /^(\d+) customers paid at the same time with (.*), (.*) and (.*)$/ do |num
   amounts = [amount1, amount2, amount3]
   amounts.each do |amount|
     Transaction.create(amount: amount.to_f, created_at: Time.now, ...)
+  end
+end
 
 Then /^I should see (\d+) transaction cards highlighted red at the top of the most recent 5 transactions section$/ do |num_transactions|
   within('.recent-transactions') do
@@ -175,7 +131,7 @@ When /^I click on the refresh button$/ do
   find('.refresh-button').click
 end
 
-Then /^I should see the refresh timestamp showing "last refreshed at \{current_time\}"$/ do
+Then /^I should see the refresh timestamp showing "last refreshed at #{Time.now.strftime('%H:%M')}"$/ do
   within('.refresh-timestamp') do
     expect(page).to have_content("last refreshed at #{Time.now.strftime('%H:%M')}")
   end
@@ -214,7 +170,6 @@ end
 
 Then /^I should see transactions made yesterday only$/ do
   within('.transactions-history') do
-    # Assuming transactions are tagged with a date
     expect(all('.transaction').all? { |t| t[:'data-date'] == Date.yesterday.to_s }).to be true
   end
 end
