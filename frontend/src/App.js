@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="App">
-      HELLO WE ARE BYTEBALLER
+      HELLO WE ARE BYTEBALLERs!
     </div>
   );
 }
