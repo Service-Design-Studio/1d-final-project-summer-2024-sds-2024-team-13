@@ -14,7 +14,7 @@ Scenario: user just logged in
 Scenario: user views a transaction
 
     Given that I am on the Home View
-    And I clicks on the topmost transaction in the most recent 5 transactions section
+    And I clicked on the topmost transaction in the most recent 5 transactions section
     Then I should see a popup Transaction Details View showing amount, timestamp, payment source, transaction id and customer mobile
 
 Scenario: user accidentally clicked into History View
@@ -46,7 +46,7 @@ Scenario: multiple transactions at the same time
     Given that I am on the Home View
     And 3 customers paid at the same time with 5.30, 2.30 and 2.40
     Then I should see the numbers for "Today's Earnings" increase by 10.00
-    And I should see the transaction of 5.30 showing on the Most Recent transaction section in the top Red Card  #take the max of all the transactions from the same timing
+    And I should see the transaction of 5.30 showing on the Most Recent transaction section in the top Red Card
     And I should see 3 transaction cards highlighted red at the top of the most recent 5 transactions section
 
 Scenario: user wants to hide daily earnings
@@ -82,5 +82,5 @@ Scenario: time past 12AM and user wants to tabulate his day's earnings
     And I clicked on "Manage your Daily Earnings"
     And I changed the End Time to 0300
     And I clicked back to Home View
-    Then I should see “Today’s Earnings” in the top Red Card change my day's earnings (before 12am)
+    Then I should see “Today’s Earnings” in the top Red Card change a day of earnings (before 12am)
 

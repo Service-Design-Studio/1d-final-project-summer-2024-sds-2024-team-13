@@ -13,12 +13,13 @@ World(WithinHelpers)
 #  login_as(user, scope: :user)
 #end
 
-#Given /^I am on the Home View$/ do
-#  visit path_to('the home page')
-#end
-Given /^(?:|I )am on (.+)$/ do |page_name|
-  visit path_to(page_name)
+Given /^that I am on the Home View$/ do
+ visit path_to ("Home View")
 end
+
+Given /^that I am on the History View$/ do
+  visit path_to ("History View")
+ end
 
 Then /^I should see my daily earnings and my most recent transaction in the top Red Card$/ do
   within('.top-red-card') do
@@ -65,7 +66,7 @@ When /^I clicked into the More View$/ do
 end
 
 When /^I have just received a new transaction of (.*)$/ do |amount|
-  Transaction.create(amount: amount.to_f, created_at: Time.now, ...)
+  Transaction.create(amount: amount.to_f, created_at: Time.now)
 end
 
 Then /^I should see the numbers for "Today's Earnings" increase by (.*)$/ do |amount|
@@ -91,7 +92,7 @@ end
 Given /^(\d+) customers paid at the same time with (.*), (.*) and (.*)$/ do |num_customers, amount1, amount2, amount3|
   amounts = [amount1, amount2, amount3]
   amounts.each do |amount|
-    Transaction.create(amount: amount.to_f, created_at: Time.now, ...)
+    Transaction.create(amount: amount.to_f, created_at: Time.now)
   end
 end
 
@@ -118,7 +119,7 @@ end
 
 When /^a customer just paid me (.*)$/ do |amount|
   # Simulate receiving a payment
-  Transaction.create(amount: amount.to_f, created_at: Time.now, ...)
+  Transaction.create(amount: amount.to_f, created_at: Time.now)
 end
 
 When /^the transaction of (.*) is not shown on the Most Recent transaction section in the top Red Card$/ do |amount|
@@ -184,4 +185,182 @@ end
 
 Then /^I should see a popup error message that says "Failed to filter transactions. Please try again later."$/ do
   expect(page).to have_content("Failed to filter transactions. Please try again later.")
+end
+
+Then /^I should see a dropdown menu with the tag "Any Date"$/ do
+  # Implement code to verify the presence of the dropdown menu with the given tag
+  expect(page).to have_select(Any Date)
+end
+
+When /^I clicked on dropdown menu with the tag "([^"]*)"$/ do |tag_name|
+  find('select', text: tag_name).click
+end
+
+And /^I should see the past transactions listed below$/ do
+  # Implement code to verify the presence of past transactions
+  expect(page).to have_css('.transaction-item')  # Example CSS selector for transaction items
+end
+
+Then(/^I should see a dropdown box showing options sorting by date range, day and month$/) do
+  dropdown = find('select#date-dropdown')  # Adjust the selector to match your HTML structure
+  expect(dropdown).to have_selector('option', text: 'Date Range')
+  expect(dropdown).to have_selector('option', text: 'Day')
+  expect(dropdown).to have_selector('option', text: 'Month')
+end
+
+Then(/^I should see the past transactions listed below$/) do
+  expect(page).to have_css('.transaction-item')  # Replace with your actual CSS selector
+end
+
+When(/^I selected a Date Range from (.*) to (.*)$/) do |start_date, end_date|
+  # Assuming you have a date picker or similar mechanism
+  # Adjust the selectors and interaction according to your HTML structure
+  # Open the date range picker
+  find('select#date-dropdown').click
+  find('option', text: 'Date Range').select_option
+  # Select the start date
+  fill_in 'start_date', with: start_date
+  fill_in 'end_date', with: end_date
+  # Submit the date range selection
+  click_button 'Apply'  # Adjust the button name as per your implementation
+end
+
+Then(/^I should see the dropdown box closing$/) do
+  # Verify the dropdown is not visible
+  expect(page).not_to have_selector('select#date-dropdown')
+end
+
+Then(/^I should see my past transactions from (.*) to (.*) listed below$/) do |start_date, end_date|
+  # Verify the transactions are listed correctly
+  within('.transaction-list') do  # Adjust the selector to match your transaction list
+    expect(page).to have_content(start_date)
+    expect(page).to have_content(end_date)
+  end
+end
+
+Then('I should see {string} on the top right') do |string|
+  within('.top-right') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content(string)
+  end
+end
+
+Then('I clicked on the Yesterday button') do
+  click_button 'Yesterday'  # Adjust the button name or selector as per your implementation
+end
+
+Then('I should see my past transactions for Yesterday listed below') do
+  within('.transactions-list') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content('Yesterday')  # Ensure the transaction list includes a reference to "Yesterday"
+  end
+end
+
+Then('I should NOT see any {string} or {string} on the top right') do |string1, string2|
+  within('.top-right') do  # Adjust the selector to match your actual HTML structure
+    expect(page).not_to have_content(string1)
+    expect(page).not_to have_content(string2)
+  end
+end
+
+Then('I clicked on the THIS MONTH button') do
+  click_button 'THIS MONTH'  # Adjust the button name or selector as per your implementation
+end
+
+Then('I should see my past transactions for the month of June listed below') do
+  within('.transactions-list') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content('June')  # Ensure the transaction list includes a reference to "June"
+  end
+end
+
+Then('I should see {string} on the top left') do |string|
+  within('.top-left') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content(string)
+  end
+end
+
+Given('I clicked on one of the transactions in the Transactions History view') do
+  find('.transaction-item', match: :first).click  # Adjust the selector to match your actual HTML structure
+end
+
+Then('I should see a popup Transaction Details View showing details such as amount, timestamp, payment source, transaction ID and customer mobile') do
+  within('.transaction-details-popup') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content('Amount')
+    expect(page).to have_content('Timestamp')
+    expect(page).to have_content('Payment Source')
+    expect(page).to have_content('Transaction ID')
+    expect(page).to have_content('Customer Mobile')
+  end
+end
+
+Then('I should see the numbers for {string} increase by {float}') do |string, float|
+  within('.numbers') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content("#{string} +#{float}")
+  end
+end
+
+Then('I should see the transaction showing on top of the transaction section') do
+  within('.transactions-list') do  # Adjust the selector to match your actual HTML structure
+    expect(find('.transaction-item', match: :first)).to have_content('Transaction Details')  # Ensure the first item is the expected transaction
+  end
+end
+
+Then('I should see the {int} transactions showing on top of the transaction section') do |int|
+  within('.transactions-list') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_selector('.transaction-item', count: int)
+  end
+end
+
+Given('that I am logged into the app') do
+  visit login_path  # Replace with your actual login path
+  fill_in 'Email', with: 'user@example.com'
+  fill_in 'Password', with: 'password'
+  click_button 'Log in'
+end
+
+Given('I am on the Home View') do
+  visit path_to('Home View')
+end
+
+Given('I clicked on the topmost transaction in the most recent {int} transactions section') do |int|
+  within('.most-recent-transactions') do  # Adjust the selector to match your actual HTML structure
+    find('.transaction-item', match: :first).click
+  end
+end
+
+Then('I should see the transaction of {float} showing on the Most Recent transaction section in the top Red Card') do |expected_amount|
+  within('.top-red-card .most-recent-transactions') do
+    # Assuming your application logic retrieves the actual transaction amount and compares it
+    transaction_amounts = all('.transaction-item .amount').map(&:text).map(&:to_f)
+    first_transaction_amount = find('.transaction-item', match: :first).text.gsub(/[^\d\.]/, '').to_f
+    expect(first_transaction_amount).to eq(expected_amount)
+  end
+end
+
+Then('I should see the refresh timestamp showing {string}') do |string|
+  within('.refresh-timestamp') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content(string)
+  end
+end
+
+Given('I see “Today’s Earnings” in the top Red Card reset to zero') do
+  within('.top-red-card .todays-earnings') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content('Today’s Earnings: $0.00')
+  end
+end
+
+Given('I clicked on {string}') do |string|
+  click_link_or_button string  # This will click either a link or a button with the text `string`
+end
+
+Given('I changed the End Time to {int}') do |int|
+  fill_in 'End Time', with: int  # Adjust the field name or selector as per your implementation
+end
+
+Given('I clicked back to Home View') do
+  click_link 'Home'  # Adjust the link text or selector as per your implementation
+end
+
+Then('I should see “Today’s Earnings” in the top Red Card change a day of earnings \(before 12am)') do
+  within('.top-red-card .todays-earnings') do  # Adjust the selector to match your actual HTML structure
+    expect(page).to have_content('Today’s Earnings: $')
+  end
 end
