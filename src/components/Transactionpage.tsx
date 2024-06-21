@@ -1,5 +1,6 @@
 import React from 'react';
 import List from './Listcomponent';
+import Navigator from './navigatorbar';
 
 // Transactions.tsx
 
@@ -7,6 +8,7 @@ import List from './Listcomponent';
 const Transactions: React.FC = () => {
   return (
     <div>
+      <Navigator/>
       <List/>
     </div>
   );
