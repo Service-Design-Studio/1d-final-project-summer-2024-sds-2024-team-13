@@ -10,28 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_21_002917) do
+ActiveRecord::Schema.define(version: 2024_06_21_002917) do
+
   create_table "transactions", force: :cascade do |t|
     t.integer "transactionID"
-    t.float "transactionSum"
+    t.decimal "transactionSum"
     t.integer "userID"
-    t.float "amount"
+    t.decimal "amount"
     t.datetime "timestamp"
     t.string "paymentMethod"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["userID"], name: "index_transactions_on_userID"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.integer "userID"
+  create_table "users", primary_key: "userID", force: :cascade do |t|
     t.string "userName"
     t.string "email"
     t.string "phone"
     t.datetime "createdAt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "endDayTiming"
     t.decimal "daily_earnings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
