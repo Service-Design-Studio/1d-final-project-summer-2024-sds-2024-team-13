@@ -30,9 +30,9 @@ end
 
 Then /^I should see a maximum of the most recent 5 transactions in chronological order, with the newest at the top$/ do
   within('.recent-transactions') do
-    expect(page).to have_selector('.transaction', maximum: 5)
     transactions = page.all('.transaction')
-    sorted_transactions = transactions.sort_by { |t| t[:'data-timestamp'] }.reverse
+    expect(transactions.size).to be <= 5
+    sorted_transactions = transactions.sort_by { |t| t['data-timestamp'] }.reverse
     expect(transactions).to eq(sorted_transactions)
   end
 end
@@ -67,13 +67,14 @@ end
 
 When /^I have just received a new transaction of (.*)$/ do |amount|
   Transaction.create(amount: amount.to_f, created_at: Time.now)
+  Transaction.create(amount: amount.to_f, created_at: Time.now)
 end
 
 Then /^I should see the numbers for "Today's Earnings" increase by (.*)$/ do |amount|
   within('.top-red-card') do
     current_earnings = find('.earnings-amount').text.to_f
     new_earnings = current_earnings + amount.to_f
-    expect(page).to have_content("Today's Earnings: #{new_earnings}")
+    expect(find('.earnings-amount')).to have_content(new_earnings)
   end
 end
 
@@ -85,7 +86,7 @@ end
 
 Then /^I should see the transaction highlighted red at the top of the most recent 5 transactions section$/ do
   within('.recent-transactions') do
-    expect(first('.transaction')).to have_css('background-color', text: 'red')
+    expect(first('.transaction')['style']).to include('background-color: red')
   end
 end
 
@@ -98,8 +99,10 @@ end
 
 Then /^I should see (\d+) transaction cards highlighted red at the top of the most recent 5 transactions section$/ do |num_transactions|
   within('.recent-transactions') do
-    transactions = all('.transaction').take(num_transactions.to_i)
-    expect(transactions.all? { |t| t.native.css_value('background-color') == 'red' }).to be true
+    highlighted_transactions = all('.transaction').take(num_transactions.to_i)
+    highlighted_transactions.each do |transaction|
+      expect(transaction['style']).to include('background-color: red')
+    end
   end
 end
 
@@ -113,11 +116,12 @@ end
 
 Then /^I should see the digits of my "Today's Earnings" replaced by '\*'$/ do
   within('.top-red-card') do
-    expect(page).to have_content("Today's Earnings: ***")
+    expect(find('.earnings-amount')).to have_content('***')
   end
 end
 
 When /^a customer just paid me (.*)$/ do |amount|
+  Transaction.create(amount: amount.to_f, created_at: Time.now)
   # Simulate receiving a payment
   Transaction.create(amount: amount.to_f, created_at: Time.now)
 end
@@ -139,13 +143,12 @@ Then /^I should see the refresh timestamp showing "last refreshed at #{Time.now.
 end
 
 When /^the time has just turned 12 midnight$/ do
-  # Simulate the passage of time to midnight
-  allow(Time).to receive(:now).and_return(Time.now.tomorrow.beginning_of_day)
+  travel_to Time.now.tomorrow.beginning_of_day
 end
 
 Then /^I should see “Today’s Earnings” in the top Red Card reset to zero$/ do
   within('.top-red-card') do
-    expect(page).to have_content("Today's Earnings: 0.00")
+    expect(find('.earnings-amount')).to have_content('0.00')
   end
 end
 
@@ -172,7 +175,7 @@ end
 Then /^I should see transactions made yesterday only$/ do
   within('.transactions-history') do
     all('.transaction').each do |transaction|
-      expect(transaction[:'data-date']).to eq(Date.yesterday.to_s)
+      expect(transaction['data-date']).to eq(Date.yesterday.to_s)
     end
   end
 end
