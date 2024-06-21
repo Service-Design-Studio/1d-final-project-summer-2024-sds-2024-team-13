@@ -44,18 +44,20 @@
 }
   
 .earnings-section {
+    font-family: "Inter", sans-serif;
     background-color: #FD5A77; /* Specified background color for earnings section */
     padding: 10px;
-    flex: 1; /* Takes remaining vertical space */
+    flex: 0.5; /* Takes remaining vertical space */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
   
 .transaction-section {
+    font-family: "Inter", sans-serif;
     background-color: #fe748d; /* Specified background color for transaction section */
     padding: 10px;
-    flex: 1; /* Takes remaining vertical space */
+    flex: 0.5; /* Takes remaining vertical space */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -133,12 +135,14 @@
   }
 
 .date-header {
+    font-family: "Inter", sans-serif;
     font-size: 15px;
     font-weight: bold;
     margin: 20px 20px; /* Add margin to the sides of the screen */
 }
 
 .transaction-list {
+    font-family: "Inter", sans-serif;
     list-style: none;
     padding: 0;
     margin: 0 20px; /* Add margin to the sides of the screen */
