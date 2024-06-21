@@ -1,0 +1,51 @@
+/* TOP CARD CSS */
+.top-card {
+    width: 18rem; /* Full width minus the margin */
+    margin: 20px; /* 20px margin on all sides */
+    border-radius: 5%;
+    overflow: hidden; /* Ensures rounded corners for both sections */
+    color: rgb(213, 37, 66);
+    font-family: 'Inter', sans-serif;
+    font-size: larger;
+  }
+  
+  @media (max-width: 600px) {
+    .top-card {
+      height: 20%;
+      width: 95%;
+      margin: 5px auto;
+    }
+  }
+  
+  .earnings-section {
+    background-color: white; /* Specified background color for earnings section */
+    padding: 10px;
+  }
+  
+  .earnings-amount {
+    display: flex;
+    align-items: baseline;
+    margin-top: 10px;
+  }
+  
+  .currency {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+  
+  .amount-front {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  .amount-back {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .last-refreshed {
+    margin-top: 5px;
+    font-size: 16px;
+    color: black;
+  }
+  
