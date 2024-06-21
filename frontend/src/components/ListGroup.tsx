@@ -1,6 +1,4 @@
 import { useState } from "react";
-import MidCard from "./OldTransactionCard";
-import TopCard from "./TransactionCard";
 
 interface Props{
   items: string[];
@@ -16,9 +14,9 @@ function ListGroup({items, heading, onSelectItem}: Props) {
   //Event handler
 
   
-  const getMessage = () => {
+  /*const getMessage = () => {
     return items.length === 0 ? <p>No item found</p>: null;;
-  }
+  }*/
    
       
   return (

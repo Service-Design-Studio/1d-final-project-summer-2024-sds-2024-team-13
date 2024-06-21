@@ -31,7 +31,7 @@ interface CardData {
       setPriceInput(0); // Reset price input after adding card
     };
   
-    const addMidCard = () => {
+    /*const addMidCard = () => {
       const newCard: CardData = {
         id: Date.now(),
         type: 'mid',
@@ -39,7 +39,7 @@ interface CardData {
       };
       setCards([newCard, ...cards]);
       setPriceInput(0); // Reset price input after adding card
-    };
+    };*/
   
     const handlePriceInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = parseFloat(event.target.value);
