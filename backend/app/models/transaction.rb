@@ -1,9 +1,5 @@
 class Transaction < ApplicationRecord
-    validates :transactionID, presence: true
-    validates :transactionSum, presence: true, numericality: true
-    validates :userID, presence: true
-    validates :amount, presence: true, numericality: true
-    validates :timestamp, presence: true
-    validates :paymentMethod, presence: true
+    belongs_to :user, foreign_key: 'userID'
+    validates :transactionID, :transactionSum, :userID, :amount, :timestamp, :paymentMethod, presence: true
   end
   
