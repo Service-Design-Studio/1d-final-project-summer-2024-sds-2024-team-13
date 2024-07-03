@@ -1,0 +1,57 @@
+.main {
+    background: var(--primary);
+    color: #fff;
+    text-align: left;
+    border-radius: 8px;
+
+}
+
+.top {
+    box-sizing: border-box;
+    padding: 0.2rem 1.2rem;
+
+}
+
+.todayEarning {
+    margin-bottom: 8px;
+    margin-top: 2px;
+}
+
+.todayEarning span{
+    font-size: 2rem;
+}
+
+.topWrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.topWrapper p {
+    font-size: 0.7rem;
+}
+
+.bottom {
+    background: var(--primary-light);
+    box-sizing: border-box;
+    padding: 0.2rem 1.2rem;
+    border-radius: 0 0 8px 8px;
+    position: relative;
+    padding-bottom: 0.8rem;
+}
+
+.recentTransc {
+    margin: 4px 0;
+}
+
+
+.recentTranscAmt {
+    margin: 0.8rem 0;
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+}
+
+.recentTranscAmt span {
+    font-size: 1.6rem;
+}

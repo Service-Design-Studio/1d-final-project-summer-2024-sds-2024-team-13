@@ -1,0 +1,28 @@
+.content {
+    margin: 0 1.2rem;
+    padding: 5.5rem 0;
+    
+}
+
+.monthInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+}
+.monthInfo p {
+    margin: 2px 0;
+}
+
+.dayInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
+
+.dayInfo p {
+    margin: 2px 0;
+}

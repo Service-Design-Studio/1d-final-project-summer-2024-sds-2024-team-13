@@ -1,0 +1,15 @@
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #000;
+    border-radius: 12px;
+    box-sizing: border-box;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 12px;
+    background: #fff;
+}
+
+.main p {
+    margin: 2px 0;
+}
