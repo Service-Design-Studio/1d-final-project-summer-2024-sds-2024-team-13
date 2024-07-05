@@ -9,7 +9,7 @@ const HomeTransactionCard = ({
         <div className={`${styles.main} ${(isHighlighted === true) ? styles.mainHighlight: ""}`}>
             <div className={styles.top}>
                 <div style={{display: "flex", alignItems: "center"}}>
-                    <img src={paynowIcon} style={{marginRight: "0.8rem"}}/>
+                    <img src={paynowIcon} style={{marginRight: "0.8rem"}} alt=""/>
                     <p style={{margin: 0, fontWeight: 600, fontSize: "0.8rem"}}>TRANSFER FROM PAYLAH: <br/>8XXX XXX</p>
                 </div>
                 <ChevronRightOutlined/>

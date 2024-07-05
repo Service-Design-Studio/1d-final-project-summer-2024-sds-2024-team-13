@@ -1,4 +1,3 @@
-import TransactionCard from "../components/history/TransactionCard";
 import HomeNav from "../components/home/HomeNav";
 import HomeTransactionCard from "../components/home/HomeTransactionCard";
 import MainCard from "../components/home/MainCard";

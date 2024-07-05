@@ -1,8 +1,7 @@
 import styles from "../../styles/history/TransactionCard.module.css"
 import { ChevronRightOutlined } from "@mui/icons-material";
 
-const TransactionCard = ({
-}) => {
+const TransactionCard = () => {
     return ( 
         <div className={styles.main}>
             <div className={styles.top}>

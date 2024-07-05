@@ -1,6 +1,10 @@
+import styles from "../styles/login/Login.module.css"
+
 const LoginScreen = () => {
     return ( 
-        <div className=""></div>
+        <div className={styles.screen}>
+            
+        </div>
      );
 }
  

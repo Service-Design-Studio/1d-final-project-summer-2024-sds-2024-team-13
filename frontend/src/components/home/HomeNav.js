@@ -7,7 +7,7 @@ const HomeNav = () => {
         <div className={styles.main}>
             <Notifications className={styles.icon}/>
             <h2><span>DBS</span>Biz</h2>
-            <img src={dbsIcon}/>
+            <img src={dbsIcon} alt=""/>
             
         </div>
      );
