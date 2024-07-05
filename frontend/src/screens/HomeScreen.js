@@ -11,8 +11,6 @@ const HomeScreen = () => {
                 <MainCard />
                 <div className={styles.transcContainer}>
                     <p style={{fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px"}}>TODAY, 17 JUN</p>
-                    <HomeTransactionCard isHighlighted={true}/>
-                    <HomeTransactionCard isHighlighted={true}/>
                     <HomeTransactionCard/>
                     <HomeTransactionCard/>
                     <HomeTransactionCard/>
