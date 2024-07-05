@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import LoginScreen from './screens/LoginScreen';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -39,6 +40,12 @@ function Navigation() {
   );
 }
 
+function ConditionalNavigation() {
+  const location = useLocation();
+  
+  return location.pathname !== '/login' ? <Navigation /> : null;
+}
+
 function App() {
   return (
     <div className="App">
@@ -49,8 +56,9 @@ function App() {
         <Routes>
           <Route path='/' element={<HomeScreen/>} />
           <Route path='/history' element={<HistoryScreen/>} />
+          <Route path='/login' element={<LoginScreen/>} />
         </Routes>
-        <Navigation />
+        <ConditionalNavigation/>
       </BrowserRouter>
     </div>
   );
