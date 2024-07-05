@@ -14,13 +14,13 @@ function Navigation() {
   const handleScreen = (screen) => {
     switch (screen) {
       case "home":
-        navigate("/");
+        navigate("/home");
         break;
       case "history":
         navigate("/history");
         break;
       default:
-        navigate("/");
+        navigate("/home");
         break;
     }
     setScreen(screen);
@@ -54,9 +54,9 @@ function App() {
       </div>
       <BrowserRouter className="content">
         <Routes>
-          <Route path='/' element={<HomeScreen/>} />
+          <Route path='/' element={<LoginScreen/>} />
           <Route path='/history' element={<HistoryScreen/>} />
-          <Route path='/login' element={<LoginScreen/>} />
+          <Route path='/home' element={<HomeScreen/>} />
         </Routes>
         <ConditionalNavigation/>
       </BrowserRouter>
