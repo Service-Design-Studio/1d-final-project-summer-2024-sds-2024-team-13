@@ -1,0 +1,40 @@
+name: Deploy Backend to GCP
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker
+
+      - name: Build and Submit to Cloud Build
+        run: |
+          gcloud builds submit --config cloudbuild.yaml --substitutions _SERVICE_NAME=dbsbizapp,_INSTANCE_NAME=dbsbiz-pg-instance,_REGION=asia-southeast1,_SECRET_NAME=rails_secret --timeout=20m
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy dbsbizapp --platform managed --region asia-southeast1 --image gcr.io/dbsbiz/dbsbizapp --add-cloudsql-instances dbsbiz:asia-southeast1:dbsbiz-pg-instance --allow-unauthenticated --max-instances=3
