@@ -38,4 +38,3 @@ jobs:
       run: |
         gcloud run deploy dbsbizapp --platform managed --region asia-southeast1 --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/dbsbizapp:${{ github.sha }} --add-cloudsql-instances dbsbiz:asia-southeast1:dbsbiz-pg-instance --allow-unauthenticated --max-instances=3
 
-Key Points:
