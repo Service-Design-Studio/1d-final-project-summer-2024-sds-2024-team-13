@@ -27,14 +27,15 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    - name: Configure Docker to use the gcloud command-line tool as a credential helper
-      run: gcloud auth configure-docker
+    - name: Change to backend directory
+      run: cd backend
 
-    - name: Build and push Docker image
+    - name: Start Cloud Build
       run: |
-        docker build -t $GCP_GCR_URL/dbsbizapp:${{ github.sha }} .
-        docker push $GCP_GCR_URL/dbsbizapp:${{ github.sha }}
+        gcloud builds submit --config cloudbuild.yaml --substitutions _SERVICE_NAME=dbsbizapp,_INSTANCE_NAME=dbsbiz-pg-instance,_REGION=asia-southeast1,_SECRET_NAME=rails_secret --timeout=20m
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud run deploy dbsbizapp --platform managed --region asia-southeast1 --image $GCP_GCR_URL/dbsbizapp:${{ github.sha }} --add-cloudsql-instances dbsbiz:asia-southeast1:dbsbiz-pg-instance --allow-unauthenticated --max-instances=3
+        gcloud run deploy dbsbizapp --platform managed --region asia-southeast1 --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/dbsbizapp:${{ github.sha }} --add-cloudsql-instances dbsbiz:asia-southeast1:dbsbiz-pg-instance --allow-unauthenticated --max-instances=3
+
+Key Points:
