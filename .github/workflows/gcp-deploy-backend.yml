@@ -1,0 +1,40 @@
+name: Deploy to GCP Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@v0
+      with:
+        version: 'latest'
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Configure Docker to use the gcloud command-line tool as a credential helper
+      run: gcloud auth configure-docker
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t $GCP_GCR_URL/dbsbizapp:${{ github.sha }} .
+        docker push $GCP_GCR_URL/dbsbizapp:${{ github.sha }}
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy dbsbizapp --platform managed --region asia-southeast1 --image $GCP_GCR_URL/dbsbizapp:${{ github.sha }} --add-cloudsql-instances dbsbiz:asia-southeast1:dbsbiz-pg-instance --allow-unauthenticated --max-instances=3
