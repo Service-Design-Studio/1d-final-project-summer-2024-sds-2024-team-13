@@ -1,14 +1,12 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Transactions</h1>
-
-<div id="transactions">
+<h1> Transactions </h1>
+<%= link_to 'New Transaction', new_user_transaction_path(@user) %>
+<ul>
   <% @transactions.each do |transaction| %>
-    <%= render transaction %>
-    <p>
-      <%= link_to "Show this transaction", transaction %>
-    </p>
+    <li>
+      <%= link_to transaction.transaction_id, user_transaction_path(@user, transaction) %>
+      - Amount: <%= transaction.amount %>
+      <%= link_to 'Delete', user_transaction_path(@user, transaction), method: :delete, data: { confirm: 'Are you sure?' } %> |
+    </li>
   <% end %>
-</div>
-
-<%= link_to "New transaction", new_transaction_path %>
+</ul>
+<%= link_to 'Back to Users', users_path %>
