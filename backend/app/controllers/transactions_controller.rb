@@ -7,8 +7,9 @@ class TransactionsController < ApplicationController
     @transactions = @user.transactions
   end
 
-  # GET /users/:user_id/transactions/1
+  # GET /users/:user_id/transactions/:transaction_id
   def show
+    @transaction = Transaction.find(params[:transaction_id])
   end
 
   # GET /users/:user_id/transactions/new
@@ -22,19 +23,16 @@ class TransactionsController < ApplicationController
 
   # POST /users/:user_id/transactions/:transaction_id
   def create
+    @user = User.find(params[:user_id])
     @transaction = @user.transactions.build(transaction_params)
-
-    respond_to do |format|
-      if @transaction.save
-        format.html { redirect_to user_transaction_path(@user, @transaction), notice: 'Transaction was successfully created.' }
-        format.json { render :show, status: :created, location: user_transaction_url(@user, @transaction) }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+  
+    if @transaction.save
+      redirect_to user_transaction_path(@user, @transaction), notice: 'Transaction was successfully created.'
+    else
+      render :new  # Render the 'new' template with errors
     end
   end
-
+  
   # PATCH/PUT /users/:user_id/transactions/:transaction_id
   def update
     respond_to do |format|
