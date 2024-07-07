@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    has_secure_password
+    
     has_many :transactions
     before_create :generate_user_id
     self.primary_key = 'user_id'

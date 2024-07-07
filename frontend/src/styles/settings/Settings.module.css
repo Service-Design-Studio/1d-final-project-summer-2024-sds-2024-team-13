@@ -1,0 +1,53 @@
+.header {
+    background: #fff;
+    box-sizing: border-box;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.header h2 {
+    margin: 0;
+    font-weight: 600 !important;
+}
+
+.profile {
+    margin: 1.2rem;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 14px;
+}
+
+.profileIcon {
+    font-size: 3.6rem !important;
+}
+
+.profile p {
+    margin: 2px 0;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.profile h3 {
+    margin: 2px 0;
+}
+
+.main button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 1rem;
+    gap: 16px;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.main button p {
+    margin: 0;
+}
+
