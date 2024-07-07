@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosConfig'; 
 import { jwtDecode } from 'jwt-decode';
@@ -10,6 +10,12 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('token');
+    setUser(null);
+    navigate('/');
+  }, [navigate]);  
 
   const login = async (email, password) => {
     try {
@@ -25,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const fetchUserProfile = async (token) => {
+  const fetchUserProfile = useCallback(async (token) => {
     try {
       const decoded = jwtDecode(token); 
       const response = await axiosInstance.get(`users/${decoded.user_id}`, {
@@ -34,22 +40,15 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data);
     } catch (error) {
       console.error('Failed to fetch user details:', error);
-      logout();
+      logout();  
     }
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    navigate('/');
-  };
-
+  }, [logout]);  
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       fetchUserProfile(token);  
     }
-  }, []);
+  }, [fetchUserProfile]); 
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
