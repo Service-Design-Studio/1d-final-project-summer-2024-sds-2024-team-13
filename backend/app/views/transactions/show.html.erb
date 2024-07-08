@@ -1,8 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @transaction %>
 
 <div>
   <%= link_to "Back to transactions", user_transactions_path(@user) %> |
-  <%= button_to "Destroy this transaction", user_transaction_path(@user, @transaction), method: :delete %>
 </div>

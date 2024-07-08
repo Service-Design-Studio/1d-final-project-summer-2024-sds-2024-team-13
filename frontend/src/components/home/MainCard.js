@@ -10,12 +10,12 @@ const MainCard = () => {
                     <p>Last refreshed at 09.40 AM</p>
                 </div>
             </div>
-            <div className={styles.bottom}>
+            {/*<div className={styles.bottom}>
                 <p style={{ fontSize: "0.8rem", marginBottom: "2px", marginTop: "6px" }}>MOST RECENT TRANSACTION</p>
                 <h4 className={styles.recentTransc}>TRANSFER FROM PAYLAH: <br />9XXX XXXX</h4>
                 <p style={{ fontSize: "0.8rem", marginBottom: 0, marginTop: "6px" }}>3 MINS AGO • 09:38:21 AM</p>
                 <h3 className={styles.recentTranscAmt}>SGD <span>5.30</span></h3>
-            </div>
+            </div>*/}
         </div>
     );
 }

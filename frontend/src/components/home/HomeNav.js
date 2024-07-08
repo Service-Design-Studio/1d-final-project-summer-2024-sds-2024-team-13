@@ -1,13 +1,14 @@
-import { Notifications } from "@mui/icons-material";
+import { Notifications, Refresh } from "@mui/icons-material";
 import styles from "../../styles/Home/HomeNav.module.css"
-import dbsIcon from "../../assets/dbsIcon.svg"
 
-const HomeNav = () => {
+const HomeNav = ({
+    handleReload
+}) => {
     return ( 
         <div className={styles.main}>
             <Notifications className={styles.icon}/>
             <h2><span>DBS</span>Biz</h2>
-            <img src={dbsIcon} alt=""/>
+            <button onClick={() => handleReload()}><Refresh className={styles.icon}/></button>
             
         </div>
      );
