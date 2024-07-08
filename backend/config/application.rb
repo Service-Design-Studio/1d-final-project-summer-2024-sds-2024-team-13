@@ -30,7 +30,7 @@ module RailsCatAlbum
     config.load_defaults 7.0
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins ENV['RAILS_REACT_URL'] || "https://dbsbiz.as.r.appspot.com"
+        origins 'http://localhost:3000', 'https://dbsbiz.as.r.appspot.com'
         resource '*',
           headers: :any,
           methods: [:get, :post, :put, :patch, :delete, :options],
