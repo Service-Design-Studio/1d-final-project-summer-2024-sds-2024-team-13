@@ -3,6 +3,7 @@ class Transaction < ApplicationRecord
     before_create :generate_transaction_id
     self.primary_key = 'transaction_id'
     
+    
     private
     def generate_transaction_id
         self.id = loop do
@@ -11,4 +12,5 @@ class Transaction < ApplicationRecord
           break random_id unless self.class.exists?(transaction_id: random_id)
         end
     end
+    
 end

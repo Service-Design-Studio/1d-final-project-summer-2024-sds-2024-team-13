@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-    has_many :transactions
+    has_secure_password
+    
+    has_many :transactions, primary_key: "user_id", foreign_key: "user_id"
     before_create :generate_user_id
     self.primary_key = 'user_id'
     

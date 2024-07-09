@@ -5,7 +5,7 @@ const DropdownFilter = () => {
         <div className={styles.main}>
             <div style={{display: "flex", alignItems:"center"}}>
                 <CalendarToday/>
-                <p style={{marginLeft: "8px"}}>Any Date</p>
+                <p style={{marginLeft: "8px"}}>This Month (JUN)</p>
             </div>
             <ArrowDropDown/>
         </div>

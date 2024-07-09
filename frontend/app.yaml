@@ -27,4 +27,7 @@ handlers:
     static_files: build/index.html
     upload: build/index.html
     secure: always
+
+env_variables:
+  REACT_APP_API_URL: "https://dbsbizapp-r6tnglqktq-as.a.run.app"
 # [END app_yaml]

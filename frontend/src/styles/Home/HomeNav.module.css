@@ -5,15 +5,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     position: fixed;
     background: var(--background);
     z-index: 99;
 }
 
+
+
 .main h2 {
     margin: 0;
     font-size: var(--navTitle);
     color: var(--text-light);
+    text-align: center;
+    position: relative;
 }
 
 .main span {
@@ -23,4 +28,17 @@
 .icon {
     font-size: 2rem;
     color: var(--text-light);
+    width: 8vw;
+
+}
+
+.main button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.main button .icon {
+    color: var(--primary) !important;
+
 }

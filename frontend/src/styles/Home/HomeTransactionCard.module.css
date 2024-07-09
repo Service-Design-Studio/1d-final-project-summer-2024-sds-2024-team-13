@@ -26,3 +26,14 @@
 .amount span {
     font-size: 1.3rem;
 }
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timestamp {
+    font-size: 0.8rem;
+    font-weight: 600;
+}

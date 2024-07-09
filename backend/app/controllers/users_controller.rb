@@ -4,17 +4,17 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @users }
+    end
   end
 
   # GET /users/1 or /users/1.json
   def show
     @user = User.find(params[:id])
     @transactions = @user.transactions
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
+    render json: @user
   end
 
   # GET /users/1/edit
@@ -24,14 +24,19 @@ class UsersController < ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
-
+  
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
+        # Encoding user_id and expiration into the token
+        token = JWT.encode({ user_id: @user.id, exp: 24.hours.from_now.to_i }, Rails.application.secrets.secret_key_base, 'HS256')
+        # Responding with JSON
+        format.json { render json: { user: @user.as_json(except: [:password_digest]), token: token }, status: :created }
+        # Only provide HTML response if your app also serves HTML
+        format.html { redirect_to @user, notice: "User was successfully created." }
       else
+        # Provide detailed error messages for both formats
+        format.json { render json: @user.errors.full_messages, status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,6 +72,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :phone_num)
+      params.require(:user).permit(:name, :email, :password, :phone_num)
     end
 end

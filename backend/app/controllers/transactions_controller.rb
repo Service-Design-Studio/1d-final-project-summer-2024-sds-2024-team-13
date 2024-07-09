@@ -1,20 +1,25 @@
 class TransactionsController < ApplicationController
-  before_action :set_user
+  
+  before_action :set_user, only: [:index, :new, :create, :show]
   before_action :set_transaction, only: %i[show edit update destroy]
-
-  # GET /users/:user_id/transactions
+  
+  # GET /transactions or /users/:user_id/transactions
   def index
-    @transactions = @user.transactions
+    respond_to do |format|
+      if @user
+        @transactions = @user.transactions
+        format.html { render :index }
+        format.json { render json: @transactions }
+      else
+        @transactions = Transaction.all
+        format.html { render :index } 
+        format.json { render json: @transactions }
+      end
+    end
   end
 
-  # GET /users/:user_id/transactions/:transaction_id
+  # GET /transactions/:transaction_id
   def show
-    @transaction = Transaction.find(params[:transaction_id])
-  end
-
-  # GET /users/:user_id/transactions/new
-  def new
-    @transaction = @user.transactions.build
   end
 
   # POST /users/:user_id/transactions/:transaction_id
@@ -30,16 +35,24 @@ class TransactionsController < ApplicationController
   end
   
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:user_id])
+  def set_user
+    Rails.logger.debug "Attempting to find user with user_id: #{params[:user_id]}"
+    @user = User.find_by(user_id: params[:user_id])
+    if @user.nil?
+      respond_to do |format|
+        format.html { redirect_to users_path, alert: 'User not found. Please select a valid user.' }
+        format.json { render json: { error: 'User not found' }, status: :not_found }
+      end
     end
+  end
+  
 
     def set_transaction
-        @transaction = @user.transactions.find_by(transaction_id: params[:transaction_id])
+      Rails.logger.debug "Parameters: #{params.inspect}"
+      @transaction = @user.transactions.find_by(transaction_id: params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
+    
     def transaction_params
       params.require(:transaction).permit(:payee_id, :payee_number, :payment_method, :amount)
     end
