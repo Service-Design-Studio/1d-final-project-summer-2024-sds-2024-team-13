@@ -25,8 +25,8 @@ const HistoryScreen = () => {
     }, [user]);
     useEffect(() => {
         fetchTransactions();
-        console.log(transactions.length)
     }, [fetchTransactions]);
+    console.log(transactions.length)
 
     return ( 
         <div className={styles.main}>
