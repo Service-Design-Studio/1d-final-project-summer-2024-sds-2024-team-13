@@ -40,11 +40,7 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
 
-  # yz commented out and moved to development, interupting testing
-  #gem "web-console", ">= 4.2.1"
-
-  # for rspec testing
-  gem "rspec"
+  gem "web-console", ">= 4.2.1"
 end
 
 
@@ -57,8 +53,6 @@ group :development do
   gem "rack-mini-profiler", "~> 3.1"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
-
-  gem "web-console", ">= 4.2.1"
 end
 
 group :test do
