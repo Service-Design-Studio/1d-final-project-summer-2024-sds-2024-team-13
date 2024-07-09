@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema[7.1].define(version: 2024_07_06_024125) do
   create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id"
     t.string "payee_id"
     t.string "payee_number"
     t.string "payment_method"
@@ -19,7 +20,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_024125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_id"
-    t.string "transaction_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
