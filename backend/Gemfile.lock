@@ -382,7 +382,8 @@ DEPENDENCIES
   bootsnap (~> 1.16)
   byebug
   capybara (~> 3.39)
-  dotenv-rails (~> 2.8)
+  dotenv-rails
+  ffi (~> 1.17)
   google-cloud-storage (~> 1.44)
   guard-rspec
   jbuilder (~> 2.11)

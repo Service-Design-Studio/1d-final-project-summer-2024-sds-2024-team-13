@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :transactions
   end
 
+  resources :customers
   post 'users/login', to: 'sessions#create'
   
   
