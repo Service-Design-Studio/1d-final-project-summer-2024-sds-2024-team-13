@@ -1,0 +1,49 @@
+.menuItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.itemImage {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.itemDetails {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.itemName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.itemPrice {
+    font-size: 16px;
+    margin-top: 5px;
+    color: gray;
+}
+
+.addButton {
+    background-color: #FD5A77;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.addButton:hover {
+    background-color: #ff002f;
+}
