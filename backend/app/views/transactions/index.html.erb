@@ -5,7 +5,6 @@
     <li>
       <%= link_to transaction.transaction_id, user_transaction_path(@user, transaction) %>
       - Amount: <%= transaction.amount %>
-      <%= link_to 'Delete', user_transaction_path(@user, transaction), method: :delete, data: { confirm: 'Are you sure?' } %> |
     </li>
   <% end %>
 </ul>
