@@ -1,0 +1,66 @@
+name: Deploy to GCP Customer
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend_customer/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'frontend_customer/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js and yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          working-directory: frontend_customer
+
+      - name: Install dependencies
+        run: yarn install
+        working-directory: frontend_customer
+
+      - name: Build React app
+        run: yarn run build
+        working-directory: frontend_customer
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+
+      - name: Create temp folder
+        run: mkdir temp_folder
+
+      # This will create a temporary folder
+      # It will have build folder and app.yaml
+      # app.yaml will use the relative build folder to deploy to GCPs
+      - name: Copy build to temp folder
+        run: cp -r frontend_customer/build/ temp_folder/build/
+
+      - name: Copy app.yaml to temp folder
+        run: cp frontend_customer/app.yaml temp_folder/app.yaml
+
+      - name: List contents of temp folder for verification
+        run: ls -l temp_folder/
+
+      - name: Google Cloud Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY_CUSTOMER }}'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: Deploy to Google Cloud Storage
+        run: |
+          cd temp_folder
+          gcloud app deploy app.yaml --quiet
