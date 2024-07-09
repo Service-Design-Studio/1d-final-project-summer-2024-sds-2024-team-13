@@ -9,7 +9,7 @@ import axiosInstance from "../utils/axiosConfig";
 const HistoryScreen = () => {
     const { user } = useAuth();
     const [transactions, setTransactions] = useState([]);
-    
+
     const fetchTransactions = useCallback(async () => {
         if (user) {
             try {
@@ -25,6 +25,7 @@ const HistoryScreen = () => {
     }, [user]);
     useEffect(() => {
         fetchTransactions();
+        console.log(transactions.length)
     }, [fetchTransactions]);
 
     return ( 
