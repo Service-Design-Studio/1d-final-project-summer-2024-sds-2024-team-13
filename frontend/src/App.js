@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import QRPay from './components/payment/QRPay';
+import PaymentSuccess from './components/payment/PaymentSuccess';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
@@ -76,6 +77,7 @@ function App() {
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/payment/QRPay" element={<QRPay />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
             </Route>
 
           </Routes>

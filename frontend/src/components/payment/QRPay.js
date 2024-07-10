@@ -12,13 +12,17 @@ const QRPay = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsExpired(true);
-        }, 5000); // 5 seconds for testing
+        }, 10000); // 10 seconds for testing
 
         return () => clearTimeout(timer);
     }, []);
 
     const handleEdit = () => {
-        navigate('/payment');
+        if (isExpired) {
+            navigate('/payment');
+        } else {
+            navigate('/payment/success');
+        }
     };
 
     return (
@@ -36,7 +40,7 @@ const QRPay = () => {
                                     value={`Amount: S$${paymentAmount}`} 
                                 />
                             </div>
-                            <HistoryIcon className={styles.historyIcon} />
+                            <HistoryIcon style={{ height: "auto", maxWidth: "60vw", width: "60vw" }} className={styles.historyIcon} />
                         </div>
                     ) : (
                         <QRCode
