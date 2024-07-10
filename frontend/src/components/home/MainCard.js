@@ -1,15 +1,21 @@
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import styles from "../../styles/Home/MainCard.module.css"
+import { useState } from "react";
 
 const MainCard = ({
     lastRefresh,
     todayTotal
 }) => {
+    const [showEarnings, setShowEarnings] = useState(true)
     return (
         <div className={styles.main}>
             <div className={styles.top}>
-                <p style={{ fontSize: "0.8rem", marginBottom: "2px" }}>TODAY'S EARNINGS</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "10px"}}>
+                    <p style={{ fontSize: "0.8rem", marginTop: "0", marginBottom: "2px" }}>TODAY'S EARNINGS</p>
+                    <button className={styles.toggleEarnings} onClick={() => setShowEarnings(!showEarnings)}>{(showEarnings) ? <VisibilityOutlined/> : <VisibilityOffOutlined/>}</button>
+                </div>
                 <div className={styles.topWrapper}>
-                    <h3 className={styles.todayEarning}>SGD <span>{todayTotal.toFixed(2)}</span></h3>
+                    <h3 className={styles.todayEarning}>SGD <span>{(showEarnings) ? todayTotal.toFixed(2) : "--.--"}</span></h3>
                     <p>Last refreshed at {lastRefresh || "Loading..."}</p>
                 </div>
             </div>
