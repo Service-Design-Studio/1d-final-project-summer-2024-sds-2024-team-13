@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
+    validates :password, presence: true, on: :create
+    validates :password, presence: true, if: -> { password.present? }
     
     has_many :transactions, primary_key: "user_id", foreign_key: "user_id"
     before_create :generate_user_id

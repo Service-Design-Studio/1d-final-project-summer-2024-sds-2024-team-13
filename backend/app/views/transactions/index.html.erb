@@ -9,15 +9,9 @@
 <ul>
   <% @transactions.each do |transaction| %>
     <li>
-      <% if transaction.present? && transaction.id.present? %>
-        <% if @user %>
-          <%= link_to transaction.transaction_id, user_transaction_path(@user, transaction) %>
-        <% else %>
-          <%= link_to transaction.transaction_id, transaction_path(transaction) %>
-        <% end %>
-      <% else %>
-        <p>Transaction data not available.</p>
-      <% end %>
+      <%= link_to transaction.transaction_id, user_transaction_path(@user, transaction) %>
+      - Amount: <%= transaction.amount %>
+      <%= link_to 'Delete', user_transaction_path(@user, transaction), method: :delete, data: { confirm: 'Are you sure?' } %> |
     </li>
   <% end %>
 </ul>

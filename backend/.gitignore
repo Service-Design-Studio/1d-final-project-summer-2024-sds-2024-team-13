@@ -39,5 +39,6 @@ yarn-debug.log*
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
-.env.development/
-/.sqlite3
+/tmp/cache
+.sqlite3
+.env.development
