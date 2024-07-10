@@ -16,7 +16,6 @@ const HomeScreen = () => {
     const [todayTotal, setTodayTotal] = useState(0);
     const [hourlyData, setHourlyData] = useState([]);
     const [cutoffTime, setCutoffTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-    const [startOfPeriod, setStartOfPeriod] = useState(new Date());
 
     const fetchCutoffTime = useCallback(async () => {
         if (user) {
@@ -57,7 +56,6 @@ const HomeScreen = () => {
                     end = todayCutoff;
                 }
 
-                setStartOfPeriod(start);
                 const todayTransactions = response.data.filter(transaction => {
                     const transactionDate = new Date(transaction.created_at);
                     return transactionDate >= start && transactionDate < end;
@@ -90,7 +88,6 @@ const HomeScreen = () => {
         return hourlyTotals;
     };
 
-    // Effects to fetch data periodically
     useEffect(() => {
         fetchCutoffTime();
     }, [fetchCutoffTime]);
@@ -101,7 +98,6 @@ const HomeScreen = () => {
         return () => clearInterval(intervalId);
     }, [fetchTransactions]);
 
-    // Refresh transactions manually
     const handleReload = () => {
         fetchTransactions();
     };
