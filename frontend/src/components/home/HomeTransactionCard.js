@@ -12,7 +12,7 @@ const HomeTransactionCard = ({
     };
 
     return ( 
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="transaction-card">
             <div className={styles.top}>
                 <div style={{display: "flex", alignItems: "center"}}>
                     <img src={(transaction.payment_method === "Paynow") ? paynowIcon : paylahIcon} style={{marginRight: "0.8rem"}} alt=""/>

@@ -32,10 +32,11 @@
     "reactjs-popup": "^2.0.6",
     "web-vitals": "^2.1.4"
   },
-  "cypress-cucumber-preprocessr":{
+  "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
     "step_definitions": "cypress/e2e"
   },
+
   
   "scripts": {
     "start": "react-scripts start",
