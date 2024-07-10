@@ -10,6 +10,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
+import DailyCutoffScreen from './screens/DailyCutoffScreen';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -69,6 +70,8 @@ function App() {
               <Route path="/history" element={<HistoryScreen />} />
               <Route path="/home" element={<HomeScreen />} />
               <Route path="/settings" element={<SettingsScreen />} />
+              <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
+
             </Route>
 
           </Routes>
