@@ -20,7 +20,7 @@ class CustomerTransactionsController < ApplicationController
   # GET /transactions/:transaction_id
   def show
   end
-
+  
   # POST /customers/:customer_id/transactions/:transaction_id
   def create
     @customer = customer.find(params[:customer_id])

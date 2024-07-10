@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema[7.1].define(version: 2024_07_10_061535) do
-=======
-ActiveRecord::Schema[7.1].define(version: 2024_07_10_024353) do
->>>>>>> 40c6da92e6b9065f2d6290f500a527f5a33a404c
   create_table "customers", force: :cascade do |t|
     t.string "customer_id"
     t.string "phone_num"
@@ -25,6 +21,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_024353) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id"
     t.string "payee_id"
     t.string "payee_number"
     t.string "payment_method"
@@ -32,7 +29,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_024353) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_id"
-    t.string "transaction_id"
     t.string "customer_id"
     t.index ["customer_id"], name: "index_transactions_on_customer_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
