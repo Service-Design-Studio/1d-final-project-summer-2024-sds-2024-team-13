@@ -5,7 +5,10 @@ import WarningIcon from '@mui/icons-material/Warning';
 
 const HistoryList = ({
     filterOption,
-    displayedTransactions
+    displayedTransactions,
+    isOpen, 
+    toggleDrawer,
+    setSelectedTransaction
 }) => {
     const [groupedTransactions, setGroupedTransactions] = useState({});
     useEffect(() => {
@@ -21,7 +24,7 @@ const HistoryList = ({
         setGroupedTransactions(grouped);
     }, [displayedTransactions]);
     const current = new Date();
-
+    
     return (
         <div className={styles.main}>
             {(filterOption === "thismonth" || filterOption === "lastmonth") ? <div className={styles.monthInfo}>
@@ -45,7 +48,7 @@ const HistoryList = ({
                             <p>DAILY: +${dailyTotal.toFixed(2)}</p>
                         </div>
                         {dailyTransactions.map(transaction => (
-                            <TransactionCard key={transaction.id} transaction={transaction} />
+                            <TransactionCard key={transaction.id} transaction={transaction} {...{isOpen, toggleDrawer, setSelectedTransaction}} />
                         ))}
                     </div>
                 );

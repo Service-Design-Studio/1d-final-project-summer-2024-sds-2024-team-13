@@ -5,6 +5,7 @@ import styles from "../styles/history/History.module.css"
 import axiosInstance from "../utils/axiosConfig";
 import HistoryList from "../components/history/HistoryList";
 import Insights from "../components/history/Insights";
+import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
 
 const HistoryScreen = () => {
     const { user } = useAuth();
@@ -151,15 +152,37 @@ const HistoryScreen = () => {
         }
     }, [filterOption, fetchLastMonthsTransactions, fetchThisMonthsTransactions, fetchTodaysTransactions, fetchYesterdaysTransactions, fetchTransactionsInRange, startDate, endDate]);
     
+    const [isOpen, setIsOpen] = useState(false);
+
+
+    const toggleDrawer = (open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+        setIsOpen(open)
+    };
+
+    const [selectedTransaction, setSelectedTransaction] = useState({
+        amount: 0,
+        created_at: new Date(),
+        payment_method: "Loading...",
+        id: "Loading..."
+
+    })
 
     return ( 
         <div className={styles.main}>
             <Insights/>
             <div className={styles.content}>
                 <DropdownFilter {...{filterOption, setFilterOption, startDate, setStartDate, setEndDate, endDate}}/>
-                <HistoryList {...{filterOption, displayedTransactions: displayedTransactions}}/>
+                <HistoryList {...{filterOption, displayedTransactions, isOpen, toggleDrawer, setSelectedTransaction}}/>
 
             </div>
+            <TransactionDetailDrawer {...{toggleDrawer, isOpen, transaction: selectedTransaction}}/>
         </div>
      );
 }
