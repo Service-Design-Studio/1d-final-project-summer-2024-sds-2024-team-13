@@ -15,6 +15,7 @@ module.exports = defineConfig({
     },
     specPattern: 'cypress/e2e/**/*.feature',
     supportFile: 'cypress/support/e2e.js',
+    stepDefinitions: 'cypress/support/step_definitions/',
     baseUrl: 'http://localhost:3000', // Ensure this matches your development server URL
   },
 });

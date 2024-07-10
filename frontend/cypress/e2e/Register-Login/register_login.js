@@ -32,7 +32,7 @@ When("I click the register button", () => {
 
 Then("I should be redirected to the login page", () => {
   cy.url().should('include', '/');
-  cy.contains("DBSBiz", { timeout: 1000000 }).should('be.visible'); // Increased timeout to 10 seconds
+  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible'); // Increased timeout to 10 seconds
 });
 
 // Login Steps
@@ -50,8 +50,4 @@ When("I click the login button", () => {
 
 Then("I should see the homepage", () => {
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible'); // Increased timeout to 10 seconds
-});
-
-Then("I should be redirected to the home page", () => {
-  cy.url().should('include', '/home');
 });
