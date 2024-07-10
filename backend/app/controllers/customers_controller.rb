@@ -25,10 +25,8 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        format.html { redirect_to customer_url(@customer), notice: "Customer was successfully created." }
         format.json { render :show, status: :created, location: @customer }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end

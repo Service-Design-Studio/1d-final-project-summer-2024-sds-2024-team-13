@@ -1,6 +1,5 @@
 class Transaction < ApplicationRecord
     belongs_to :user
-    belongs_to :customer
     before_create :generate_transaction_id
     self.primary_key = 'transaction_id'
     

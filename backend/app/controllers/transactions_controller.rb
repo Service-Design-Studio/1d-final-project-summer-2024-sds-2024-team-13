@@ -2,6 +2,8 @@ class TransactionsController < ApplicationController
   before_action :set_user, only: [:index, :new, :create, :show]
   before_action :set_transaction, only: %i[show edit update destroy]
   
+
+  
   # GET /transactions or /users/:user_id/transactions
   def index
     if @user
@@ -19,6 +21,7 @@ class TransactionsController < ApplicationController
   # POST /users/:user_id/transactions
   def create
     @transaction = @user.transactions.build(transaction_params)
+  
     if @transaction.save
       render json: @transaction, status: :created, location: user_transaction_path(@user, @transaction)
     else
@@ -44,7 +47,10 @@ class TransactionsController < ApplicationController
       @transaction = @user.transactions.find_by(transaction_id: params[:id])
     end
 
-    
+    def set_customer
+      @customer = Customer.find(params[:id])
+    end
+
     def transaction_params
       params.require(:transaction).permit(:payee_id, :payee_number, :payment_method, :amount)
     end
