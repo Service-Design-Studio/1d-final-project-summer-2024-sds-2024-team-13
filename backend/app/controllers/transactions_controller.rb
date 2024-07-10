@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController
-  
   before_action :set_user, only: [:index, :new, :create, :show]
   before_action :set_transaction, only: %i[show edit update destroy]
   
