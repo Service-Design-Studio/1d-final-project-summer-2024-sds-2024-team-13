@@ -40,3 +40,5 @@ yarn-debug.log*
 !/app/assets/builds/.keep
 
 .env.development
+
+/tmp/cache
