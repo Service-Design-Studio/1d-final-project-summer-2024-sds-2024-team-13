@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import HomeNav from "../components/home/HomeNav";
 import HomeTransactionCard from "../components/home/HomeTransactionCard";
 import MainCard from "../components/home/MainCard";
@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import HourlyChart from "../components/home/HourlyChart";
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const HomeScreen = () => {
     const { user } = useAuth();
