@@ -64,6 +64,10 @@ group :test do
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
+  # for rspec testing
+  gem 'shoulda-matchers', '~> 5.0'
+  # for code coverage
+  gem 'simplecov', require: false
 end
 
 gem "google-cloud-storage", "~> 1.44", require: false
