@@ -19,7 +19,7 @@ const PaymentSuccess = ({ transaction }) => {
                 <h2>Payment</h2>
             </div>
             <div className={styles.successContainer}>
-                <CheckCircleIcon className={styles.successIcon} />
+                <CheckCircleIcon style={{ height: "auto", maxWidth: "30vw", width: "30vw" }} className={styles.successIcon} />
                 <div className={styles.statusText}>Customer paid</div>
                 <div className={styles.amount}>SGD {paymentAmount}</div>
                 <div className={styles.date}>{new Date().toLocaleString()}</div>
