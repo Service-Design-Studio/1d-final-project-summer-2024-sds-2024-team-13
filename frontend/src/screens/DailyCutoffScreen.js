@@ -24,11 +24,11 @@ const DailyCutoffScreen = () => {
         }
     }, [user]);
 
-    const updateCutoffTime = async (newCutoffTime) => {
+    const updateCutoffTime = useCallback(async (newCutoffTime) => {
         if (!user) return;
 
         try {
-            const localTime = dayjs(newCutoffTime, { timeZone: 'local' });  // Ensuring it's treated as local
+            const localTime = dayjs(newCutoffTime, { timeZone: 'local' });  
 
 
             console.log("Local time picked: " + localTime.format());
@@ -39,7 +39,7 @@ const DailyCutoffScreen = () => {
         } catch (error) {
             console.error('Failed to update earnings cutoff time:', error);
         }
-    };
+    }, [user]);
 
 
 

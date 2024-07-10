@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import HourlyChart from "../components/home/HourlyChart";
+import dayjs from "dayjs";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const HomeScreen = () => {
@@ -16,28 +17,50 @@ const HomeScreen = () => {
     const [todayTotal, setTodayTotal] = useState(0);
     const [hourlyData, setHourlyData] = useState([]);
     const [cutoffTime, setCutoffTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
-
+    const updateCutoffTime = useCallback(async (newCutoffTime) => {
+        if (!user) return;
+    
+        try {
+            console.log("UTC time to send: " + newCutoffTime);
+            await axiosInstance.put(`/users/${user.user_id}/earnings_cutoff`, {
+                earnings_cutoff_time: newCutoffTime
+            });
+        } catch (error) {
+            console.error('Failed to update earnings cutoff time:', error);
+        }
+    }, [user]);
     const fetchCutoffTime = useCallback(async () => {
         if (user) {
             try {
                 const response = await axiosInstance.get(`/users/${user.user_id}/earnings_cutoff`);
                 const fetchedTime = response.data.earnings_cutoff_time;
-                const cutoffDate = new Date(fetchedTime);
-                if (cutoffDate.toString() !== "Invalid Date") {
-                    const today = new Date();
-                    const updatedCutoffTime = new Date(today.setHours(cutoffDate.getHours(), cutoffDate.getMinutes(), 0, 0));
-                    setCutoffTime(updatedCutoffTime);
-                    console.log("Validated and Updated Cutoff Date:", updatedCutoffTime);
+
+                if (fetchedTime) {
+                    const cutoffDate = new Date(fetchedTime);
+                    if (cutoffDate.toString() !== "Invalid Date") {
+                        const updatedCutoffTime = new Date();
+                        updatedCutoffTime.setUTCHours(cutoffDate.getUTCHours(), cutoffDate.getUTCMinutes(), 0, 0);
+                        setCutoffTime(updatedCutoffTime);
+                        console.log("Validated and Updated Cutoff Date:", updatedCutoffTime);
+                    } else {
+                        console.error('Parsed date is invalid.');
+                    }
                 } else {
-                    console.error('Parsed date is invalid.');
+                    const defaultCutoff = new Date();
+                    defaultCutoff.setHours(0, 0, 0, 0);
+                    const dayJSTime = dayjs(defaultCutoff)
+                    updateCutoffTime(dayJSTime.toISOString());
+                    setCutoffTime(defaultCutoff);
+                    console.log("Set and updated default cutoff time to 12 AM local.");
                 }
             } catch (error) {
                 console.error('Failed to fetch earnings cutoff time:', error);
             }
         }
-    }, [user]);
+    }, [user, updateCutoffTime]);
 
-    // Fetch transactions based on cutoff time
+
+
     const fetchTransactions = useCallback(async () => {
         if (user && cutoffTime) {
             try {
@@ -91,11 +114,13 @@ const HomeScreen = () => {
     useEffect(() => {
         fetchCutoffTime();
     }, [fetchCutoffTime]);
-    useEffect(() => {
-        fetchTransactions();
-        const intervalId = setInterval(fetchTransactions, 4000);
 
-        return () => clearInterval(intervalId);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+        fetchTransactions();
+    }, 4000);
+
+    return () => clearInterval(intervalId)
     }, [fetchTransactions]);
 
     const handleReload = () => {
@@ -117,7 +142,7 @@ const HomeScreen = () => {
                 <HourlyChart {...{ hourlyData, formattedCutoffTime }} />
                 <div className={styles.transcContainer}>
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px" }}>
-                       LATEST TRANSACTIONS
+                        LATEST TRANSACTIONS
                     </p>
                     {transactions.map(transaction => (
                         <HomeTransactionCard key={transaction.id} transaction={transaction} />
