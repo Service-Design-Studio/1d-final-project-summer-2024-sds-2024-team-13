@@ -8,79 +8,8 @@
     padding: 0.2rem 0.6rem;
     margin-bottom: 12px;
     background: #fff;
-    cursor: pointer;
-}
-
-.main_selected {
-    background: #aaa !important;
 }
 
 .main p {
     margin: 2px 0;
-}
-
-.modal {
-    background: #fff;
-    width: 90vw;
-    border: 1px solid var(--text-light);
-    box-sizing: border-box;
-    border-radius: 8px;
-    padding: 0.8rem 1.2rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-.rangeContainer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
-.rangeContainerChild {
-    width: 45%;
-    margin-bottom: 6px;
-}
-
-.rangeContainerChild p {
-    margin: 4px 0;
-    font-weight: bold;
-}
-
-.datePicker {
-    width: 100% !important;
-    box-sizing: border-box;
-    padding: 0.4rem;
-    margin: 4px 0;
-    align-items: center;
-}
-
-.optionButton {
-    margin: 6px 0;
-    width: 100%;
-    padding: 6px 0;
-    cursor: pointer;
-    border: none;
-    background: #ddd;
-
-}
-
-.selectedOptionButton {
-    background: var(--primary-light) !important;
-    
-}
-
-.confirmButton {
-    margin: 6px 0;
-    width: 100%;
-    padding: 6px 0;
-    cursor: pointer;
-    background: var(--primary);
-    border: none;
-    color: #fff;
-}
-
-.error {
-    color: var(--primary);
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin: 4px 0;
 }

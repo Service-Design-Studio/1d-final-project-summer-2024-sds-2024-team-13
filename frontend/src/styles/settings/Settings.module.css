@@ -33,7 +33,7 @@
     margin: 2px 0;
 }
 
-.logoutButton {
+.main button {
     display: flex;
     width: 100%;
     align-items: center;
@@ -45,31 +45,9 @@
     border: none;
     color: var(--primary);
     cursor: pointer;
-    margin: 2rem 0;
 }
 
 .main button p {
     margin: 0;
-}
-
-.settingsButton {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    box-sizing: border-box;
-    background: #fff;
-    padding: 1rem;
-    gap: 16px;
-    border: none;
-    color: var(--text-light);
-    cursor: pointer;
-}
-
-.settingsLabel {
-    display: flex;
-    align-items: center;
-    gap: 24px;
 }
 
