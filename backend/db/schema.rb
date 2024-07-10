@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.1].define(version: 2024_07_10_061535) do
+=======
+ActiveRecord::Schema[7.1].define(version: 2024_07_10_024353) do
+>>>>>>> 40c6da92e6b9065f2d6290f500a527f5a33a404c
   create_table "customers", force: :cascade do |t|
     t.string "customer_id"
     t.string "phone_num"
@@ -42,6 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_061535) do
     t.string "user_id"
     t.string "email"
     t.string "password_digest"
+    t.time "earnings_cutoff_time"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
