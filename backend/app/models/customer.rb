@@ -1,4 +1,6 @@
 class Customer < ApplicationRecord
+    has_secure_password
+    has_many :transactions , primary_key: "customer_id", foreign_key: "customer_id"
     before_create :generate_customer_id
     self.primary_key = 'customer_id'
      

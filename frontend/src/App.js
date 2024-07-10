@@ -7,9 +7,13 @@ import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import QRPay from './components/payment/QRPay';
+import PaymentSuccess from './components/payment/PaymentSuccess';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
+import DailyCutoffScreen from './screens/DailyCutoffScreen';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -25,6 +29,9 @@ function Navigation() {
         break;
       case "more":
         navigate("/settings")
+        break;
+      case "payment":
+        navigate("/payment");
         break;
       default:
         navigate("/home");
@@ -69,6 +76,11 @@ function App() {
               <Route path="/history" element={<HistoryScreen />} />
               <Route path="/home" element={<HomeScreen />} />
               <Route path="/settings" element={<SettingsScreen />} />
+              <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
+
+              <Route path="/payment" element={<PaymentScreen />} />
+              <Route path="/payment/QRPay" element={<QRPay />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
             </Route>
 
           </Routes>
