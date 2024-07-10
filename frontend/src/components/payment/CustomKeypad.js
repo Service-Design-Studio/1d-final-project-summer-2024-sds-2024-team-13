@@ -1,21 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styles from '../../styles/payment/CustomKeypad.module.css';
 
 const CustomKeypad = ({ onKeyPress, onEnter, onClose }) => {
     const keypadRef = useRef(null);
 
-    const handleClickOutside = (event) => {
+    const handleClickOutside = useCallback((event) => {
         if (keypadRef.current && !keypadRef.current.contains(event.target)) {
             onClose();
         }
-    };
+    }, [onClose]);
 
     useEffect(() => {
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [handleClickOutside]);
 
     return (
         <div className={styles.keypadContainer} ref={keypadRef}>
