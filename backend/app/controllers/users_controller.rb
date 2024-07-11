@@ -19,7 +19,11 @@ class UsersController < ApplicationController
 
   # PUT /users/:id/earnings_cutoff
   def update_earnings_cutoff
-    if @user.update_attribute(:earnings_cutoff_time, params.dig(:user, :earnings_cutoff_time))
+    earnings_cutoff_time = params.dig(:user, :earnings_cutoff_time)
+    
+    if earnings_cutoff_time.nil?
+      render json: { error: "Earnings cutoff time cannot be nil" }, status: :unprocessable_entity
+    elsif @user.update_attribute(:earnings_cutoff_time, earnings_cutoff_time)
       render json: { earnings_cutoff_time: @user.earnings_cutoff_time }, status: :ok
     else
       render json: @user.errors, status: :unprocessable_entity
