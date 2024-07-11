@@ -16,7 +16,9 @@ const HomeTransactionCard = ({
 
 
     return (
-        <div className={styles.main} onClick={(event) => {
+        <div className={styles.main} 
+        data-testid="transaction-card"
+        onClick={(event) => {
             setSelectedTransaction(transaction)
             toggleDrawer(true)(event);
         }}>
