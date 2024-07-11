@@ -12,11 +12,11 @@ RSpec.describe "users/edit", type: :view do
     assign(:user, user)
   end
 
-  # it "renders the edit user form" do
-  #   render
-  #   assert_select "form[action=?][method=?]", user_path(user), "post" do
-  #     assert_select "input[name=?]", "user[name]"
-  #     assert_select "input[name=?]", "user[phone_num]"
-  #   end
-  # end
+  it "renders the edit user form" do
+    render
+    assert_select "form[action=?][method=?]", user_path(user), "post" do
+      assert_select "input[name=?]", "user[name]"
+      assert_select "input[name=?]", "user[phone_num]"
+    end
+  end
 end
