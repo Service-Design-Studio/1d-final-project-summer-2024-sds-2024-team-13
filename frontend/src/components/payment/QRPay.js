@@ -55,13 +55,22 @@ const QRPay = () => {
                 if (transaction) {
                     setTransactionFound(true)
                     setPolling(false);
-                    navigate('/payment/success');
                 }
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
         }
-    }, [user, transactionId, navigate]);
+    }, [user, transactionId]);
+    
+    useEffect(() => {
+        if (transactionFound) {
+            const timer = setTimeout(() => {
+                navigate('/payment/success');
+            }, 500); // Delay of 0.5 seconds
+
+            return () => clearTimeout(timer); // Cleanup the timer
+        }
+    }, [transactionFound, navigate]);
 
     useEffect(() => {
         if (polling) {
