@@ -103,6 +103,8 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    align-items: center;
+    flex-direction: column;
 }
 .main {
     padding-top: 20px;
@@ -211,4 +213,5 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    color: #fff;
 }
