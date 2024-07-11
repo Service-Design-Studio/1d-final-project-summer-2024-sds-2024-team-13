@@ -14,6 +14,6 @@ Rails.application.routes.draw do
   end
   
   post 'users/login', to: 'sessions#create'
-  
+  post 'customers/login', to: 'customer_sessions#create'
   
 end

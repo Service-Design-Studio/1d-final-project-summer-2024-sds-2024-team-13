@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../styles/payment/Payment.module.css"
+import "../styles/payment/Payment.css";
 import QrScanner from "qr-scanner";
 import QrFrame from "../assets/qr-frame.svg";
 
@@ -12,16 +12,16 @@ const PaymentScreen = () => {
   const videoEl = useRef(null);
   const qrBoxEl = useRef(null);
   const [qrOn, setQrOn] = useState(true);
+  const [scannedResult, setScannedResult] = useState("");
 
   const onScanSuccess = useCallback((result) => {
     console.log('QR scan success:', result); // Log the QR scan result
-
-    const data = JSON.parse(result?.data)
-    if (data.type === "DBSBizQR") { 
-      console.log("Redirecting to /payment/review");
-      navigate("/payment/review", { state: { data } });
+    setScannedResult(result?.data);
+    
+    if (result?.data.includes("DBS")) {
+      navigate("/payment/review");
     }
-  }, [navigate]);
+  }, [navigate]); 
 
   const onScanFail = (err) => {
     console.log('QR scan error:', err);
@@ -37,7 +37,7 @@ const PaymentScreen = () => {
         highlightCodeOutline: true,
         overlay: qrBoxEl?.current || undefined,
       });
-
+    
       scanner.current
         .start()
         .then(() => setQrOn(true))
@@ -45,7 +45,7 @@ const PaymentScreen = () => {
           if (err) setQrOn(false);
         });
     }
-
+    
     return () => {
       if (currentVideoEl) {
         scanner.current?.stop();
@@ -59,25 +59,21 @@ const PaymentScreen = () => {
         "Camera is blocked or not accessible. Please allow camera in your browser permissions and reload."
       );
   }, [qrOn]);
+  console.log(scannedResult)
   return (
-    <div className={styles.qr_reader}>
-      <div className={styles.header}>
-        <h1 className={styles.scan_to_pay}>Scan to Pay</h1>
-      </div>
-      <video ref={videoEl} className={styles.video_element}></video>
-      <div ref={qrBoxEl} className={styles.qr_box}>
+    <div className="qr-reader">
+      {/* Add "Scan to Pay" text */}
+      <h1 className="scan-to-pay">Scan to Pay</h1>
+      {/* QR */}
+      <video ref={videoEl} className="video-element"></video>
+      <div ref={qrBoxEl} className="qr-box">
         <img
           src={QrFrame}
           alt="QR Frame"
           width={256}
           height={256}
-          className={styles.qr_frame}
+          className="qr-frame"
         />
-      </div>
-      <div className={styles.footer}>
-        <h3>Scan QR Code</h3>
-        <p>Align camera with QR code to pay in SG, CN, MY, TH and other countries worldwide.</p>
-        <a href="https://www.dbs.com.sg/personal/deposits/pay-with-ease/scan-and-pay" target="_blank" rel="noreferrer">See full list of support QR codes</a>
       </div>
     </div>
   );

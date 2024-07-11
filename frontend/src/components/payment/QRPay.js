@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code';
 import HistoryIcon from '@mui/icons-material/History';
 import styles from '../../styles/payment/QRPay.module.css';
 import { useAuth } from '../../context/AuthContext';
-
+import { v4 as uuidv4 } from 'uuid';
 const QRPay = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const QRPay = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsExpired(true);
-        }, 10000); // 10 seconds for testing
+        }, 80000); // 10 seconds for testing
 
         return () => clearTimeout(timer);
     }, []);
@@ -31,7 +31,8 @@ const QRPay = () => {
         type: "DBSBizQR",
         amount: paymentAmount,
         merchant_name: "",
-        merchant_id: ""
+        merchant_id: "",
+        transaction_id: ""
     }))
 
     useEffect(() => {
@@ -41,7 +42,8 @@ const QRPay = () => {
                     type: "DBSBizQR",
                     amount: paymentAmount,
                     merchant_name: user.name,
-                    merchant_id: user.user_id
+                    merchant_id: user.user_id,
+                    transaction_id: uuidv4()
                 })
             )
         }

@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "../styles/Login.module.css"
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const LoginScreen = () => {
     const [phoneNum, setPhoneNum] = useState('');
     const [password, setPassword] = useState('');
-
-    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        navigate('/payment'); // Illegal bypass for now (TO BE REMOVED LATER)
+        login(phoneNum, password)
       };
 
     return (

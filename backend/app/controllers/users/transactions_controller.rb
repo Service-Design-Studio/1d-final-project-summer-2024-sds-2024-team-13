@@ -23,14 +23,22 @@ module Users
 
     # POST /users/:user_id/transactions
     def create
+      required_params = [:transaction_id, :customer_id, :customer_number, :payment_method, :amount]
+      missing_params = required_params.select { |param| transaction_params[param].blank? }
+
+      unless missing_params.empty?
+        render json: { error: 'Missing or blank parameters', missing_params: missing_params }, status: :unprocessable_entity
+        return
+      end
+
       @customer = Customer.find_by(customer_id: transaction_params[:customer_id])
       unless @customer
         render json: { error: 'Customer not found' }, status: :not_found
         return
       end
-      
+
       @transaction = @user.transactions.build(transaction_params)
-      
+
       if @transaction.save
         render json: @transaction, status: :created, location: user_transaction_path(@user, @transaction)
       else
@@ -57,7 +65,7 @@ module Users
     end
 
     def transaction_params
-      params.require(:transaction).permit(:customer_id, :customer_number, :payment_method, :amount)
+      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount)
     end
   end
 end
