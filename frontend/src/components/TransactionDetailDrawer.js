@@ -1,0 +1,76 @@
+import styles from "../styles/transactionDetail.module.css"
+import { SwipeableDrawer } from '@mui/material';
+import paylahIcon from "../assets/paylahIcon.svg"
+import paynowIcon from "../assets/paynowIcon.svg"
+import { useEffect, useState } from "react";
+
+const TransactionDetailDrawer = ({
+    toggleDrawer,
+    isOpen,
+    transaction
+}) => {
+    const formatTimestamp = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+    };
+
+    const [displayedTransaction, setDisplayedTransaction] = useState({
+        amount: 0,
+        created_at: new Date(),
+        payment_method: "Loading...",
+        id: "Loading..."
+
+    })
+
+    useEffect(() => {
+        if (transaction != null) {
+            setDisplayedTransaction(transaction)
+        }
+    }, [transaction])
+    
+
+    return (
+        <SwipeableDrawer
+            className={styles.main}
+            anchor="bottom"
+            open={isOpen}
+            onClose={(event) => {
+                toggleDrawer(false)(event);
+            }}
+            onOpen={(event) => {
+                toggleDrawer(true)(event);
+            }}
+        >
+            <div className={styles.content}>
+                <div className={styles.swipeBar}></div>
+                <div className={styles.top}>
+                    <>
+                        {(displayedTransaction.payment_method === "Paylah") ? <img src={paylahIcon} alt="" /> : <></>}
+                        {(displayedTransaction.payment_method === "Paynow") ? <img src={paynowIcon} alt="" /> : <></>}
+
+                    </>
+                    <h3>Customer Paid:</h3>
+                    <h1 className={styles.amount}>SGD<span>{parseFloat(displayedTransaction.amount).toFixed(2)}</span></h1>
+                    <h4 className={styles.timestamp}>{formatDate(displayedTransaction.created_at)} • {formatTimestamp(displayedTransaction.created_at)}</h4>
+                </div>
+                <div className={styles.bottom}>
+                    <p className={styles.label}>Payment Method</p>
+                    <p className={styles.property}>{displayedTransaction.payment_method}</p>
+                    <p className={styles.label}>Transaction ID</p>
+                    <p className={styles.property}>{displayedTransaction.id}</p>
+                    <p className={styles.label}>Customer Mobile</p>
+                    <p className={styles.property}>9XXX XXXX</p>
+                </div>
+            </div>
+        </SwipeableDrawer>
+    );
+}
+export default TransactionDetailDrawer;

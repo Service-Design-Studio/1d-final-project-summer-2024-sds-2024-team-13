@@ -1,0 +1,15 @@
+.main {
+    height: 65%;
+    margin: 14px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.label {
+    font-size: 0.7rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+

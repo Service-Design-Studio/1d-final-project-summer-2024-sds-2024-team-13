@@ -26,6 +26,10 @@
   color: var(--primary) !important;
 }
 
+.css-9emuhu-MuiPaper-root-MuiDrawer-paper {
+  background: none !important;
+}
+
 @media only screen and (min-width: 768px) {
   .dimensionsWarning {
     display: flex;
