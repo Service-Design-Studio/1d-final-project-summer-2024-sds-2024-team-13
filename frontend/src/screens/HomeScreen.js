@@ -87,7 +87,7 @@ const HomeScreen = () => {
                 setTransactions(todayTransactions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5));
                 setLastRefresh(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
-                const totalAmount = todayTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+                const totalAmount = todayTransactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
                 setTodayTotal(totalAmount);
 
                 const hourlyCounts = aggregateTransactionsByHour(todayTransactions, start);
