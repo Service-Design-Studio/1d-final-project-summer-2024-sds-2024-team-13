@@ -24,7 +24,7 @@ const WeeklyHoursChart = () => {
                     const transactionDate = new Date(transaction.created_at);
                     if (transactionDate >= weekStart && transactionDate <= weekEnd) {
                         const hour = transactionDate.getHours();
-                        hourlySums[hour] += transaction.amount;
+                        hourlySums[hour] += parseFloat(transaction.amount);
                         hourlyCounts[hour]++;
                     }
                 });

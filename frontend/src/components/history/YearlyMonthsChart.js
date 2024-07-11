@@ -19,7 +19,7 @@ const YearlyMonthsChart = () => {
                     const year = transactionDate.getFullYear();
                     if (year >= 2017 && year <= 2024) {
                         const month = transactionDate.getMonth(); // month index (0-11)
-                        monthlySums[month] += transaction.amount;
+                        monthlySums[month] += parseFloat(transaction.amount);
                         monthlyCounts[month]++;
                     }
                 });

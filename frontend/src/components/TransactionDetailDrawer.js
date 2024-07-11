@@ -58,7 +58,7 @@ const TransactionDetailDrawer = ({
 
                     </>
                     <h3>Customer Paid:</h3>
-                    <h1 className={styles.amount}>SGD<span>{displayedTransaction.amount.toFixed(2)}</span></h1>
+                    <h1 className={styles.amount}>SGD<span>{parseFloat(displayedTransaction.amount).toFixed(2)}</span></h1>
                     <h4 className={styles.timestamp}>{formatDate(displayedTransaction.created_at)} • {formatTimestamp(displayedTransaction.created_at)}</h4>
                 </div>
                 <div className={styles.bottom}>
