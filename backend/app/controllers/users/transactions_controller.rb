@@ -7,8 +7,6 @@ module Users
     def index
       if @user
         render json: @user.transactions
-      else
-        render json: { error: 'User not found' }, status: :not_found
       end
     end
 
@@ -16,8 +14,6 @@ module Users
     def show
       if @transaction
         render json: @transaction
-      else
-        render json: { error: 'Transaction not found' }, status: :not_found
       end
     end
 
@@ -42,7 +38,7 @@ module Users
       if @transaction.save
         render json: @transaction, status: :created, location: user_transaction_path(@user, @transaction)
       else
-        render json: @transaction.errors, status: :unprocessable_entity
+        render json: { error: 'Transaction could not be saved' }, status: :unprocessable_entity
       end
     end
 
@@ -57,12 +53,12 @@ module Users
     end
 
     def set_transaction
-      Rails.logger.debug "Parameters: #{params.inspect}"
       @transaction = @user.transactions.find_by(transaction_id: params[:id])
       unless @transaction
         render json: { error: 'Transaction not found' }, status: :not_found
       end
     end
+    
 
     def transaction_params
       params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount)

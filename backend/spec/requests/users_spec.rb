@@ -134,4 +134,26 @@ RSpec.describe UsersController, type: :request do
       expect(response).to have_http_status(:no_content)
     end
   end
+
+  describe "earnings_cutoff_time_param" do
+    let(:controller_instance) { UsersController.new }
+
+    it "returns earnings_cutoff_time parameter" do
+      controller_instance.params = ActionController::Parameters.new(user: earnings_cutoff_time)
+      expect(controller_instance.send(:earnings_cutoff_time_param)).to eq('15:00')
+    end
+
+    it "raises ActionController::ParameterMissing if user param is missing" do
+      expect {
+        controller_instance.params = ActionController::Parameters.new
+        controller_instance.send(:earnings_cutoff_time_param)
+      }.to raise_error(ActionController::ParameterMissing)
+    end
+
+    it "permits only earnings_cutoff_time parameter" do
+      controller_instance.params = ActionController::Parameters.new(user: earnings_cutoff_time)
+      permitted_params = controller_instance.params.require(:user).permit(:earnings_cutoff_time)
+      expect(permitted_params).to eq(ActionController::Parameters.new(earnings_cutoff_time).permit(:earnings_cutoff_time))
+    end
+  end
 end
