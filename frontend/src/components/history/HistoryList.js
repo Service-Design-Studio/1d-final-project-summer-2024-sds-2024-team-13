@@ -5,7 +5,10 @@ import WarningIcon from '@mui/icons-material/Warning';
 
 const HistoryList = ({
     filterOption,
-    displayedTransactions
+    displayedTransactions,
+    isOpen, 
+    toggleDrawer,
+    setSelectedTransaction
 }) => {
     const [groupedTransactions, setGroupedTransactions] = useState({});
     useEffect(() => {
@@ -21,7 +24,7 @@ const HistoryList = ({
         setGroupedTransactions(grouped);
     }, [displayedTransactions]);
     const current = new Date();
-
+    
     return (
         <div className={styles.main}>
             {(filterOption === "thismonth" || filterOption === "lastmonth") ? <div className={styles.monthInfo}>
@@ -33,11 +36,11 @@ const HistoryList = ({
                         return current.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
                     })() : ""}
                 </p>
-                <p>MONTHLY: +${displayedTransactions.reduce((total, transaction) => total + transaction.amount, 0).toFixed(2)}</p>
+                <p>MONTHLY: +${displayedTransactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0).toFixed(2)}</p>
             </div> : <></>}
             {(displayedTransactions.length > 0) ? Object.keys(groupedTransactions).map(date => {
                 const dailyTransactions = groupedTransactions[date];
-                const dailyTotal = dailyTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+                const dailyTotal = dailyTransactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
                 return (
                     <div key={date} style = {{marginBottom: "18px"}}>
                         <div className={styles.dayInfo}>
@@ -45,7 +48,7 @@ const HistoryList = ({
                             <p>DAILY: +${dailyTotal.toFixed(2)}</p>
                         </div>
                         {dailyTransactions.map(transaction => (
-                            <TransactionCard key={transaction.id} transaction={transaction} />
+                            <TransactionCard key={transaction.id} transaction={transaction} {...{isOpen, toggleDrawer, setSelectedTransaction}} />
                         ))}
                     </div>
                 );

@@ -8,6 +8,7 @@ import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import HourlyChart from "../components/home/HourlyChart";
 import dayjs from "dayjs";
+import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const HomeScreen = () => {
@@ -19,7 +20,7 @@ const HomeScreen = () => {
     const [cutoffTime, setCutoffTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
     const updateCutoffTime = useCallback(async (newCutoffTime) => {
         if (!user) return;
-    
+
         try {
             console.log("UTC time to send: " + newCutoffTime);
             await axiosInstance.put(`/users/${user.user_id}/earnings_cutoff`, {
@@ -41,7 +42,6 @@ const HomeScreen = () => {
                         const updatedCutoffTime = new Date();
                         updatedCutoffTime.setUTCHours(cutoffDate.getUTCHours(), cutoffDate.getUTCMinutes(), 0, 0);
                         setCutoffTime(updatedCutoffTime);
-                        console.log("Validated and Updated Cutoff Date:", updatedCutoffTime);
                     } else {
                         console.error('Parsed date is invalid.');
                     }
@@ -87,7 +87,7 @@ const HomeScreen = () => {
                 setTransactions(todayTransactions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5));
                 setLastRefresh(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
-                const totalAmount = todayTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+                const totalAmount = todayTransactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
                 setTodayTotal(totalAmount);
 
                 const hourlyCounts = aggregateTransactionsByHour(todayTransactions, start);
@@ -99,7 +99,6 @@ const HomeScreen = () => {
         }
     }, [user, cutoffTime]);
 
-    // Helper function to aggregate transactions by hour
     const aggregateTransactionsByHour = (transactions, startOfToday) => {
         const hourlyTotals = Array(24).fill(0);
         transactions.forEach(transaction => {
@@ -117,26 +116,48 @@ const HomeScreen = () => {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-        fetchTransactions();
-    }, 4000);
+            fetchTransactions();
+        }, 4000);
 
-    return () => clearInterval(intervalId)
+        return () => clearInterval(intervalId)
     }, [fetchTransactions]);
 
     const handleReload = () => {
         fetchTransactions();
     };
 
-    // Format cutoff time for display
     const formattedCutoffTime = cutoffTime.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true
     });
 
+    const [isOpen, setIsOpen] = useState(false);
+
+
+    const toggleDrawer = (open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) {
+            return;
+        }
+        setIsOpen(open)
+    };
+
+    const [selectedTransaction, setSelectedTransaction] = useState({
+        amount: 0,
+        created_at: new Date(),
+        payment_method: "Loading...",
+        id: "Loading..."
+
+    })
+
     return (
         <div className={styles.screen}>
             <HomeNav {...{ handleReload }} />
+
             <div className={styles.content}>
                 <MainCard {...{ lastRefresh, todayTotal }} />
                 <HourlyChart {...{ hourlyData, formattedCutoffTime }} />
@@ -144,11 +165,14 @@ const HomeScreen = () => {
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px" }}>
                         LATEST TRANSACTIONS
                     </p>
+                   
                     {transactions.map(transaction => (
-                        <HomeTransactionCard key={transaction.id} transaction={transaction} />
+                        <HomeTransactionCard key={transaction.id} {...{ transaction, toggleDrawer, setSelectedTransaction }} />
                     ))}
                 </div>
             </div>
+            <TransactionDetailDrawer {...{ toggleDrawer, isOpen, transaction: selectedTransaction }} />
+
         </div>
     );
 }
