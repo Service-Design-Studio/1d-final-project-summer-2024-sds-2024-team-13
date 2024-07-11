@@ -24,6 +24,7 @@ const PaymentSuccess = ({ transaction }) => {
                 <div className={styles.statusText}>You paid</div>
                 <div className={styles.amount}>SGD {(paymentInfo) ? parseFloat(paymentInfo.amount).toFixed(2) : parseFloat(0).toFixed(2)}</div>
                 <div className={styles.date}>{new Date().toLocaleString()}</div>
+                <div className={styles.transactionID}>{(paymentInfo) ? paymentInfo.transaction_id : ""}</div>
                 <img 
                     className={styles.paymentLogo} 
                     src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon} 
