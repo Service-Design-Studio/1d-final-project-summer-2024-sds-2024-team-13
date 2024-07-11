@@ -118,7 +118,7 @@ const HomeScreen = () => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             fetchTransactions();
-        }, 4000);
+        }, 3000);
 
         return () => clearInterval(intervalId);
     }, [fetchTransactions]);

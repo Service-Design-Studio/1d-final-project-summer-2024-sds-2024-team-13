@@ -6,6 +6,7 @@ import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import LoginScreen from './screens/LoginScreen';
 import WIPScreen from './screens/WIPScreen';
 import PaymentScreen from './screens/PaymentScreen';
+import TempOldPaymentScreen from "./screens/TempOldPaymentScreen"
 import PaymentReview from './components/payment/PaymentReview';
 import PaymentSuccess from './components/payment/PaymentSuccess';
 import AuthProvider from './context/AuthContext';
@@ -54,7 +55,7 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment' && location.pathname !== '/payment' && location.pathname !== '/payment/review' && location.pathname !== '/payment/success') ? <Navigation /> : null;
 }
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/WIP" element={<WIPScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
+              <Route path="/testpayment" element={<TempOldPaymentScreen />} />
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
             </Route>

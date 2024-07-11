@@ -4,8 +4,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
+import { useAuth } from '../../context/AuthContext';
 
 const PaymentSuccess = ({ transaction }) => {
+    const { logout } = useAuth();
     const location = useLocation();
     const { paymentInfo } = location.state || {};
     const navigate = useNavigate();
@@ -33,8 +35,9 @@ const PaymentSuccess = ({ transaction }) => {
             </div>
             <div className={styles.footer}>
                 <button className={styles.newButton} onClick={handleNewPayment}>
-                    New
+                    Make a new payment
                 </button>
+                <button className={styles.logoutButton} onClick={()=>logout()}>Log Out</button>
             </div>
         </div>
     );
