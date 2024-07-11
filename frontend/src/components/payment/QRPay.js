@@ -32,6 +32,7 @@ const QRPay = () => {
 
     useEffect(() => {
         if (user) {
+            //TODO: CHANGE BACK TO UUID
             const transactionId = uuidv4();
             setTransactionId("test-transaction-id");
             setQRData(
