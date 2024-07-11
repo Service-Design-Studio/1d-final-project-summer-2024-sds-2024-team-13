@@ -51,12 +51,12 @@ module Users
 
     def set_transaction
       Rails.logger.debug "Parameters: #{params.inspect}"
-      @transaction = @user.transactions.find_by(transaction_id: params[:transaction_id])
+      @transaction = @user.transactions.find_by(transaction_id: params[:id])
     end
 
 
     def transaction_params
-      params.require(:transaction).permit(:customer_id, :customer_number, :payment_method, :amount)
+      params.require(:transaction).permit(:customer_id, :customer_number, :payment_method, :amount,)
     end
   end
 end
