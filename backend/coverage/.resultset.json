@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/customers_helper_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/customers_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -21,7 +21,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/sessions_helper_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/sessions_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -41,7 +41,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/transactions_helper_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/transactions_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -61,7 +61,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/users_helper_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/helpers/users_helper_spec.rb": {
         "lines": [
           1,
           null,
@@ -81,7 +81,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/customer_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/customer_spec.rb": {
         "lines": [
           1,
           null,
@@ -135,7 +135,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/customer.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/customer.rb": {
         "lines": [
           1,
           1,
@@ -145,24 +145,24 @@
           null,
           1,
           1,
-          22,
-          22,
-          22,
-          22,
+          26,
+          26,
+          26,
+          26,
           null,
           null,
           null,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/application_record.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/transaction_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/transaction_spec.rb": {
         "lines": [
           1,
           null,
@@ -190,7 +190,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/transaction.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/transaction.rb": {
         "lines": [
           1,
           1,
@@ -210,7 +210,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/user_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/models/user_spec.rb": {
         "lines": [
           1,
           null,
@@ -243,7 +243,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/user.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -266,7 +266,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/customer_transactions_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/customer_transactions_spec.rb": {
         "lines": [
           1,
           null,
@@ -295,7 +295,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/customers_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/customers_spec.rb": {
         "lines": [
           1,
           null,
@@ -427,7 +427,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/sessions_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/sessions_spec.rb": {
         "lines": [
           null,
           1,
@@ -457,7 +457,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/transactions_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/transactions_spec.rb": {
         "lines": [
           1,
           null,
@@ -544,7 +544,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/users_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/requests/users_spec.rb": {
         "lines": [
           1,
           null,
@@ -669,7 +669,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/customers_routing_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/customers_routing_spec.rb": {
         "lines": [
           1,
           null,
@@ -711,7 +711,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers_controller.rb": {
         "lines": [
           1,
           1,
@@ -783,14 +783,14 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/application_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/application_controller.rb": {
         "lines": [
           1,
           36,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/transactions_routing_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/transactions_routing_spec.rb": {
         "lines": [
           1,
           null,
@@ -849,7 +849,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/users_routing_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/routing/users_routing_spec.rb": {
         "lines": [
           1,
           null,
@@ -891,7 +891,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/users_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/users_controller.rb": {
         "lines": [
           1,
           1,
@@ -965,7 +965,74 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/edit.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/edit.html.erb_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/index.html.erb_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/new.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -981,23 +1048,19 @@
           1,
           1,
           null,
+          1,
           null,
           1,
-          0,
           null,
-          0,
+          1,
           null,
-          0,
-          null,
-          0,
-          null,
-          0,
+          1,
           null,
           null,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/index.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/show.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1011,73 +1074,16 @@
           null,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
           1,
-          0,
-          0,
-          0,
-          0,
-          0,
+          1,
+          1,
+          1,
+          1,
           null,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/new.html.erb_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          null,
-          1,
-          null,
-          1,
-          null,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null
-        ]
-      },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/customers/show.html.erb_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          0,
-          0,
-          0,
-          0,
-          null,
-          null
-        ]
-      },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/edit.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/edit.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1109,43 +1115,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/index.html.erb_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/new.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/index.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1170,10 +1140,46 @@
           null,
           null,
           null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/show.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/new.html.erb_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/transactions/show.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1199,7 +1205,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/edit.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/edit.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1225,7 +1231,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/index.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/index.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1252,7 +1258,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/new.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/new.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1274,7 +1280,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/show.html.erb_spec.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/spec/views/users/show.html.erb_spec.rb": {
         "lines": [
           1,
           null,
@@ -1294,7 +1300,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers/transactions_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers/transactions_controller.rb": {
         "lines": [
           1,
           1,
@@ -1321,7 +1327,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/sessions_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
           1,
@@ -1346,7 +1352,7 @@
           null
         ]
       },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/users/transactions_controller.rb": {
+      "C:/Users/yihe/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/users/transactions_controller.rb": {
         "lines": [
           1,
           1,
@@ -1414,6 +1420,6 @@
         ]
       }
     },
-    "timestamp": 1720698175
+    "timestamp": 1720699782
   }
 }

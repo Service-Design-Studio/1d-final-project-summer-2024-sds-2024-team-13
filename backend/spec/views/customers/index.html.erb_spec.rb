@@ -6,12 +6,14 @@ RSpec.describe "customers/index", type: :view do
       Customer.create!(
         customer_id: "Customer",
         phone_num: "Phone Num",
-        name: "Name"
+        name: "Name",
+        password: "password123"
       ),
       Customer.create!(
         customer_id: "Customer",
         phone_num: "Phone Num",
-        name: "Name"
+        name: "Name",
+        password: "password123"
       )
     ])
   end

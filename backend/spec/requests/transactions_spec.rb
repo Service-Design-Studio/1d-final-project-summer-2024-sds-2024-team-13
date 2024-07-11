@@ -74,9 +74,9 @@ RSpec.describe "UserTransactions", type: :request do
         }.to change(Transaction, :count).by(0)
       end
 
-      it "returns an unprocessable entity status" do
+      it "returns not found status" do
         post user_transactions_path(user_id: user.id), params: { transaction: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

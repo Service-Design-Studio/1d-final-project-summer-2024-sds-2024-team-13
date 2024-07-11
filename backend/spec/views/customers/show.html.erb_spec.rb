@@ -5,7 +5,8 @@ RSpec.describe "customers/show", type: :view do
     assign(:customer, Customer.create!(
       customer_id: "Customer",
       phone_num: "Phone Num",
-      name: "Name"
+      name: "Name",
+      password: "password123"
     ))
   end
 

@@ -5,7 +5,8 @@ RSpec.describe "customers/edit", type: :view do
     Customer.create!(
       customer_id: "MyString",
       phone_num: "MyString",
-      name: "MyString"
+      name: "MyString",
+      password: "password123"
     )
   }
 
@@ -23,6 +24,8 @@ RSpec.describe "customers/edit", type: :view do
       assert_select "input[name=?]", "customer[phone_num]"
 
       assert_select "input[name=?]", "customer[name]"
+
+      assert_select "input[name=?]", "customer[password]"
     end
   end
 end
