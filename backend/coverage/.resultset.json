@@ -279,17 +279,8 @@
           1,
           1,
           1,
-          0,
-          0,
-          null,
-          null,
-          null,
           1,
           1,
-          1,
-          0,
-          0,
-          null,
           null,
           null,
           null,
@@ -297,12 +288,21 @@
           1,
           1,
           0,
+          0,
+          null,
           null,
           null,
           null,
           1,
           1,
           1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          3,
           null,
           1,
           1,
@@ -317,7 +317,7 @@
           null,
           null,
           1,
-          1,
+          3,
           null,
           1,
           1,
@@ -842,7 +842,7 @@
       "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/application_controller.rb": {
         "lines": [
           1,
-          31,
+          33,
           null
         ]
       },
@@ -1350,6 +1350,33 @@
           null
         ]
       },
+      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers/transactions_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          2,
+          2,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          1,
+          3,
+          null,
+          null,
+          null
+        ]
+      },
       "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
@@ -1371,33 +1398,6 @@
           null,
           1,
           1,
-          null,
-          null
-        ]
-      },
-      "C:/Users/yanzh/OneDrive/Documents/GitHub/1d-final-project-summer-2024-sds-2024-team-13/backend/app/controllers/customers/transactions_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          1,
-          0,
-          0,
-          null,
-          null,
-          1,
-          null,
-          1,
-          1,
-          null,
           null,
           null
         ]
@@ -1470,6 +1470,6 @@
         ]
       }
     },
-    "timestamp": 1720681704
+    "timestamp": 1720682267
   }
 }
