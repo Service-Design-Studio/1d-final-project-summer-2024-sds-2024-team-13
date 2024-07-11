@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosInstance } from '../utils/axiosConfig'; 
-import { jwtDecode } from 'jwt-decode';
+import { axiosInstance } from '../utils/axiosConfig';
+import { jwtDecode } from 'jwt-decode'; 
 
 const AuthContext = createContext();
 
@@ -9,15 +9,18 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [customer, setCustomer] = useState(null);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     setCustomer(null);
+    setLoading(false); 
     navigate('/');
   }, [navigate]);
 
   const login = async (phone_num, password) => {
+    setLoading(true);  
     try {
       const response = await axiosInstance.post('customers/login', { phone_num, password });
       const { token } = response.data;
@@ -27,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (error) {
       console.error('Login failed:', error);
+      setLoading(false); 
       return false;
     }
   };
@@ -41,6 +45,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Failed to fetch customer details:', error);
       logout();
+    } finally {
+      setLoading(false);  
     }
   }, [logout]);
 
@@ -48,11 +54,13 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       fetchCustomerProfile(token);
+    } else {
+      setLoading(false);  
     }
   }, [fetchCustomerProfile]);
 
   return (
-    <AuthContext.Provider value={{ customer, login, logout }}>
+    <AuthContext.Provider value={{ customer, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
