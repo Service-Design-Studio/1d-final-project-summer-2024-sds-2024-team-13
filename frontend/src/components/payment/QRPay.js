@@ -25,11 +25,8 @@ const QRPay = () => {
     }, []);
 
     const handleEdit = () => {
-        if (isExpired) {
             navigate('/payment');
-        } else {
-            navigate('/payment/success');
-        }
+        
     };
 
     useEffect(() => {
@@ -55,6 +52,7 @@ const QRPay = () => {
                 const response = await axiosInstance.get(`/users/${user.user_id}/transactions`);
                 const transaction = response.data.find(tx => tx.transaction_id === transactionId);
                 if (transaction) {
+                    console.log("DEBUG: PAYMENT FROM CUSTOMER RECEIVED")
                     setPolling(false);
                     navigate('/payment/success');
                 }
