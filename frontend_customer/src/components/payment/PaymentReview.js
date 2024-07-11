@@ -27,7 +27,8 @@ const PaymentReview = ({ transaction }) => {
         type: "",
         merchant_id: "",
         merchant_name: "",
-        amount: "0"
+        amount: "0",
+        transaction_id: ""
     })
 
     useEffect(()=> {
@@ -41,7 +42,8 @@ const PaymentReview = ({ transaction }) => {
             customer_id: customer.customer_id,
             customer_number: customer.phone_num,
             payment_method: paymentMethod,
-            amount: paymentInfo.amount
+            amount: paymentInfo.amount,
+            transaction_id: paymentInfo.transaction_id
         };
 
         try {
@@ -70,6 +72,7 @@ const PaymentReview = ({ transaction }) => {
                 <div className={styles.details}>From {(customer) ? customer.name: "Loading..."}</div>
                 <div className={styles.recipientDetails}>To {paymentInfo.merchant_name}</div>
                 <div className={styles.paymentMethod}>{paymentMethod} QR</div>
+                
             </div>
             <div className={styles.footer}>
                 <button className={styles.confirmButton} onClick={handleConfirm}>

@@ -28,7 +28,7 @@ module Users
         render json: { error: 'Customer not found' }, status: :not_found
         return
       end
-      
+
       @transaction = @user.transactions.build(transaction_params)
       
       if @transaction.save
@@ -57,7 +57,6 @@ module Users
     end
 
     def transaction_params
-      params.require(:transaction).permit(:customer_id, :customer_number, :payment_method, :amount)
-    end
+      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount)    end
   end
 end

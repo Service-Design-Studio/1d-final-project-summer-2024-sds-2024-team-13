@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import HistoryIcon from '@mui/icons-material/History';
 import styles from '../../styles/payment/QRPay.module.css';
+import { useAuth } from '../../context/AuthContext';
 
 const QRPay = () => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const QRPay = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsExpired(true);
-        }, 10000); // 10 seconds for testing
+        }, 80000); // 10 seconds for testing
 
         return () => clearTimeout(timer);
     }, []);
