@@ -26,21 +26,6 @@ RSpec.describe "/customers", type: :request do
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_customer_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "renders a successful response" do
-      customer = Customer.create! valid_attributes
-      get edit_customer_url(customer)
-      expect(response).to be_successful
-    end
-  end
-
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Customer" do
@@ -122,7 +107,7 @@ RSpec.describe "/customers", type: :request do
     it "redirects to the customers list" do
       customer = Customer.create! valid_attributes
       delete customer_url(customer)
-      expect(response).to redirect_to(customers_url)
+      expect(response).to have_http_status(:no_content)
     end
   end
 end
