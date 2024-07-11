@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/payment/Payment.css";
 import QrScanner from "qr-scanner";
@@ -14,45 +14,44 @@ const PaymentScreen = () => {
   const [qrOn, setQrOn] = useState(true);
   const [scannedResult, setScannedResult] = useState("");
 
-  const onScanSuccess = (result) => {
-    console.log('QR scan success:', result); // Log the result for debugging
+  const onScanSuccess = useCallback((result) => {
+    console.log('QR scan success:', result); // Log the QR scan result
     setScannedResult(result?.data);
-
-    // Redirect based on the scanned result
-    if (result?.data.includes("DBS")) { // FOR TESTING QR CODES
-      console.log("Redirecting to /payment/review"); // Debugging log
+    
+    if (result?.data.includes("DBS")) {
       navigate("/payment/review");
     }
-  };
+  }, [navigate]); 
 
   const onScanFail = (err) => {
     console.log('QR scan error:', err);
   };
 
   useEffect(() => {
-    if (videoEl?.current && !scanner.current) {
-      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+    const currentVideoEl = videoEl.current;
+    if (currentVideoEl && !scanner.current) {
+      scanner.current = new QrScanner(currentVideoEl, onScanSuccess, {
         onDecodeError: onScanFail,
         preferredCamera: "environment",
         highlightScanRegion: true,
         highlightCodeOutline: true,
         overlay: qrBoxEl?.current || undefined,
       });
-
-      scanner?.current
-        ?.start()
+    
+      scanner.current
+        .start()
         .then(() => setQrOn(true))
         .catch((err) => {
           if (err) setQrOn(false);
         });
     }
-
+    
     return () => {
-      if (!videoEl?.current) {
-        scanner?.current?.stop();
+      if (currentVideoEl) {
+        scanner.current?.stop();
       }
     };
-  }, []);
+  }, [onScanSuccess]);
 
   useEffect(() => {
     if (!qrOn)
@@ -60,7 +59,7 @@ const PaymentScreen = () => {
         "Camera is blocked or not accessible. Please allow camera in your browser permissions and reload."
       );
   }, [qrOn]);
-
+  console.log(scannedResult)
   return (
     <div className="qr-reader">
       {/* Add "Scan to Pay" text */}
