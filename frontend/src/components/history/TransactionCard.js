@@ -1,4 +1,4 @@
-import styles from "../../styles/history/TransactionCard.module.css"
+import styles from "../../styles/history/TransactionCard.module.css";
 import { ChevronRightOutlined } from "@mui/icons-material";
 
 const TransactionCard = ({
@@ -11,8 +11,8 @@ const TransactionCard = ({
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
     };
     return ( 
-        <div className={styles.main}  onClick={(event) => {
-            setSelectedTransaction(transaction)
+        <div className={styles.main} data-testid={`transaction-card-${transaction.id}`} onClick={(event) => {
+            setSelectedTransaction(transaction);
             toggleDrawer(true)(event);
         }}>
             <div className={styles.top}>
@@ -23,8 +23,8 @@ const TransactionCard = ({
                 <p className={styles.timestamp}>{formatTimestamp(transaction.created_at)}</p>
                 <h3 className={styles.amount}>SGD <span>{parseFloat(transaction.amount).toFixed(2)}</span></h3>
             </div>
-
         </div>
-     );
+    );
 }
+
 export default TransactionCard;

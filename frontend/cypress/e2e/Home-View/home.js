@@ -39,6 +39,19 @@ Then("I should see a maximum of 5 most recent transactions", () => {
   cy.get('[data-testid="transaction-card"]').should('have.length.at.most', 5);
 });
 
+Given('I want to hide my current daily earnings', () => {
+  // This step can be used to verify the earnings are visible initially
+  cy.get('[data-testid="today-earnings"]').should('not.contain', '--.--');
+});
+
+When('I click on the "eye" icon', () => {
+  cy.get('[data-testid="toggle-earnings-button"]').click();
+});
+
+Then('I should see the digits of my "Today\'s Earnings" replaced by "--.--"', () => {
+  cy.get('[data-testid="today-earnings"]').should('contain', '--.--');
+});
+
 // New transaction via Postman simulation
 When("I receive a new transaction of {string}", (amount) => {
   const newTransactionAmount = parseFloat(amount);

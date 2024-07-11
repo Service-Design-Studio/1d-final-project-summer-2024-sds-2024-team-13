@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import HomeNav from "../components/home/HomeNav";
 import HomeTransactionCard from "../components/home/HomeTransactionCard";
 import MainCard from "../components/home/MainCard";
-import styles from "../styles/Home/Home.module.css"
+import styles from "../styles/Home/Home.module.css";
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 const HomeScreen = () => {
     const { user } = useAuth();
     const [transactions, setTransactions] = useState([]);
@@ -18,6 +19,7 @@ const HomeScreen = () => {
     const [todayTotal, setTodayTotal] = useState(0);
     const [hourlyData, setHourlyData] = useState([]);
     const [cutoffTime, setCutoffTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
+
     const updateCutoffTime = useCallback(async (newCutoffTime) => {
         if (!user) return;
 
@@ -30,6 +32,7 @@ const HomeScreen = () => {
             console.error('Failed to update earnings cutoff time:', error);
         }
     }, [user]);
+
     const fetchCutoffTime = useCallback(async () => {
         if (user) {
             try {
@@ -48,7 +51,7 @@ const HomeScreen = () => {
                 } else {
                     const defaultCutoff = new Date();
                     defaultCutoff.setHours(0, 0, 0, 0);
-                    const dayJSTime = dayjs(defaultCutoff)
+                    const dayJSTime = dayjs(defaultCutoff);
                     updateCutoffTime(dayJSTime.toISOString());
                     setCutoffTime(defaultCutoff);
                     console.log("Set and updated default cutoff time to 12 AM local.");
@@ -58,8 +61,6 @@ const HomeScreen = () => {
             }
         }
     }, [user, updateCutoffTime]);
-
-
 
     const fetchTransactions = useCallback(async () => {
         if (user && cutoffTime) {
@@ -119,7 +120,7 @@ const HomeScreen = () => {
             fetchTransactions();
         }, 4000);
 
-        return () => clearInterval(intervalId)
+        return () => clearInterval(intervalId);
     }, [fetchTransactions]);
 
     const handleReload = () => {
@@ -134,7 +135,6 @@ const HomeScreen = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-
     const toggleDrawer = (open) => (event) => {
         if (
             event &&
@@ -143,7 +143,7 @@ const HomeScreen = () => {
         ) {
             return;
         }
-        setIsOpen(open)
+        setIsOpen(open);
     };
 
     const [selectedTransaction, setSelectedTransaction] = useState({
@@ -151,30 +151,31 @@ const HomeScreen = () => {
         created_at: new Date(),
         payment_method: "Loading...",
         id: "Loading..."
-
-    })
+    });
 
     return (
-        <div className={styles.screen}>
-            <HomeNav {...{ handleReload }} />
+        <div className={styles.screen} data-testid="home-screen">
+            <HomeNav {...{ handleReload }} data-testid="home-nav" />
 
-            <div className={styles.content}>
-                <MainCard {...{ lastRefresh, todayTotal }} />
-                <HourlyChart {...{ hourlyData, formattedCutoffTime }} />
-                <div className={styles.transcContainer}>
+            <div className={styles.content} data-testid="home-content">
+                <MainCard {...{ lastRefresh, todayTotal }} data-testid="main-card" />
+                <HourlyChart {...{ hourlyData, formattedCutoffTime }} data-testid="hourly-chart" />
+                <div className={styles.transcContainer} data-testid="transaction-container">
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px" }}>
                         LATEST TRANSACTIONS
                     </p>
-                   
                     {transactions.map(transaction => (
-                        <HomeTransactionCard key={transaction.id} {...{ transaction, toggleDrawer, setSelectedTransaction }} />
+                        <HomeTransactionCard
+                            key={transaction.id}
+                            {...{ transaction, toggleDrawer, setSelectedTransaction }}
+                            data-testid={`transaction-card-${transaction.id}`}
+                        />
                     ))}
                 </div>
             </div>
-            <TransactionDetailDrawer {...{ toggleDrawer, isOpen, transaction: selectedTransaction }} />
-
+            <TransactionDetailDrawer {...{ toggleDrawer, isOpen, transaction: selectedTransaction }} data-testid="transaction-drawer" />
         </div>
     );
-}
+};
 
 export default HomeScreen;

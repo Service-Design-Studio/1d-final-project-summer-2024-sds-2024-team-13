@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { ArrowDropDown, CalendarToday } from "@mui/icons-material";
-import styles from "../../styles/history/DropdownFilter.module.css"
+import styles from "../../styles/history/DropdownFilter.module.css";
 import Popup from 'reactjs-popup';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const DropdownFilter = ({
     filterOption,
     setFilterOption,
@@ -36,35 +37,31 @@ const DropdownFilter = ({
         return `${month}/${day}/${year}`;
     }
 
-    const [selectedOption, setSelectedOption] = useState("")
-
+    const [selectedOption, setSelectedOption] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleNonRange = (selected) => {
-        setSelectedOption(selected)
-        setTempStart(null)
-        setTempEnd(null)
+        setSelectedOption(selected);
+        setTempStart(null);
+        setTempEnd(null);
     }
 
     const handleApplyFilter = () => {
         if (selectedOption === "") {
-            setErrorMessage("Please select a filter")
-
+            setErrorMessage("Please select a filter");
         } else if (selectedOption === "custom" && tempStart === null) {
-            setErrorMessage("Please choose a start date")
+            setErrorMessage("Please choose a start date");
         } else if (selectedOption === "custom" && tempEnd === null) {
-            setErrorMessage("Please choose an end date")
-
+            setErrorMessage("Please choose an end date");
         } else {
             if (selectedOption === "custom") {
                 setStartDate(tempStart);
                 setEndDate(tempEnd);
             }
-            setFilterOption(selectedOption)
+            setFilterOption(selectedOption);
             closeModal();
         }
     }
-
 
     return (
         <Popup
@@ -73,7 +70,7 @@ const DropdownFilter = ({
             closeOnDocumentClick
             onClose={closeModal}
             trigger={
-                <div className={`${styles.main} ${(open === true) ? styles.main_selected : ""}`}>
+                <div className={`${styles.main} ${(open === true) ? styles.main_selected : ""}`} data-testid="dropdown-trigger">
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <CalendarToday />
                         <p style={{ marginLeft: "8px" }}>
@@ -82,16 +79,13 @@ const DropdownFilter = ({
                             {(filterOption === "today") ? "Today" : ""}
                             {(filterOption === "yesterday") ? "Yesterday" : ""}
                             {(filterOption === "custom") ? `${formatDate(startDate)} - ${formatDate(endDate)}` : ""}
-
-
                         </p>
                     </div>
                     <ArrowDropDown />
                 </div>
             }
-
         >
-            <div className={styles.modal}>
+            <div className={styles.modal} data-testid="dropdown-content">
                 <div className={styles.rangeContainer}>
                     <div className={styles.rangeContainerChild}>
                         <p>From</p>
@@ -104,10 +98,9 @@ const DropdownFilter = ({
                             selected={tempStart}
                             className={styles.datePicker}
                             onChange={(date) => {
-                                setTempStart(date)
-                                setSelectedOption("custom")
-                            }
-                            } />
+                                setTempStart(date);
+                                setSelectedOption("custom");
+                            }} />
                     </div>
                     <div className={styles.rangeContainerChild}>
                         <p>To</p>
@@ -120,8 +113,8 @@ const DropdownFilter = ({
                             selected={tempEnd}
                             className={styles.datePicker}
                             onChange={(date) => {
-                                setTempEnd(date)
-                                setSelectedOption("custom")
+                                setTempEnd(date);
+                                setSelectedOption("custom");
                             }} />
                     </div>
                 </div>
@@ -133,11 +126,7 @@ const DropdownFilter = ({
                 <p className={styles.error}>{errorMessage}</p>
             </div>
         </Popup>
-
-
     );
 }
-
-
 
 export default DropdownFilter;

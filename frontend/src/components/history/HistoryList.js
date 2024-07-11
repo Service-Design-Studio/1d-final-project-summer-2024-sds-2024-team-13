@@ -1,4 +1,4 @@
-import styles from "../../styles/history/HistoryList.module.css"
+import styles from "../../styles/history/HistoryList.module.css";
 import TransactionCard from "./TransactionCard";
 import { useEffect, useState } from "react";
 import WarningIcon from '@mui/icons-material/Warning';
@@ -26,7 +26,7 @@ const HistoryList = ({
     const current = new Date();
     
     return (
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="transaction-list">
             {(filterOption === "thismonth" || filterOption === "lastmonth") ? <div className={styles.monthInfo}>
                 <p>
                     {(filterOption === "thismonth") ? current.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).toUpperCase() : ""}
@@ -42,7 +42,7 @@ const HistoryList = ({
                 const dailyTransactions = groupedTransactions[date];
                 const dailyTotal = dailyTransactions.reduce((total, transaction) => total + parseFloat(transaction.amount), 0);
                 return (
-                    <div key={date} style = {{marginBottom: "18px"}}>
+                    <div key={date} style={{ marginBottom: "18px" }}>
                         <div className={styles.dayInfo}>
                             <p>{date}</p>
                             <p>DAILY: +${dailyTotal.toFixed(2)}</p>

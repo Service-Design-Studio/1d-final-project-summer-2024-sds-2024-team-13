@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
-import styles from "../../styles/history/Insights.module.css"
+import styles from "../../styles/history/Insights.module.css";
 import WeeklyHoursChart from "./WeeklyHoursChart";
 import YearlyMonthsChart from "./YearlyMonthsChart";
 
 const Insights = () => {
     return (
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="insights">
             <h2 className={styles.title}>Transactions</h2>
             <Box
                 sx={{
@@ -22,8 +22,8 @@ const Insights = () => {
                     scrollbarWidth: "none" 
                 }}
             >
-            <WeeklyHoursChart />
-            <YearlyMonthsChart />
+                <WeeklyHoursChart />
+                <YearlyMonthsChart />
             </Box>
         </div>
     );

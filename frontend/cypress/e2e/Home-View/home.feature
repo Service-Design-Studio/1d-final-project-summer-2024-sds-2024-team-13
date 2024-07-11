@@ -7,6 +7,7 @@ Feature: Home and Transaction Handling
     Then I should see my daily earnings in the main card
     And I should see a maximum of 5 most recent transactions
 
-  Scenario: Receive a new transaction of any amount
-    When I receive a new transaction of "5.30"
-    Then I should see the numbers for 'Today's Earnings' increase by "5.30"
+  Scenario: User hides their current daily earnings
+    Given I want to hide my current daily earnings
+    When I click on the "eye" icon
+    Then I should see the digits of my "Today's Earnings" replaced by "--.--"
