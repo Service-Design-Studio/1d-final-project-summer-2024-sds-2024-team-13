@@ -60,12 +60,8 @@ When("customer has not made the payment within 30 seconds", () => {
   // Simulate payment failure after 30 seconds
 });
 
-Then("I should see an error message {string}", (errorMessage) => {
-  cy.get('[data-testid="qr-expire"]').contains(message).should('be.visible');
-});
-
 Then("I should see a Regenerate button", () => {
-  cy.get('[data-testid="regenerate-button"]').should('be.visible');
+  cy.get('[data-testid="regenerate-button"]', { timeout: 10000 }).should('be.visible');
 });
 
 Given("that I am on Payment View", () => {

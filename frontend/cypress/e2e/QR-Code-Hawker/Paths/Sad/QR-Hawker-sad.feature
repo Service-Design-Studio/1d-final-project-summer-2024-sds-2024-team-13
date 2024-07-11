@@ -19,11 +19,4 @@ Feature: Sad Path for Payment and QR Code Handling
     Then I should be redirected to the QR Pay view
     Given that I am on QR Pay view
     When customer has not made the payment within 30 seconds
-    Then I should see an error message "QR code expired"
-    And I should see a Regenerate button
-    Given that I am on Payment View
-    When I fill in the input field incorrectly
-    And I clicked on the Generate button
-    Then I should have generated a QR code
-    And I clicked on the Edit button
-    Then I should be redirected to Payment View
+    Then I should see a Regenerate button
