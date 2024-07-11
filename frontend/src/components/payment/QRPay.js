@@ -14,7 +14,7 @@ const QRPay = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsExpired(true);
-        }, 80000); // 10 seconds for testing
+        }, 30000); // 30 seconds 
 
         return () => clearTimeout(timer);
     }, []);
