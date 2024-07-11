@@ -40,22 +40,22 @@ Then("I should see the past transactions listed below", () => {
 });
 
 When("I click on the dropdown menu with the tag {string}", (tag) => {
-  cy.get('div').contains(tag).click();
+  cy.get('[data-testid="dropdown-trigger"]').contains(tag).click();
 });
 
 Then("I should see a dropdown box showing options sorting by date range, day, and month", () => {
-  cy.get('.popup-content').should('be.visible').and('contain', 'Date Range').and('contain', 'Day').and('contain', 'Month');
+  cy.get('[data-testid="dropdown-content"]').should('be.visible').and('contain', 'Date Range').and('contain', 'Day').and('contain', 'Month');
 });
 
 When("I select a Date Range from 15 June to 17 June", () => {
-  cy.get('.popup-content').contains('Date Range').click();
+  cy.get('[data-testid="dropdown-content"]').contains('Date Range').click();
   cy.get('.react-datepicker').first().click().get('div.react-datepicker__day--015').click();
   cy.get('.react-datepicker').first().click().get('div.react-datepicker__day--017').click();
   cy.contains('Apply Filter').click();
 });
 
 Then("I should see the dropdown box closing", () => {
-  cy.get('.popup-content').should('not.be.visible');
+  cy.get('[data-testid="dropdown-content"]').should('not.be.visible');
 });
 
 Then("I should see my past transactions from 15 June to 17 June listed below", () => {
@@ -67,7 +67,7 @@ Then("I should see {string} on the top right", (text) => {
 });
 
 When("I click on the Yesterday button", () => {
-  cy.get('.popup-content').contains('Yesterday').click();
+  cy.get('[data-testid="dropdown-content"]').contains('Yesterday').click();
 });
 
 Then("I should see my past transactions for Yesterday listed below", () => {
@@ -75,7 +75,7 @@ Then("I should see my past transactions for Yesterday listed below", () => {
 });
 
 When("I click on the THIS MONTH button", () => {
-  cy.get('.popup-content').contains('THIS MONTH').click();
+  cy.get('[data-testid="dropdown-content"]').contains('THIS MONTH').click();
 });
 
 Then("I should see my past transactions for the month of June listed below", () => {

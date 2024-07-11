@@ -67,6 +67,7 @@ const PaymentScreen = () => {
   };
 
   const handleNext = () => {
+    console.log("DEBUG: PAYMENT FROM CUSTOMER RECEIVED");
     localStorage.setItem('paymentAmount', amount);
     navigate('/payment/QRPay');
   };

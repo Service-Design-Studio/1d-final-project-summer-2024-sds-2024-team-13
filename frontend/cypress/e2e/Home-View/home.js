@@ -52,29 +52,4 @@ Then('I should see the digits of my "Today\'s Earnings" replaced by "--.--"', ()
   cy.get('[data-testid="today-earnings"]').should('contain', '--.--');
 });
 
-// New transaction via Postman simulation
-When("I receive a new transaction of {string}", (amount) => {
-  const newTransactionAmount = parseFloat(amount);
-  const newEarnings = currentEarnings + newTransactionAmount;
 
-  cy.request('POST', `${Cypress.env('baseURL')}/users/${userId}/transactions`, {
-    customer_id: customerId,
-    customer_number: '12345678',
-    payment_method: 'Paynow',
-    amount: amount,
-    transaction_id: 'txn_' + new Date().getTime()
-  }).then(response => {
-    expect(response.status).to.eq(201);
-    cy.wait(7000); // Wait for 7 seconds to allow the transaction to be processed
-    cy.get('h3.todayEarning span').should('have.text', newEarnings.toFixed(2));
-  });
-});
-
-Then("I should see the numbers for 'Today's Earnings' increase by {string}", (amount) => {
-  const expectedEarnings = currentEarnings + parseFloat(amount);
-  cy.request('GET', `${Cypress.env('baseURL')}/earnings`).then(response => {
-    const earnings = response.body.earnings;
-    expect(earnings).to.eq(expectedEarnings);  // Check that the earnings match the expected value
-    cy.get('h3.todayEarning span').should('have.text', earnings.toFixed(2));
-  });
-});

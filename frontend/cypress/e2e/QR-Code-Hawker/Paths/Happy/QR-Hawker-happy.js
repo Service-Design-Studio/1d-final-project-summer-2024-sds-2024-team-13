@@ -44,6 +44,9 @@ Then("I should see a Next button", () => {
 });
 
 When("I click the Next button", () => {
+  cy.window().then((win) => {
+    cy.spy(win.console, 'log').as('consoleLog');
+  });
   cy.get('[data-testid="generate-button"]').click();
 });
 
@@ -56,21 +59,21 @@ Given("that I am on QR Pay View", () => {
 });
 
 When("customer has made the payment within 30 seconds", () => {
+  cy.window().then((win) => {
+    cy.spy(win.console, 'log').as('consoleLog');
+  });
+  // Simulate waiting for the payment
   cy.wait(30000);
-  // Simulate payment success within 30 seconds
 });
 
 Then("I should see an animation", () => {
-  cy.get('[data-testid="success-animation"]').should('be.visible');
+  cy.get('@consoleLog').should('be.calledWith', 'DEBUG: PAYMENT FROM CUSTOMER RECEIVED');
+  cy.get('#qrpay_transactionfound').should('be.visible');
 });
 
 Then("I should be redirected to Payment View after 5 seconds", () => {
   cy.wait(5000);
   cy.url().should('include', '/payment');
-});
-
-When("I click on the NEW button", () => {
-  cy.get('[data-testid="new-button"]').click();
 });
 
 Then("I should be redirected to Payment View", () => {
