@@ -1,31 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Register.module.css";
 import { useState } from "react";
+import axiosInstance from "../utils/axiosConfig";
 
 
 const RegisterScreen = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNum, setPhoneNum] = useState("");
-    //const navigate = useNavigate(); 
+    const navigate = useNavigate(); 
 
     const handleRegister = async (e) => {
         e.preventDefault();  
-        /*try {
+        try {
             const userParams = {
-                user: {
+                customer: {
                     name: name,
-                    email: email,
                     phone_num: phoneNum,
                     password: password
                 }
             };
-            const response = await axiosInstance.post('/users', userParams);
-            console.log('User registered:', response.data);
-            navigate('/');  // Navigate to login page after successful registration
+            const response = await axiosInstance.post('/customers', userParams);
+            console.log('Customer registered:', response.data);
+            navigate('/'); 
         } catch (error) {
             console.error('Registration failed:', error.response ? error.response.data : error);
-        }*/
+        }
     };
 
     return (

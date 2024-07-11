@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/payment/Payment.module.css"
 import QrScanner from "qr-scanner";
@@ -12,25 +12,27 @@ const PaymentScreen = () => {
   const videoEl = useRef(null);
   const qrBoxEl = useRef(null);
   const [qrOn, setQrOn] = useState(true);
+  const [scannedResult, setScannedResult] = useState("");
 
-  const onScanSuccess = useCallback((result) => {
-    console.log('QR scan success:', result); // Log the QR scan result
+  const onScanSuccess = (result) => {
+    console.log('QR scan success:', result);
+    setScannedResult(result?.data);
 
     const data = JSON.parse(result?.data)
-    if (data.type === "DBSBizQR") { 
+    // Redirect based on the scanned result
+    if (data.type === "DBSBizQR") { // FOR TESTING QR CODES
       console.log("Redirecting to /payment/review");
       navigate("/payment/review", { state: { data } });
     }
-  }, [navigate]);
+  };
 
   const onScanFail = (err) => {
     console.log('QR scan error:', err);
   };
 
   useEffect(() => {
-    const currentVideoEl = videoEl.current;
-    if (currentVideoEl && !scanner.current) {
-      scanner.current = new QrScanner(currentVideoEl, onScanSuccess, {
+    if (videoEl?.current && !scanner.current) {
+      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
         onDecodeError: onScanFail,
         preferredCamera: "environment",
         highlightScanRegion: true,
@@ -38,8 +40,8 @@ const PaymentScreen = () => {
         overlay: qrBoxEl?.current || undefined,
       });
 
-      scanner.current
-        .start()
+      scanner?.current
+        ?.start()
         .then(() => setQrOn(true))
         .catch((err) => {
           if (err) setQrOn(false);
@@ -47,18 +49,19 @@ const PaymentScreen = () => {
     }
 
     return () => {
-      if (currentVideoEl) {
-        scanner.current?.stop();
+      if (!videoEl?.current) {
+        scanner?.current?.stop();
       }
     };
-  }, [onScanSuccess]);
+  }, []);
 
   useEffect(() => {
     if (!qrOn)
       alert(
-        "Camera is blocked or not accessible. Please allow camera in your browser permissions and reload."
+        "Camera is blocked or not accessible. Pslease allow camera in your browser permissions and reload."
       );
   }, [qrOn]);
+
   return (
     <div className={styles.qr_reader}>
       <div className={styles.header}>

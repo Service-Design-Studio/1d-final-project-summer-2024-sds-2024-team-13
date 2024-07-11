@@ -1,24 +1,57 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import styles from '../../styles/payment/PaymentReview.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
+import { useAuth } from '../../context/AuthContext';
+import axiosInstance from '../../utils/axiosConfig';
 
 const PaymentReview = ({ transaction }) => {
+    const { customer } = useAuth();
     const navigate = useNavigate();
-    const paymentAmount = localStorage.getItem('paymentAmount') || "0.00";
-    const phoneNumber = localStorage.getItem('phoneNumber') || "8XXX XXXX";
+    const location = useLocation();
+    const { data } = location.state || {};
     const paymentMethod = transaction && transaction.payment_method === "Paynow" ? "PayNow" : "PayLah";
-    const recipient = transaction ? transaction.recipient : "Unknown Recipient";
-    const transactionNumber = transaction ? transaction.transactionNumber : "NA";
 
     const handleBack = () => {
         navigate('/payment');
     };
 
     const handleConfirm = () => {
-        navigate('/payment/success');
+        createTransaction();
+        
+    };
+
+    const [paymentInfo, setPaymentInfo] = useState({
+        type: "",
+        merchant_id: "",
+        merchant_name: "",
+        amount: "0"
+    })
+
+    useEffect(()=> {
+        if (data) {
+            setPaymentInfo(data)
+        }
+    }, [data])
+
+    const createTransaction = async () => {
+        const body = {
+            customer_id: customer.customer_id,
+            customer_number: customer.phone_num,
+            payment_method: paymentMethod,
+            amount: paymentInfo.amount
+        };
+
+        try {
+            const response = await axiosInstance.post(`users/${paymentInfo.merchant_id}/transactions`, body);
+            console.log('Transaction successful:', response.data);
+            navigate("/payment/success", { state: { paymentInfo } })
+        } catch (error) {
+            console.error('Error creating transaction:', error);
+            return false;
+        }
     };
 
     return (
@@ -29,15 +62,14 @@ const PaymentReview = ({ transaction }) => {
             </div>
             <div className={styles.reviewContainer}>
                 <div className={styles.statusText}>Recipient gets</div>
-                <div className={styles.amount}>SGD {paymentAmount}</div>
+                <div className={styles.amount}>SGD {parseFloat(paymentInfo.amount).toFixed(2)}</div>
                 <img
                     className={styles.paymentLogo}
                     src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon}
                     alt="Payment Method Logo" />
-                <div className={styles.details}>From {phoneNumber}</div>
-                <div className={styles.recipientDetails}>To {recipient}</div>
+                <div className={styles.details}>From {(customer) ? customer.name: "Loading..."}</div>
+                <div className={styles.recipientDetails}>To {paymentInfo.merchant_name}</div>
                 <div className={styles.paymentMethod}>{paymentMethod} QR</div>
-                <div className={styles.transactionLabel}>{transactionNumber}</div>
             </div>
             <div className={styles.footer}>
                 <button className={styles.confirmButton} onClick={handleConfirm}>
