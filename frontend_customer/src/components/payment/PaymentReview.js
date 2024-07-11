@@ -63,7 +63,7 @@ const PaymentReview = ({ transaction }) => {
                 <h2 className={styles.headerText}>Review</h2>
             </div>
             <div className={styles.reviewContainer}>
-                <div className={styles.statusText}>Recipient gets</div>
+                <div className={styles.statusText}>Merchant gets</div>
                 <div className={styles.amount}>SGD {parseFloat(paymentInfo.amount).toFixed(2)}</div>
                 <img
                     className={styles.paymentLogo}
@@ -76,7 +76,7 @@ const PaymentReview = ({ transaction }) => {
             </div>
             <div className={styles.footer}>
                 <button className={styles.confirmButton} onClick={handleConfirm}>
-                    LET'S GO
+                    Make a new payment
                 </button>
             </div>
         </div>
