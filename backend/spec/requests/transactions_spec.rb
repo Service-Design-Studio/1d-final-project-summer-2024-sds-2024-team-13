@@ -1,11 +1,10 @@
-# spec/requests/users/transactions_spec.rb
 require 'rails_helper'
 
 RSpec.describe "Users::TransactionsController", type: :request do
   let(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'test@example.com', password: 'password123', phone_num: '1234567890') }
   let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password123') }
-  let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, customer_number: '12345', payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
-  let(:valid_attributes) { { customer_id: customer.customer_id, customer_number: '12345', payment_method: 'credit', amount: 100.0 } }
+  let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', user_id: user.user_id, customer_id: customer.customer_id, customer_number: '12345', payment_method: 'paylah', amount: "100.0") }
+  let(:valid_attributes) { { transaction_id: 'new_transaction', customer_id: customer.customer_id, customer_number: '12345', payment_method: 'credit', amount: "100.0" } }
   let(:invalid_attributes) { { customer_id: '', customer_number: '', payment_method: '', amount: '' } }
 
   describe "GET /users/:user_id/transactions" do
@@ -63,12 +62,45 @@ RSpec.describe "Users::TransactionsController", type: :request do
     end
 
     context "when customer does not exist" do
-      let(:invalid_customer_attributes) { { customer_id: 'non_existent_customer', customer_number: '12345', payment_method: 'credit', amount: 100.0 } }
-
+      let(:invalid_customer_attributes) { { transaction_id: 'new_transaction', customer_id: 'non_existent_customer', customer_number: '12345', payment_method: 'credit', amount: 100.0 } }
+    
       it "returns not found" do
         post user_transactions_path(user_id: user.user_id), params: { transaction: invalid_customer_attributes }
+    
+        # Assert that the response status is 404 Not Found
         expect(response).to have_http_status(:not_found)
       end
+    end    
+  end
+end
+
+RSpec.describe "Customers::TransactionsController", type: :request do
+  let(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'test@example.com', password: 'password123', phone_num: '1234567890') }
+  let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password123') }
+  let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', user_id: user.user_id, customer_id: customer.customer_id, customer_number: '12345', payment_method: 'paylah', amount: "100.0") }
+
+  describe "GET /customers/:customer_id/transactions" do
+    it "renders a successful response when customer exists" do
+      transaction
+      get customer_transactions_path(customer_id: customer.customer_id)
+      expect(response).to be_successful
+    end
+
+    it "returns not found when customer does not exist" do
+      get customer_transactions_path(customer_id: 'non_existent_customer')
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe "GET /customers/:customer_id/transactions/:id" do
+    it "renders a successful response when transaction exists" do
+      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.id)
+      expect(response).to be_successful
+    end
+
+    it "returns not found when transaction does not exist" do
+      get customer_transaction_path(customer_id: customer.customer_id, id: 'non_existent_transaction')
+      expect(response).to have_http_status(:not_found)
     end
   end
 end
