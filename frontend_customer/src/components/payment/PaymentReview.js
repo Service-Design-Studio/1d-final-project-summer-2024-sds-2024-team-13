@@ -76,7 +76,7 @@ const PaymentReview = ({ transaction }) => {
             </div>
             <div className={styles.footer}>
                 <button className={styles.confirmButton} onClick={handleConfirm}>
-                    Make a new payment
+                    LET'S GO
                 </button>
             </div>
         </div>

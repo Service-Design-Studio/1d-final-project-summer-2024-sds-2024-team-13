@@ -54,7 +54,7 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment' && location.pathname !== '/payment' && location.pathname !== '/payment/review' && location.pathname !== '/payment/success') ? <Navigation /> : null;
 }
 
 function App() {
