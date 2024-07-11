@@ -40,7 +40,11 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3', '~> 1.4'
 
-  gem "web-console", ">= 4.2.1"
+  # yz commented out, interfering with testing, moved to development
+  #gem "web-console", ">= 4.2.1"
+
+  # for rspec testing
+  gem 'rails-controller-testing'
 end
 
 
@@ -53,6 +57,8 @@ group :development do
   gem "rack-mini-profiler", "~> 3.1"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
+
+  gem "web-console", ">= 4.2.1"
 end
 
 group :test do
@@ -61,6 +67,10 @@ group :test do
   gem "selenium-webdriver"
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
+  # for rspec testing
+  gem 'shoulda-matchers', '~> 5.0'
+  # for code coverage
+  gem 'simplecov', require: false
 end
 
 gem "google-cloud-storage", "~> 1.44", require: false
