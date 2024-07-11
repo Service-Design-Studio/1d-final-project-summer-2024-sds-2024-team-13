@@ -1,14 +1,11 @@
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import styles from "../../styles/Home/HourlyChart.module.css"
 import { Bar } from 'react-chartjs-2';
-import { useState } from "react";
 
 
 const HourlyChart = ({
     hourlyData,
     formattedCutoffTime
 }) => {
-    const [showGraph, setShowGraph] = useState(true)
     const data = {
         labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
         datasets: [
@@ -38,22 +35,18 @@ const HourlyChart = ({
         },
         plugins: {
             legend: {
-                display: false,
+                display: false, 
             },
         },
     };
 
     return (
         <div className={styles.main}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h4 className={styles.title}>($) Earnings per Hour</h4>
-                <button className={styles.toggle} onClick={()=>setShowGraph(!showGraph)}>{(showGraph) ? <KeyboardArrowUp /> : <KeyboardArrowDown/>} </button>
-            </div>
-            {(showGraph) ? <>
+            <h4 className={styles.title}>Earnings per Hour</h4>
             <Bar data={data} options={options} />
             <p style={{ fontSize: "0.7rem", fontWeight: "bold", marginBottom: "2px", textAlign: "left" }}>
-                Store Closing Time: {formattedCutoffTime}
-            </p></>:<></>}
+            Store Closing Time: {formattedCutoffTime}
+            </p>
         </div>
     );
 }

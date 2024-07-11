@@ -55,10 +55,3 @@
 .recentTranscAmt span {
     font-size: 1.6rem;
 }
-
-.toggleEarnings {
-    cursor: pointer;
-    background: none;
-    color: #fff;
-    border: none;
-}

@@ -7,9 +7,9 @@ import "react-datepicker/dist/react-datepicker.css";
 const DropdownFilter = ({
     filterOption,
     setFilterOption,
-    startDate,
+    startDate, 
     setStartDate,
-    endDate,
+    endDate, 
     setEndDate
 }) => {
     const [open, setOpen] = useState(false);
@@ -29,15 +29,15 @@ const DropdownFilter = ({
         let day = date.getDate();
         let month = date.getMonth() + 1;
         let year = date.getFullYear().toString().slice(-2);
-
+    
         month = month < 10 ? `0${month}` : month;
         day = day < 10 ? `0${day}` : day;
-
+    
         return `${month}/${day}/${year}`;
     }
-
-    const [selectedOption, setSelectedOption] = useState("")
-
+    
+    const [selectedOption, setSelectedOption] = useState("") 
+    
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleNonRange = (selected) => {
@@ -49,7 +49,7 @@ const DropdownFilter = ({
     const handleApplyFilter = () => {
         if (selectedOption === "") {
             setErrorMessage("Please select a filter")
-
+            
         } else if (selectedOption === "custom" && tempStart === null) {
             setErrorMessage("Please choose a start date")
         } else if (selectedOption === "custom" && tempEnd === null) {
@@ -64,7 +64,7 @@ const DropdownFilter = ({
             closeModal();
         }
     }
-
+    
 
     return (
         <Popup
@@ -84,7 +84,7 @@ const DropdownFilter = ({
                             {(filterOption === "custom") ? `${formatDate(startDate)} - ${formatDate(endDate)}` : ""}
 
 
-                        </p>
+                            </p>
                     </div>
                     <ArrowDropDown />
                 </div>
@@ -96,7 +96,6 @@ const DropdownFilter = ({
                     <div className={styles.rangeContainerChild}>
                         <p>From</p>
                         <DatePicker
-                            popperPlacement="bottom-end"
                             showIcon
                             toggleCalendarOnIconClick
                             onFocus={(e) => e.target.readOnly = true}
@@ -112,7 +111,6 @@ const DropdownFilter = ({
                     <div className={styles.rangeContainerChild}>
                         <p>To</p>
                         <DatePicker
-                            popperPlacement="bottom-start"
                             showIcon
                             toggleCalendarOnIconClick
                             onFocus={(e) => e.target.readOnly = true}
@@ -122,7 +120,7 @@ const DropdownFilter = ({
                             onChange={(date) => {
                                 setTempEnd(date)
                                 setSelectedOption("custom")
-                            }} />
+                                }} />
                     </div>
                 </div>
                 <button className={`${styles.optionButton} ${(selectedOption === "today") ? styles.selectedOptionButton : ""}`} onClick={() => handleNonRange("today")}>Today</button>
@@ -130,7 +128,7 @@ const DropdownFilter = ({
                 <button className={`${styles.optionButton} ${(selectedOption === "thismonth") ? styles.selectedOptionButton : ""}`} onClick={() => handleNonRange("thismonth")}>This Month</button>
                 <button className={`${styles.optionButton} ${(selectedOption === "lastmonth") ? styles.selectedOptionButton : ""}`} onClick={() => handleNonRange("lastmonth")}>Last Month</button>
                 <button className={styles.confirmButton} onClick={() => handleApplyFilter()}>Apply Filter</button>
-                <p className={styles.error}>{errorMessage}</p>
+                <p className={styles.error}>{errorMessage}</p>               
             </div>
         </Popup>
 

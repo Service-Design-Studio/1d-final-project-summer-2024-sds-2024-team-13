@@ -3,10 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import HistoryIcon from '@mui/icons-material/History';
 import styles from '../../styles/payment/QRPay.module.css';
-import { useAuth } from '../../context/AuthContext';
 
 const QRPay = () => {
-    const { user } = useAuth();
     const navigate = useNavigate();
     const paymentAmount = localStorage.getItem('paymentAmount');
     const [isExpired, setIsExpired] = useState(false);
@@ -27,26 +25,6 @@ const QRPay = () => {
         }
     };
 
-    const [qrData, setQRData] = useState(JSON.stringify({
-        type: "DBSBizQR",
-        amount: paymentAmount,
-        merchant_name: "",
-        merchant_id: ""
-    }))
-
-    useEffect(() => {
-        if (user) {
-            setQRData(
-                JSON.stringify({
-                    type: "DBSBizQR",
-                    amount: paymentAmount,
-                    merchant_name: user.name,
-                    merchant_id: user.user_id
-                })
-            )
-        }
-    }, [user, paymentAmount])
-
     return (
         <div className={styles.main}>
             <div className={styles.header}>
@@ -59,7 +37,7 @@ const QRPay = () => {
                             <div style={{ position: 'relative', filter: 'opacity(20%)' }}>
                                 <QRCode
                                     style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
-                                    value={qrData} 
+                                    value={`Amount: S$${paymentAmount}`} 
                                 />
                             </div>
                             <HistoryIcon style={{ height: "auto", maxWidth: "60vw", width: "60vw" }} className={styles.historyIcon} />
@@ -67,7 +45,7 @@ const QRPay = () => {
                     ) : (
                         <QRCode
                             style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
-                            value={qrData}
+                            value={`Amount: S$${paymentAmount}`} 
                         />
                     )}
                 </div>
