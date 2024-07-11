@@ -22,27 +22,18 @@ Then("I should see the homepage", () => {
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
 });
 
-// Login and navigation steps
-Given("I am logged into the app", () => {
-  cy.viewport('iphone-6+');
-  cy.visit("/");
-  cy.get('input[placeholder="Email"]').type("iamgay@gmail.com");
-  cy.get('input[placeholder="Password"]').type("123");
-  cy.contains("LOG IN").click();
-  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
-});
-
+// Navigation steps
 Given("I am on the Home View", () => {
   cy.contains("DBSBiz").click();
   cy.url().should('include', '/home');
 });
 
-When("I clicked into the History View", () => {
+When("I click into the History View", () => {
   cy.contains("History").click();
   cy.url().should('include', '/history');
 });
 
-When("I clicked into the Home View", () => {
+When("I click into the Home View", () => {
   cy.contains("Home").click();
   cy.url().should('include', '/home');
 });
@@ -57,18 +48,18 @@ Then("I should see a maximum of 5 most recent transactions", () => {
 });
 
 // New transaction via Postman simulation
-When("I received a new transaction of 5.30", () => {
-  cy.wait(7000); // Wait for 7 seconds to allow the transaction to be processed in Postman
+When("I receive a new transaction of 5.30", () => {
+  cy.wait(7000); // Wait for 7 seconds to allow the transaction to be processed
 });
 
-Then("I should see the numbers for 'Today's Earnings' increase by 5.30 in the main card", () => {
+Then("I should see the numbers for 'Today's Earnings' increase by 5.30", () => {
   cy.request('GET', 'http://localhost:3000/earnings').then(response => {
     const earnings = response.body.earnings;
     cy.get('.earnings').should('have.text', `SGD ${earnings.toFixed(2)}`);
   });
 });
 
-When("3 customers paid at the same time with 5.30, 2.30, and 2.40", () => {
+When("3 customers pay at the same time with 5.30, 2.30, and 2.40", () => {
   const transactions = [
     { amount: '5.30', payment_method: 'Paynow', payee_number: '12345678', created_at: new Date().toISOString() },
     { amount: '2.30', payment_method: 'Paylah', payee_number: '87654321', created_at: new Date().toISOString() },
@@ -80,10 +71,10 @@ When("3 customers paid at the same time with 5.30, 2.30, and 2.40", () => {
       expect(response.status).to.eq(201);
     });
   });
-  cy.wait(7000); // Wait for 7 seconds to allow the transactions to be processed in Postman
+  cy.wait(7000); // Wait for 7 seconds to allow the transactions to be processed
 });
 
-Then("I should see the numbers for 'Today's Earnings' increase by 10.00 in the main card", () => {
+Then("I should see the numbers for 'Today's Earnings' increase by 10.00", () => {
   cy.request('GET', 'http://localhost:3000/earnings').then(response => {
     const earnings = response.body.earnings;
     cy.get('.earnings').should('have.text', `SGD ${earnings.toFixed(2)}`);

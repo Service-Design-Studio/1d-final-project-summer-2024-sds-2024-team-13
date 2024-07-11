@@ -1,15 +1,41 @@
-Cypress.Commands.add("loginByApi", (email, password) => {
-    cy.request({
-      method: 'POST',
-      url: '/users/login', // the endpoint in your Rails app
-      body: {
-        email: email,
-        password: password
-      }
-    }).then((response) => {
-      // Assuming your API returns a token that you need to store
-      window.localStorage.setItem('token', response.body.token);
-      cy.setCookie('token', response.body.token); // if using cookies
-    });
+// cypress/support/commands.js
+
+Cypress.Commands.add('login', () => {
+  cy.viewport('iphone-6+');
+  cy.visit("/");
+  cy.get('input[placeholder="Email"]').type("iamgay@gmail.com");
+  cy.get('input[placeholder="Password"]').type("123");
+  cy.contains("LOG IN").click();
+  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
+});
+
+Cypress.Commands.add('preserveSession', () => {
+  let sessionData;
+  cy.window().then((win) => {
+    sessionData = {
+      localStorage: JSON.stringify(win.localStorage),
+      sessionStorage: JSON.stringify(win.sessionStorage),
+      cookies: JSON.stringify(win.document.cookie.split('; ')),
+    };
   });
-  
+
+  Cypress.env('sessionData', sessionData);
+});
+
+Cypress.Commands.add('restoreSession', () => {
+  const sessionData = Cypress.env('sessionData');
+  if (sessionData) {
+    cy.window().then((win) => {
+      const data = JSON.parse(sessionData);
+      Object.keys(data.localStorage).forEach((key) => {
+        win.localStorage.setItem(key, data.localStorage[key]);
+      });
+      Object.keys(data.sessionStorage).forEach((key) => {
+        win.sessionStorage.setItem(key, data.sessionStorage[key]);
+      });
+      data.cookies.forEach((cookie) => {
+        document.cookie = cookie;
+      });
+    });
+  }
+});
