@@ -42,6 +42,9 @@ group :development, :test do
 
   # yz commented out, interfering with testing, moved to development
   #gem "web-console", ">= 4.2.1"
+
+  # for rspec testing
+  gem 'rails-controller-testing'
 end
 
 

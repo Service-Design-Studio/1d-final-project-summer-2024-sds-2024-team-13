@@ -11,5 +11,6 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe CustomerTransactionsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  # pending "add some examples to (or delete) #{__FILE__}"
+  # never implement helper
 end
