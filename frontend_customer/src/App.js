@@ -4,21 +4,28 @@ import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-ro
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import LoginScreen from './screens/LoginScreen';
+import WIPScreen from './screens/WIPScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PaymentReview from './components/payment/PaymentReview';
+import PaymentSuccess from './components/payment/PaymentSuccess';
 
 function Navigation() {
   const navigate = useNavigate();
-  const [screen, setScreen] = useState("home");
+  const [screen, setScreen] = useState("payment");
 
   const handleScreen = (screen) => {
     switch (screen) {
       case "home":
-        navigate("/");
+        navigate("/WIP");
+        break;
+      case "payment":
+        navigate("/payment");
         break;
       case "history":
-        navigate("/");
+        navigate("/WIP");
         break;
       case "more":
-        navigate("/")
+        navigate("/WIP")
         break;
       default:
         navigate("/");
@@ -56,7 +63,10 @@ function App() {
       <BrowserRouter className="content">
         <Routes>
           <Route path="/" element={<LoginScreen />} />
-
+          <Route path="/WIP" element={<WIPScreen />} />
+          <Route path="/payment" element={<PaymentScreen />} />
+          <Route path="/payment/review" element={<PaymentReview />} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
         </Routes>
         <ConditionalNavigation />
       </BrowserRouter>
