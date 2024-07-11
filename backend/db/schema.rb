@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_10_061535) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_10_155525) do
   create_table "customers", force: :cascade do |t|
     t.string "customer_id"
     t.string "phone_num"
@@ -20,10 +20,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_061535) do
     t.string "password_digest"
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "transactions", id: false, force: :cascade do |t|
     t.string "transaction_id"
-    t.string "payee_id"
-    t.string "payee_number"
+    t.string "customer_number"
     t.string "payment_method"
     t.float "amount"
     t.datetime "created_at", null: false
