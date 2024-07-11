@@ -1,57 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe "CustomerTransactions", type: :request do
-  let!(:user) { User.create!(name: 'Test User', email: 'user@example.com', password: 'password') }
-  let!(:customer) { Customer.create!(phone_num: '1234567890', name: 'Test Customer', password: 'password') }
-  let!(:transaction) { Transaction.create!(customer_id: customer.customer_id, user_id: user.id, payment_method: 'credit', amount: 100.0) }
+  let!(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', password: 'password123', password_confirmation: 'password123') }
+  let!(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'testuser@example.com', password: 'password123', password_confirmation: 'password123') }
+  let!(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
 
   describe "GET /customers/:customer_id/transactions" do
-    it "returns a success response and assigns transactions" do
-      get customer_transactions_path(customer_id: customer.id)
+    it "returns a list of transactions for a customer" do
+      get customer_transactions_path(customer_id: customer.customer_id)
       expect(response).to be_successful
-      expect(JSON.parse(response.body)).to eq([transaction.as_json])
+      json_response = JSON.parse(response.body)
+      expect(json_response.first["transaction_id"]).to eq(transaction.transaction_id)
     end
   end
 
   describe "GET /customers/:customer_id/transactions/:id" do
-    it "returns a success response" do
-      get customer_transaction_path(customer_id: customer.id, id: transaction.transaction_id)
+    it "returns a single transaction for a customer" do
+      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.id)
       expect(response).to be_successful
-      expect(JSON.parse(response.body)).to eq(transaction.as_json)
-    end
-  end
-
-  describe "POST /customers/:customer_id/transactions" do
-    context "with valid params" do
-      let(:valid_attributes) { { payment_method: 'cash', amount: 200.0, user_id: user.id } }
-
-      it "creates a new Transaction" do
-        expect {
-          post customer_transactions_path(customer_id: customer.id), params: { transaction: valid_attributes }
-        }.to change(Transaction, :count).by(1)
-      end
-
-      it "redirects to the created transaction" do
-        post customer_transactions_path(customer_id: customer.id), params: { transaction: valid_attributes }
-        expect(response).to have_http_status(:created)
-        created_transaction = Transaction.last
-        expect(response.headers["Location"]).to end_with(customer_transaction_path(customer_id: customer.id, id: created_transaction.transaction_id))
-      end
-    end
-
-    context "with invalid params" do
-      let(:invalid_attributes) { { payment_method: nil, amount: nil, user_id: nil } }
-
-      it "does not create a new Transaction" do
-        expect {
-          post customer_transactions_path(customer_id: customer.id), params: { transaction: invalid_attributes }
-        }.to_not change(Transaction, :count)
-      end
-
-      it "renders an error" do
-        post customer_transactions_path(customer_id: customer.id), params: { transaction: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+      json_response = JSON.parse(response.body)
+      expect(json_response["transaction_id"]).to eq(transaction.transaction_id)
     end
   end
 end

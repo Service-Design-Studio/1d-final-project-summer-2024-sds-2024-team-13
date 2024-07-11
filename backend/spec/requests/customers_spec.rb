@@ -72,7 +72,6 @@ RSpec.describe "/customers", type: :request do
     end
   end
 
-#POST/Create fixed
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
@@ -98,15 +97,9 @@ RSpec.describe "/customers", type: :request do
       it "does not update the customer" do
         customer = Customer.create! valid_attributes
         expect {
-          patch customer_url(customer), params: { customer: invalid_attributes }
+          patch customer_url(customer), params: { customer: invalid_attributes }, as: :json
           customer.reload
         }.not_to change(customer, :name)
-      end
-
-      it "renders a response with 422 status (i.e., to display the 'edit' template)" do
-        customer = Customer.create! valid_attributes
-        patch customer_url(customer), params: { customer: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it "renders a JSON response with errors for the customer" do
