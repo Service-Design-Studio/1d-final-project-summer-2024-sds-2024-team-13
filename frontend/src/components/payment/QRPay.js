@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import HistoryIcon from '@mui/icons-material/History';
 import styles from '../../styles/payment/QRPay.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
+import axiosInstance from '../../utils/axiosConfig';
+
 const QRPay = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const paymentAmount = localStorage.getItem('paymentAmount');
     const [isExpired, setIsExpired] = useState(false);
+    const [qrData, setQRData] = useState('');
+    const [polling, setPolling] = useState(false);
+    const [transactionId, setTransactionId] = useState('');
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -27,27 +32,54 @@ const QRPay = () => {
         }
     };
 
-    const [qrData, setQRData] = useState(JSON.stringify({
-        type: "DBSBizQR",
-        amount: paymentAmount,
-        merchant_name: "",
-        merchant_id: "",
-        transaction_id: ""
-    }))
-
     useEffect(() => {
         if (user) {
+            const transactionId = uuidv4();
+            setTransactionId(transactionId);
             setQRData(
                 JSON.stringify({
                     type: "DBSBizQR",
                     amount: paymentAmount,
                     merchant_name: user.name,
                     merchant_id: user.user_id,
-                    transaction_id: uuidv4()
+                    transaction_id: transactionId
                 })
-            )
+            );
+            setPolling(true);
         }
-    }, [user, paymentAmount])
+    }, [user, paymentAmount]);
+
+    const fetchTransactions = useCallback(async () => {
+        if (user && transactionId) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/transactions`);
+                const transaction = response.data.find(tx => tx.transaction_id === transactionId);
+                if (transaction) {
+                    setPolling(false);
+                    navigate('/payment/success');
+                }
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        }
+    }, [user, transactionId, navigate]);
+
+    useEffect(() => {
+        if (polling) {
+            const interval = setInterval(() => {
+                fetchTransactions();
+            }, 4000); 
+
+            const timeout = setTimeout(() => {
+                clearInterval(interval);
+            }, 30000);
+
+            return () => {
+                clearInterval(interval);
+                clearTimeout(timeout);
+            };
+        }
+    }, [polling, fetchTransactions]);
 
     return (
         <div className={styles.main}>
