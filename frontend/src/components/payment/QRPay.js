@@ -15,6 +15,7 @@ const QRPay = () => {
     const [qrData, setQRData] = useState('');
     const [polling, setPolling] = useState(false);
     const [transactionId, setTransactionId] = useState('');
+    const [transactionFound, setTransactionFound] = useState(false)
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -52,7 +53,7 @@ const QRPay = () => {
                 const response = await axiosInstance.get(`/users/${user.user_id}/transactions`);
                 const transaction = response.data.find(tx => tx.transaction_id === transactionId);
                 if (transaction) {
-                    console.log("DEBUG: PAYMENT FROM CUSTOMER RECEIVED")
+                    setTransactionFound(true)
                     setPolling(false);
                     navigate('/payment/success');
                 }
@@ -111,6 +112,7 @@ const QRPay = () => {
                 <button className={styles.editButton} onClick={handleEdit}>
                     {isExpired ? 'Regenerate' : 'Edit'}
                 </button>
+                {(transactionFound) ? <p id="qrpay_transactionfound" style={{opacity: 0}}>Received</p> : <></>}
             </div>
         </div>
     );
