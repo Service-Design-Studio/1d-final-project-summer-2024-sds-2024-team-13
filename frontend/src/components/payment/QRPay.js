@@ -33,14 +33,14 @@ const QRPay = () => {
     useEffect(() => {
         if (user) {
             const transactionId = uuidv4();
-            setTransactionId(transactionId);
+            setTransactionId("test-transaction-id");
             setQRData(
                 JSON.stringify({
                     type: "DBSBizQR",
                     amount: paymentAmount,
                     merchant_name: user.name,
                     merchant_id: user.user_id,
-                    transaction_id: transactionId
+                    transaction_id: "test-transaction-id"
                 })
             );
             setPolling(true);
