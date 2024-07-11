@@ -6,7 +6,7 @@ RSpec.describe "Users::TransactionsController", type: :request do
   let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password123') }
   let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, customer_number: '12345', payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
   let(:valid_attributes) { { customer_id: customer.customer_id, customer_number: '12345', payment_method: 'credit', amount: 100.0 } }
-  let(:invalid_attributes) { { customer_id: nil, customer_number: nil, payment_method: nil, amount: nil } }
+  let(:invalid_attributes) { { customer_id: '', customer_number: '', payment_method: '', amount: '' } }
 
   describe "GET /users/:user_id/transactions" do
     it "renders a successful response when user exists" do

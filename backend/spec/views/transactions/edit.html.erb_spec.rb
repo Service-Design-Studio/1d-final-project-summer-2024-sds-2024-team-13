@@ -4,8 +4,8 @@ RSpec.describe "transactions/edit", type: :view do
   let(:transaction) {
     Transaction.create!(
       transaction_id: "MyString",
-      payee_id: "MyString",
-      payee_number: "MyString",
+      customer_id: "MyString",
+      customer_number: "MyString",
       payment_method: "MyString",
       amount: 1.5
     )
