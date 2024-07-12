@@ -1,9 +1,9 @@
-Feature: QR Code Scanning and Handling
+Feature: Wrong Payment Input (Customer Sad Path)
 
   Background:
     Given I am on Scanning View
 
-  Scenario: Scan a valid QR code with incorrect amount and handle it
+  Scenario: Wrong Payment Input
     When I scan a valid QR code
     Then I should be redirected to Payment Review view
     And I see a wrong payment amount of $1040.00

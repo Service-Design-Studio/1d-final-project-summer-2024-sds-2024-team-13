@@ -1,12 +1,15 @@
-Feature: QR Code Happy Path 2
+Feature: Successful Payment Process (Customer Happy Path)
 
   Background:
-    Given I am on Home View
+    Given I am on Scanning View
 
-  Scenario: Add Chicken Cutlet Noodle to payment
-    Given I am on Payment View
-    Then The input field is 0
-    When I clicked on the add button for the Chicken Cutlet Noodle item
-    Then I should see the input field amount increase by 6.00
-    And I should see the next button turn red
-    And I should see the next button is enabled
+  Scenario: Successful payment process
+    When I scan a valid QR code
+    Then I should be redirected to Payment Review view
+    And I should see a payment amount as $10.40
+    And I should see a LET'S GO button
+    When I click the LET'S GO button
+    Then I should be redirected to Payment Success view
+    And I should see an animation
+    And I should see a payment amount as $10.40
+    And I should see a logout button

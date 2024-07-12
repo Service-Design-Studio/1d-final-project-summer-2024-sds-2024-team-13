@@ -3,10 +3,10 @@
 Cypress.Commands.add('login', () => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type("iamgay@gmail.com");
-  cy.get('input[placeholder="Password"]').type("123");
+  cy.get('input[placeholder="Phone Number"]').type('12345678');
+  cy.get('input[placeholder="Password"]').type('$2a$12$YF9U4unxEUSTeLRIzDu7NeQVsrLNR0RYYZ3qSbOgoACCAHiuK3vzC');
   cy.contains("LOG IN").click();
-  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
+  cy.contains("DBSPay", { timeout: 10000 }).should('be.visible');
 });
 
 Cypress.Commands.add('preserveSession', () => {
