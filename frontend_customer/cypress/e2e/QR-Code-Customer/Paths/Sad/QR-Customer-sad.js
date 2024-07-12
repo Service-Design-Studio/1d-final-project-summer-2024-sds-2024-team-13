@@ -4,9 +4,13 @@ import QRCode from 'qrcode';
 Given("I am on Scanning View", () => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('iamgay@gmail.com');
+  cy.get('input[placeholder="Phone Number"]').type('12345678');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
+  cy.contains("DBSPay", { timeout: 10000 }).should('be.visible');
+});
+
+Given("I am on Scanning View", () => {
   cy.contains("DBSPay").click();
   cy.url().should('include', '/payment');
 });
