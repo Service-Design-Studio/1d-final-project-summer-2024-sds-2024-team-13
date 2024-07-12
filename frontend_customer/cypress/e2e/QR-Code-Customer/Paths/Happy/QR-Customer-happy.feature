@@ -1,10 +1,10 @@
-Feature: Customer Payment Happy Path
+Feature: Successful Payment Process (Customer Happy Path)
 
   Background:
     Given I am on Scanning View
 
   Scenario: Successful payment process
-    When I scan a valid QR code 
+    When I scan a valid QR code
     Then I should be redirected to Payment Review view
     And I should see a payment amount as $10.40
     And I should see a LET'S GO button

@@ -1,12 +1,15 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import QRCode from 'qrcode';
+import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
 
-Given("I am on Scanning View", () => {
+Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('iamgay@gmail.com');
-  cy.get('input[placeholder="Password"]').type('123');
+  cy.get('input[placeholder="Phone Number"]').type('12345678');
+  cy.get('input[placeholder="Password"]').type('$2a$12$YF9U4unxEUSTeLRIzDu7NeQVsrLNR0RYYZ3qSbOgoACCAHiuK3vzC');
   cy.contains("LOG IN").click();
+  cy.contains("DBSPay", { timeout: 10000 }).should('be.visible');
+});
+
+Given("I am on Scanning View", () => {
   cy.contains("DBSPay").click();
   cy.url().should('include', '/payment');
 });
@@ -38,11 +41,11 @@ Then("I should be redirected to Payment Review view", () => {
   cy.url().should('include', '/payment/review');
 });
 
-And("I see a wrong payment amount of $1040.00", () => {
+Then("I see a wrong payment amount of $1040.00", () => {
   cy.get('.amount').should('contain', 'SGD 1040.00');
 });
 
-And("I should see a Back button", () => {
+Then("I should see a Back button", () => {
   cy.get('button').contains("Back").should('be.visible');
 });
 
@@ -53,4 +56,3 @@ When("I click the Back button", () => {
 Then("I should be redirected to Scanning view", () => {
   cy.url().should('include', '/payment');
 });
-
