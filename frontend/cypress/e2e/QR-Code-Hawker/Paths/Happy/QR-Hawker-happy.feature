@@ -11,6 +11,7 @@ Feature: Payment Happy Path
     When I press "5" on the keypad
     And I press "." on the keypad
     And I press "2" on the keypad
+    And I press "0" on the keypad
     Then I should see the input field update to "5.20"
     When I click the arrow icon
     Then I should see a Next button

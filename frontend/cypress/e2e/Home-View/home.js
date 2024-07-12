@@ -1,8 +1,8 @@
 import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
 
 let currentEarnings;
-let customerId = 'e11957341b6c4e67bba7';  // Assuming a fixed customer ID for simplicity
-let userId = 'a4e05f9f63a30477cfe5'
+const customerId = 'e11957341b6c4e67bba7';  // Assuming a fixed customer ID for simplicity
+const userId = 'a4e05f9f63a30477cfe5';
 
 // Common steps
 Before(() => {
@@ -15,7 +15,7 @@ Before(() => {
 });
 
 // Navigation steps
-Given("I am on the Home View", () => {
+Given("I navigate to the Home View", () => {
   cy.contains("DBSBiz").click();
   cy.url().should('include', '/home');
 });
@@ -39,7 +39,7 @@ Then("I should see a maximum of 5 most recent transactions", () => {
   cy.get('[data-testid="transaction-card"]').should('have.length.at.most', 5);
 });
 
-Given('I want to hide my current daily earnings', () => {
+Given("I want my current daily earnings hidden", () => {
   // This step can be used to verify the earnings are visible initially
   cy.get('[data-testid="today-earnings"]').should('not.contain', '--.--');
 });
@@ -51,5 +51,3 @@ When('I click on the "eye" icon', () => {
 Then('I should see the digits of my "Today\'s Earnings" replaced by "--.--"', () => {
   cy.get('[data-testid="today-earnings"]').should('contain', '--.--');
 });
-
-

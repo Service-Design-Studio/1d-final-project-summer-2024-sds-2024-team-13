@@ -1,11 +1,17 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
 
-Given("I am on Home View", () => {
+// Common steps
+Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
   cy.get('input[placeholder="Email"]').type('iamgay@gmail.com');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
+  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
+});
+
+// Navigation steps
+Given("I am on Home View", () => {
   cy.contains("DBSBiz").click();
   cy.url().should('include', '/home');
 });
@@ -44,9 +50,6 @@ Then("I should see a Next button", () => {
 });
 
 When("I click the Next button", () => {
-  cy.window().then((win) => {
-    cy.spy(win.console, 'log').as('consoleLog');
-  });
   cy.get('[data-testid="generate-button"]').click();
 });
 
@@ -59,16 +62,12 @@ Given("that I am on QR Pay View", () => {
 });
 
 When("customer has made the payment within 30 seconds", () => {
-  cy.window().then((win) => {
-    cy.spy(win.console, 'log').as('consoleLog');
-  });
-  // Simulate waiting for the payment
-  cy.wait(30000);
+  // Simulate waiting for the payment by checking for the hidden element
+  cy.get('#qrpay_transactionfound', { timeout: 30000 }).should('exist');
 });
 
 Then("I should see an animation", () => {
-  cy.get('@consoleLog').should('be.calledWith', 'DEBUG: PAYMENT FROM CUSTOMER RECEIVED');
-  cy.get('#qrpay_transactionfound').should('be.visible');
+  cy.get('[data-testid="success-animation"]').should('be.visible');
 });
 
 Then("I should be redirected to Payment View after 5 seconds", () => {

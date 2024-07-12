@@ -7,13 +7,14 @@ import defaultFood from '../assets/default_food.png';
 import takeAway from '../assets/take_away.png';
 
 const menuItemsData = [
-  { name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood },
-  { name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood },
-  { name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
-  { name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
+  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
+  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood },
+  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood },
+  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
+  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
+  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
 ];
+
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
