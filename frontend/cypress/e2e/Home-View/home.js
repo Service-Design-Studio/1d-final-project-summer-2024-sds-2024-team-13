@@ -1,14 +1,14 @@
 import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
 
 let currentEarnings;
-const customerId = 'e11957341b6c4e67bba7';  // Assuming a fixed customer ID for simplicity
-const userId = 'a4e05f9f63a30477cfe5';
+const customerId = '96b8c94ec8ef7db04f53';  // Assuming a fixed customer ID for simplicity
+const userId = '96b8c94ec8ef7db04f53';
 
 // Common steps
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('iamgay@gmail.com');
+  cy.get('input[placeholder="Email"]').type('iamlove@gmail.com');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');

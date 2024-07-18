@@ -13,8 +13,8 @@ module.exports = defineConfig({
       addCucumberPreprocessorPlugin(on, config);
       return config;
     },
-    specPattern: 'cypress/e2e/**/*.feature',
-    supportFile: 'cypress/support/e2e.js',
+    specPattern: 'cypress1/e2e/**/*.feature',
+    supportFile: 'cypress1/support/e2e.js',
     baseUrl: 'http://localhost:3001', // Ensure this matches your development server URL
   },
 });
