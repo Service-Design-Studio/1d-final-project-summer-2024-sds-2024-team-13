@@ -1,16 +1,12 @@
-import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import QRCode from 'qrcode';
 
-// Common steps
-Before(() => {
+Given("I am on Scanning View", () => {
   cy.viewport('iphone-6+');
   cy.visit("/");
   cy.get('input[placeholder="Phone Number"]').type('12345678');
-  cy.get('input[placeholder="Password"]').type('$2a$12$YF9U4unxEUSTeLRIzDu7NeQVsrLNR0RYYZ3qSbOgoACCAHiuK3vzC');
+  cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
-  cy.contains("DBSPay", { timeout: 10000 }).should('be.visible');
-});
-
-Given("I am on Scanning View", () => {
   cy.contains("DBSPay").click();
   cy.url().should('include', '/payment');
 });
@@ -33,8 +29,7 @@ When("I scan a valid QR code", () => {
       };
     });
   });
-
-  cy.wait(5000); // Adjust the wait time as needed for the scanning to process
+  cy.wait(5000);
   cy.url().should('include', '/payment/review');
 });
 
@@ -42,31 +37,32 @@ Then("I should be redirected to Payment Review view", () => {
   cy.url().should('include', '/payment/review');
 });
 
+
 Then("I should see a payment amount as $10.40", () => {
   cy.get('.amount').should('contain', 'SGD 10.40');
 });
 
-Then("I should see a LET'S GO button", () => {
+And("I should see a LET'S GO button", () => {
   cy.get('button').contains("LET'S GO").should('be.visible');
 });
 
 When("I click the LET'S GO button", () => {
   cy.get('button').contains("LET'S GO").click();
-  cy.url().should('include', '/payment/success');
+  cy.url().should('include', '/payment/success'); // Verify that it navigates to the success page
 });
 
 Then("I should be redirected to Payment Success view", () => {
   cy.url().should('include', '/payment/success');
 });
 
-Then("I should see an animation", () => {
+And("I should see an animation", () => {
   cy.get('.successIcon').should('be.visible');
 });
 
-Then("I should see a payment amount as $10.40", () => {
+And("I should see a payment amount as $10.40", () => {
   cy.get('.amount').should('contain', 'SGD 10.40');
 });
 
-Then("I should see a logout button", () => {
+And("I should see a logout button", () => {
   cy.get('button').contains('Log Out').should('be.visible');
 });
