@@ -1,0 +1,31 @@
+.main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensure items are spaced properly */
+    position: fixed;
+    background: #fff;
+    z-index: 99;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 1rem;
+    top: 0;
+    left: 0;
+}
+
+.backButton {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+    margin-right: 2rem; /* Adjust to center the text considering the back button */
+}

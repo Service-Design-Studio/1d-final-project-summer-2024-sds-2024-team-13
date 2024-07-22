@@ -1,0 +1,141 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ECECEC; /* Ensure the background color is consistent */
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ECECEC; /* Ensure the background color is consistent */
+    width: 100%;
+    min-height: 100vh;
+}
+
+.content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 70px; /* Adjust padding to account for fixed header */
+    padding-bottom: 50px;
+}
+
+.sectionTitle {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 1rem;
+}
+
+.paymentTitle {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: left;
+}
+
+.fullWidthSection {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.prefix {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+.input:focus {
+    outline: none;
+    border-bottom: 2px solid #FD5A77;
+}
+
+.charCount {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.25rem;
+}
+
+.refundAmount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.submitButton {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: #FD5A77;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #e04e63;
+}

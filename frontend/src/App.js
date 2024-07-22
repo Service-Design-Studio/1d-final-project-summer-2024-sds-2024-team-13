@@ -5,6 +5,7 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import RefundScreen from './components/history/refund_screen/RefundScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
@@ -57,7 +58,7 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/history/refund') ? <Navigation /> : null;
 }
 
 function App() {
@@ -71,10 +72,14 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/history/refund" element={<RefundScreen />} />
             
             <Route element={<PrivateRoute />}>
-              <Route path="/history" element={<HistoryScreen />} />
               <Route path="/home" element={<HomeScreen />} />
+              
+              <Route path="/history" element={<HistoryScreen />} />
+              {/* <Route path="/history/refund" element={<RefundScreen />} /> */}
+
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
 
