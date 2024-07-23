@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       const { token } = response.data;
       localStorage.setItem('token', token);
       await fetchCustomerProfile(token);
-      navigate('/payment');
+      navigate('/home');
       return true;
     } catch (error) {
       console.error('Login failed:', error);

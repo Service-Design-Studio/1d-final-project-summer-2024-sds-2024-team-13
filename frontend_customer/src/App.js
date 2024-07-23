@@ -12,6 +12,8 @@ import PaymentSuccess from './components/payment/PaymentSuccess';
 import AuthProvider from './context/AuthContext';
 import RegisterScreen from './screens/RegisterScreen';
 import PrivateRoute from './components/PrivateRoute';
+import HistoryScreen from './screens/HistoryScreen';
+import RequestRefund from './screens/RequestRefund';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ function Navigation() {
         navigate("/payment");
         break;
       case "history":
-        navigate("/WIP");
+        navigate("/history");
         break;
       case "more":
         navigate("/WIP")
@@ -76,6 +78,8 @@ function App() {
               <Route path="/testpayment" element={<TempOldPaymentScreen />} />
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/history" element={<HistoryScreen />} />
+              <Route path="/refunds/request" element={<RequestRefund />} />
             </Route>
 
           </Routes>
