@@ -15,7 +15,7 @@ const QRPay = () => {
     const [qrData, setQRData] = useState('');
     const [polling, setPolling] = useState(false);
     const [transactionId, setTransactionId] = useState('');
-    const [transactionFound, setTransactionFound] = useState(false)
+    const [transactionFound, setTransactionFound] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -26,22 +26,20 @@ const QRPay = () => {
     }, []);
 
     const handleEdit = () => {
-            navigate('/payment');
-        
+        navigate('/payment');
     };
 
     useEffect(() => {
         if (user) {
-            //TODO: CHANGE BACK TO UUID
             const transactionId = uuidv4();
-            setTransactionId("test-transaction-id");
+            setTransactionId(transactionId);
             setQRData(
                 JSON.stringify({
                     type: "DBSBizQR",
                     amount: paymentAmount,
                     merchant_name: user.name,
                     merchant_id: user.user_id,
-                    transaction_id: "test-transaction-id"
+                    transaction_id: transactionId
                 })
             );
             setPolling(true);
@@ -54,7 +52,7 @@ const QRPay = () => {
                 const response = await axiosInstance.get(`/users/${user.user_id}/transactions`);
                 const transaction = response.data.find(tx => tx.transaction_id === transactionId);
                 if (transaction) {
-                    setTransactionFound(true)
+                    setTransactionFound(true);
                     setPolling(false);
                 }
             } catch (error) {
@@ -62,7 +60,7 @@ const QRPay = () => {
             }
         }
     }, [user, transactionId]);
-    
+
     useEffect(() => {
         if (transactionFound) {
             const timer = setTimeout(() => {
@@ -77,7 +75,7 @@ const QRPay = () => {
         if (polling) {
             const interval = setInterval(() => {
                 fetchTransactions();
-            }, 4000); 
+            }, 4000);
 
             const timeout = setTimeout(() => {
                 clearInterval(interval);
@@ -102,7 +100,7 @@ const QRPay = () => {
                             <div style={{ position: 'relative', filter: 'opacity(20%)' }}>
                                 <QRCode
                                     style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
-                                    value={qrData} 
+                                    value={qrData}
                                 />
                             </div>
                             <HistoryIcon style={{ height: "auto", maxWidth: "60vw", width: "60vw" }} className={styles.historyIcon} />
@@ -122,7 +120,7 @@ const QRPay = () => {
                 <button className={styles.editButton} onClick={handleEdit} data-testid={isExpired ? "regenerate-button" : "edit-button"}>
                     {isExpired ? 'Regenerate' : 'Edit'}
                 </button>
-                {(transactionFound) ? <p id="qrpay_transactionfound" style={{opacity: 0}}>Received</p> : <></>}
+                {transactionFound ? <p id="qrpay_transactionfound" style={{ opacity: 0 }}>Received</p> : null}
             </div>
         </div>
     );
