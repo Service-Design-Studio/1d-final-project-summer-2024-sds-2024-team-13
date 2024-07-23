@@ -119,7 +119,7 @@ const QRPay = () => {
                 </div>
             </div>
             <div className={styles.footer}>
-                <button className={styles.editButton} onClick={handleEdit}>
+                <button className={styles.editButton} onClick={handleEdit} data-testid={isExpired ? "regenerate-button" : "edit-button"}>
                     {isExpired ? 'Regenerate' : 'Edit'}
                 </button>
                 {(transactionFound) ? <p id="qrpay_transactionfound" style={{opacity: 0}}>Received</p> : <></>}
