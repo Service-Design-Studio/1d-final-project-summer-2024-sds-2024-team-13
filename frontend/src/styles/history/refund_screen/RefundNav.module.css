@@ -21,7 +21,7 @@
     align-items: center;
 }
 
-h2 {
+.title {
     margin: 0;
     font-size: 1.2rem;
     font-weight: bold;

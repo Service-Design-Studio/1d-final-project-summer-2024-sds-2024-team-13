@@ -36,7 +36,7 @@ const RefundScreen = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span>Customer paid</span>
+                        <span className={styles.label}>Customer paid</span>
                     </div>
                     <div className={styles.row}>
                         <span></span>
@@ -45,22 +45,22 @@ const RefundScreen = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span>Paid to</span>
+                        <span className={styles.label}>Paid to</span>
                         <span><b>Lai Lai Wanton Mee</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span>Paid by</span>
+                        <span className={styles.label}>Paid by</span>
                         <span><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span>Date and Time</span>
+                        <span className={styles.label}>Date and Time</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                         <span><b>17 Jul 2024, 09:41:21 AM</b></span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span>Transaction ID</span>
+                        <span className={styles.label}>Transaction ID</span>
                     </div>
                     <div className={styles.row}>
                         <span><b>PAYLAH18296309271973212</b></span>

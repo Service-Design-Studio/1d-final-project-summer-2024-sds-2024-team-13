@@ -6,9 +6,9 @@ import Tab from '@mui/material/Tab';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import styles from "../../../styles/history/request_tab/RequestNav.module.css";
+import styles from "../../../styles/history/request_tab/RequestRefundNav.module.css";
 
-const RequestNav = () => {
+const RequestRefundNav = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState(0);
 
@@ -33,13 +33,8 @@ const RequestNav = () => {
                 <Tab icon={<CheckCircleIcon />} label="Refunded" />
                 <Tab icon={<CancelIcon />} label="Rejected" />
             </Tabs>
-            <div className={styles.content}>
-                {value === 0 && <div>Pending View</div>}
-                {value === 1 && <div>Refunded View</div>}
-                {value === 2 && <div>Rejected View</div>}
-            </div>
         </div>
     );
 };
 
-export default RequestNav;
+export default RequestRefundNav;
