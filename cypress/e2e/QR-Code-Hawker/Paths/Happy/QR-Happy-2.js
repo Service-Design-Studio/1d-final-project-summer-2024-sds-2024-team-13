@@ -4,7 +4,7 @@ import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocess
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('iamlove@gmail.com');
+  cy.get('input[placeholder="Email"]').type('chicken@gmail.com');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');

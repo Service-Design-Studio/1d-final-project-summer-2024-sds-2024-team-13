@@ -8,7 +8,7 @@ const userId = '96b8c94ec8ef7db04f53';
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('iamlove@gmail.com');
+  cy.get('input[placeholder="Email"]').type('chicken@gmail.com');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
