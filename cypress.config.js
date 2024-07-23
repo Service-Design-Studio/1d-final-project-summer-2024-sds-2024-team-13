@@ -15,6 +15,6 @@ module.exports = defineConfig({
     },
     specPattern: 'cypress/e2e/**/*.feature',
     supportFile: 'cypress/support/e2e.js',
-    baseUrl: 'http://localhost:3000/', // Ensure this matches your development server URL
+    baseUrl: 'https://dbsbiz.as.r.appspot.com/', // Ensure this matches your development server URL
   },
 });
