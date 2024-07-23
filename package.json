@@ -7,5 +7,16 @@
         "cross-env": "^7.0.3",
         "cypress": "^13.13.1",
         "esbuild": "^0.23.0"
-    }
+    },
+    "scripts": {
+        "cypress:open:hawker:local": "set BASE_URL=http://localhost:3000&&npx cypress open",
+        "cypress:open:customer:local": "set BASE_URL=http://localhost:3001&&npx cypress open",
+        "cypress:open:hawker:deployed": "set BASE_URL=https://dbsbiz.as.r.appspot.com/&&npx cypress open",
+        "cypress:open:customer:deployed": "set BASE_URL=https://dbsbiz-customer-dot-dbsbiz.as.r.appspot.com/&&npx cypress open",
+
+        "cypress:run:hawker:local": "set BASE_URL=http://localhost:3000&&npx cypress run",
+        "cypress:run:customer:local": "set BASE_URL=http://localhost:3001&&npx cypress run",
+        "cypress:run:hawker:deployed": "set BASE_URL=https://dbsbiz.as.r.appspot.com/&&npx cypress run",
+        "cypress:run:customer:deployed": "set BASE_URL=https://dbsbiz-customer-dot-dbsbiz.as.r.appspot.com/&&npx cypress run"
+      }
 }
