@@ -84,12 +84,10 @@
     margin: 0.8rem 0; 
     box-sizing: border-box;
     border-bottom: 1px solid var(--text-light);
-
 }
 
 .refundInfoItem {
     margin-bottom: 1rem;
-
 }
 
 .refundAmount {
