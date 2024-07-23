@@ -1,23 +1,4 @@
-/* CSS Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ECECEC; /* Ensure the background color is consistent */
-}
-
+/* Scoped CSS */
 .screen {
     display: flex;
     flex-direction: column;
@@ -36,39 +17,33 @@ body {
 }
 
 .sectionTitle {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .paymentTitle {
     font-size: 1rem;
     font-weight: bold;
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     margin-bottom: 0.5rem;
     display: block;
     text-align: left;
 }
 
 .fullWidthSection {
-    width: 100%;
     max-width: 400px;
     background-color: #fff;
-    border-radius: 5px;
     padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     margin-bottom: 1rem;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .section {
     margin-bottom: 1rem;
-}
-
-h3 {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    text-align: left;
 }
 
 .row {
@@ -95,7 +70,7 @@ h3 {
 }
 
 .input {
-    width: 100%;
+    width: 95%;
     padding: 0.5rem;
     border: none;
     border-bottom: 1px solid #e0e0e0;
@@ -121,10 +96,11 @@ h3 {
     color: #000;
     display: block;
     margin-top: 0.5rem;
+    text-align: left;
 }
 
 .submitButton {
-    width: 100%;
+    width: 95%;
     max-width: 400px;
     padding: 1rem;
     background-color: #FD5A77;
@@ -134,8 +110,32 @@ h3 {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 0.5rem;
 }
 
 .submitButton:hover {
     background-color: #e04e63;
+}
+
+.disabledButton {
+    background-color: #CCCCCC;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+.disabledButton:hover {
+    background-color: #CCCCCC;
+}
+
+.submittedMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    color: green;
+    font-size: 1rem;
+}
+
+.successIcon {
+    margin-right: 0.5rem;
 }

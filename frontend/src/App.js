@@ -6,6 +6,7 @@ import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import RefundScreen from './components/history/refund_screen/RefundScreen';
+import RequestTab from './components/history/request_tab/RequestTab';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
@@ -58,7 +59,8 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/history/refund') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' 
+    && location.pathname !== '/history/refund' && location.pathname !== '/history/request/pending') ? <Navigation /> : null;
 }
 
 function App() {
@@ -73,6 +75,7 @@ function App() {
             <Route path="/" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/history/refund" element={<RefundScreen />} />
+            <Route path="/history/request/pending" element={<RequestTab />} />
             
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<HomeScreen />} />

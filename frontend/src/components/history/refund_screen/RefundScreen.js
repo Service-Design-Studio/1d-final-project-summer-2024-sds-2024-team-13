@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import RefundNav from './RefundNav';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from "../../../styles/history/refund_screen/RefundScreen.module.css";
 
 const RefundScreen = () => {
     const [reason, setReason] = useState("");
     const [expectedPayment, setExpectedPayment] = useState("");
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -18,6 +20,12 @@ const RefundScreen = () => {
             setExpectedPayment(value);
         }
     };
+
+    const handleSubmit = () => {
+        setIsSubmitted(true);
+    };
+
+    const isButtonDisabled = !reason || !expectedPayment;
 
     return (
         <div className={styles.screen}>
@@ -60,7 +68,7 @@ const RefundScreen = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
-                        <h3>Expected Payment from Customer</h3>
+                        <div className={styles.sectionTitle}>Expected Payment from Customer</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
                             <input 
@@ -73,7 +81,7 @@ const RefundScreen = () => {
                         </div>
                     </div>
                     <div className={styles.section}>
-                        <h3>Reason(s) for Refund</h3>
+                        <div className={styles.sectionTitle}>Reason(s) for Refund</div>
                         <input 
                             type="text" 
                             placeholder="Add comments" 
@@ -86,11 +94,24 @@ const RefundScreen = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
-                        <h3>Amount to be Refunded</h3>
+                        <div className={styles.sectionTitle}>Amount to be Refunded</div>
                         <span className={styles.refundAmount}>S$ 0.00</span>
                     </div>
                 </div>
-                <button className={styles.submitButton}>SUBMIT</button>
+                {!isSubmitted ? (
+                    <button
+                        className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
+                        onClick={handleSubmit}
+                        disabled={isButtonDisabled}
+                    >
+                        SUBMIT
+                    </button>
+                ) : (
+                    <div className={styles.submittedMessage}>
+                        <CheckCircleIcon className={styles.successIcon} />
+                        <span>SUBMITTED!</span>
+                    </div>
+                )}
             </div>
         </div>
     );
