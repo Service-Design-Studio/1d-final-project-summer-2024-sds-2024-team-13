@@ -91,6 +91,7 @@ const PaymentScreen = () => {
             readOnly
             className={`${styles.amountField} ${parseFloat(amount) === 0 ? styles.greyText : styles.blackText}`}
             ref={inputRef}
+            data-testid="input-field"
           />
         </div>
       </div>
@@ -98,6 +99,7 @@ const PaymentScreen = () => {
         className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
         disabled={disableNextButton}
         onClick={handleNext}
+        data-testid="generate-button"
       >
         Next
       </button>
