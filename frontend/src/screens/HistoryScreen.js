@@ -177,7 +177,7 @@ const HistoryScreen = () => {
     return ( 
         <div className={styles.main}>
             <Insights/>
-            <div className={styles.content}>
+            <div className={styles.content} data-testid="transaction-list">
                 <DropdownFilter {...{filterOption, setFilterOption, startDate, setStartDate, setEndDate, endDate}}/>
                 <HistoryList {...{filterOption, displayedTransactions, isOpen, toggleDrawer, setSelectedTransaction}}/>
 

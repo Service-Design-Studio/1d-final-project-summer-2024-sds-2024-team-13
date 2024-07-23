@@ -73,7 +73,7 @@ const DropdownFilter = ({
             closeOnDocumentClick
             onClose={closeModal}
             trigger={
-                <div className={`${styles.main} ${(open === true) ? styles.main_selected : ""}`}>
+                <div className={`${styles.main} ${(open === true) ? styles.main_selected : ""}`} data-testid="dropdown-trigger">
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <CalendarToday />
                         <p style={{ marginLeft: "8px" }}>
@@ -91,7 +91,7 @@ const DropdownFilter = ({
             }
 
         >
-            <div className={styles.modal}>
+            <div className={styles.modal} data-testid="dropdown-content">
                 <div className={styles.rangeContainer}>
                     <div className={styles.rangeContainerChild}>
                         <p>From</p>
