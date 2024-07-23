@@ -14,6 +14,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import PrivateRoute from './components/PrivateRoute';
 import HistoryScreen from './screens/HistoryScreen';
 import RequestRefund from './screens/RequestRefund';
+import RefundDetails from './screens/RefundDetails';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -57,7 +58,10 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment' && location.pathname !== '/payment' && location.pathname !== '/payment/review' && location.pathname !== '/payment/success') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' 
+    && location.pathname !== '/payment' && location.pathname !== '/payment' 
+    && location.pathname !== '/payment/review' && location.pathname !== '/payment/success'
+    && location.pathname !== '/refunds/details') ? <Navigation /> : null;
 }
 
 function App() {
@@ -80,6 +84,7 @@ function App() {
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/history" element={<HistoryScreen />} />
               <Route path="/refunds/request" element={<RequestRefund />} />
+              <Route path="/refunds/details" element={<RefundDetails />} />
             </Route>
 
           </Routes>
