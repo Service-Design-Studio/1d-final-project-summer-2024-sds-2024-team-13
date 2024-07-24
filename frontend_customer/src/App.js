@@ -6,7 +6,6 @@ import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import LoginScreen from './screens/LoginScreen';
 import WIPScreen from './screens/WIPScreen';
 import PaymentScreen from './screens/PaymentScreen';
-import TempOldPaymentScreen from "./screens/TempOldPaymentScreen"
 import PaymentReview from './components/payment/PaymentReview';
 import PaymentSuccess from './components/payment/PaymentSuccess';
 import AuthProvider from './context/AuthContext';
