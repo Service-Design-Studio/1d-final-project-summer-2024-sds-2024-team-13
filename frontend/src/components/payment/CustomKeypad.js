@@ -19,7 +19,7 @@ const CustomKeypad = ({ onKeyPress, onEnter, onClose }) => {
     }, [handleClickOutside]);
 
     return (
-        <div className={styles.keypadContainer} ref={keypadRef}>
+        <div className={styles.keypadContainer} ref={keypadRef} data-testid="keypad">
             <div className={styles.keypadRow}>
                 <button onClick={() => onKeyPress('1')}>1</button>
                 <button onClick={() => onKeyPress('2')}>2</button>
@@ -41,7 +41,7 @@ const CustomKeypad = ({ onKeyPress, onEnter, onClose }) => {
                 <button onClick={() => onKeyPress('C')}>x</button>
             </div>
             <div className={styles.keypadRow}>
-                <button className={styles.enterButton} onClick={onEnter}>✔</button>
+                <button className={styles.enterButton} onClick={onEnter} data-testid="arrow-icon">✔</button>
             </div>
         </div>
     );
