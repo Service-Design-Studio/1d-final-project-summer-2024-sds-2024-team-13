@@ -16,7 +16,7 @@
 
 .label {
     font-weight: 500;
-    color: var(--text-light)
+    color: #000; /* Changed to a fixed color */
 }
 
 .sectionTitle {
@@ -89,15 +89,6 @@
     font-size: 0.75rem;
     color: #888;
     margin-top: 0.25rem;
-}
-
-.refundAmount {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #000;
-    display: block;
-    margin-top: 0.5rem;
-    text-align: left;
 }
 
 .submitButton {

@@ -6,7 +6,9 @@ import styles from "../../styles/refunds/RefundScreen.module.css";
 const RefundScreen = () => {
     const [reason, setReason] = useState("");
     const [expectedPayment, setExpectedPayment] = useState("");
+    const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const paymentAmount = 530.00;
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -16,8 +18,48 @@ const RefundScreen = () => {
 
     const handleExpectedPaymentChange = (e) => {
         const value = e.target.value.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
-        if (!isNaN(value) && value.match(/^(\d+(\.\d{0,2})?)?$/)) { // Allow only valid number with up to 2 decimal places
+        if (!isNaN(value) && value.match(/^(\d+(\.\d{0,2})?)?$/)) { // Allow only valid numbers with up to 2 decimal places
             setExpectedPayment(value);
+            if (value === "") {
+                setExpectedRefund("");
+            } else {
+                const payment = parseFloat(value) || 0;
+                const refund = (paymentAmount - payment).toFixed(2);
+                setExpectedRefund(refund >= 0 ? refund : "");
+            }
+        }
+    };
+
+    const handleExpectedRefundChange = (e) => {
+        const value = e.target.value.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
+        if (!isNaN(value) && value.match(/^(\d+(\.\d{0,2})?)?$/)) { // Allow only valid numbers with up to 2 decimal places
+            setExpectedRefund(value);
+            if (value === "") {
+                setExpectedPayment("");
+            } else {
+                const refund = parseFloat(value) || 0;
+                const payment = (paymentAmount - refund).toFixed(2);
+                setExpectedPayment(payment >= 0 ? payment : "");
+            }
+        }
+    };
+
+    const handleBlur = (field) => {
+        if (field === "payment") {
+            if (expectedPayment === "") {
+                setExpectedPayment("");
+                setExpectedRefund("");
+            } else {
+                setExpectedPayment(parseFloat(expectedPayment).toFixed(2));
+            }
+        }
+        if (field === "refund") {
+            if (expectedRefund === "") {
+                setExpectedRefund("");
+                setExpectedPayment("");
+            } else {
+                setExpectedRefund(parseFloat(expectedRefund).toFixed(2));
+            }
         }
     };
 
@@ -25,7 +67,7 @@ const RefundScreen = () => {
         setIsSubmitted(true);
     };
 
-    const isButtonDisabled = !reason || !expectedPayment;
+    const isButtonDisabled = !reason || expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00";
 
     return (
         <div className={styles.screen}>
@@ -40,7 +82,7 @@ const RefundScreen = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD 530.00</span>
+                        <span className={styles.amount}>SGD {paymentAmount.toFixed(2)}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
@@ -77,6 +119,21 @@ const RefundScreen = () => {
                                 className={styles.input} 
                                 value={expectedPayment}
                                 onChange={handleExpectedPaymentChange}
+                                onBlur={() => handleBlur("payment")}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.section}>
+                        <div className={styles.sectionTitle}>Amount to be Refunded</div>
+                        <div className={styles.inputWrapper}>
+                            <span className={styles.prefix}>S$</span>
+                            <input 
+                                type="text" 
+                                placeholder="0.00" 
+                                className={styles.input} 
+                                value={expectedRefund}
+                                onChange={handleExpectedRefundChange}
+                                onBlur={() => handleBlur("refund")}
                             />
                         </div>
                     </div>
@@ -90,12 +147,6 @@ const RefundScreen = () => {
                             onChange={handleReasonChange}
                         />
                         <div className={styles.charCount}>{reason.length}/250</div>
-                    </div>
-                </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Amount to be Refunded</div>
-                        <span className={styles.refundAmount}>S$ 0.00</span>
                     </div>
                 </div>
                 {!isSubmitted ? (
