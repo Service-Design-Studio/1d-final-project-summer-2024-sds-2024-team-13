@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import RefundDetailsNav from './RefundDetailsNav';
-import styles from "../../styles/refunds/RefundDetails.module.css";
+import styles from "../../styles/refunds/RefundRejected.module.css";
+import { ErrorOutline } from '@mui/icons-material';
 
-const RefundDetails = () => {
+const RefundRejected = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     const handleCancel = () => {
@@ -13,11 +14,12 @@ const RefundDetails = () => {
         <div className={styles.screen}>
             <RefundDetailsNav />
             <div className={styles.content}>
-                <div className={styles.title}>Refund pending</div>
-                <div className={styles.subtitle}>The refund request is pending action from the customer.</div>
+                <div className={styles.title}>Refund Rejected</div>
+                <div className={styles.subtitle}>The refund request has been rejected by the customer.</div>
                 <div className={styles.sectionTitle}>
                     <span className={styles.paymentTitle}>Payment Details</span>
                 </div>
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Customer paid</span>
@@ -27,7 +29,7 @@ const RefundDetails = () => {
                         <span className={styles.amount}>SGD 530.00</span>
                     </div>
                 </div>
-                
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
@@ -43,6 +45,7 @@ const RefundDetails = () => {
                         <span><b>17 Jul 2024, 09:41:21 AM</b></span>
                     </div>
                 </div>
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Transaction ID</span>
@@ -53,33 +56,28 @@ const RefundDetails = () => {
                 </div>
 
                 <div className={styles.fullWidthSection}>
-                    <div className={styles.section}>
-                        <div className={styles.row}>
-                            <span className={styles.label}>Expected Payment from Customer</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span>SGD 5.30</span>
-                        </div>
+                    <div className={styles.row}>
+                        <span className={styles.label}>Reason(s)</span>
                     </div>
-                    <div className={styles.section}>
-                        <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) for Refund</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span>Customer supposed to pay 5.30 so I refund him</span>
-                        </div>
+                    <div className={styles.row}>
+                        <span><b>i actually bought 100 packets of wanton mee</b></span>
                     </div>
+                </div>
+
+                <div className={styles.redContainer}>
+                    <ErrorOutline  className={styles.redIcon} />
+                    <p>Please contact the customer at the given phone number to verify transaction details. Resubmit the refund request only if the transaction is confirmed as erroneous.</p>
                 </div>
 
                 <button
                     className={styles.cancelButton}
                     onClick={handleCancel}
                 >
-                    CANCEL REQUEST
+                    RESUBMIT REQUEST
                 </button>
             </div>
         </div>
     );
 };
 
-export default RefundDetails;
+export default RefundRejected;

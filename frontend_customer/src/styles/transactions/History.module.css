@@ -1,0 +1,17 @@
+.header {
+    background: #FFF;
+    padding: 1rem 0
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.4rem
+}
+
+.screen {
+    width: 100vw
+}
+
+.transactionsList {
+    margin: 0.8rem 1.2rem 
+}
