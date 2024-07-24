@@ -1,13 +1,10 @@
-import { ChevronLeft } from "@mui/icons-material";
-import styles from "../styles/transactions/RefundDetails.module.css"
+import styles from "../../styles/refunds/RefundDetails.module.css"
+import RefundDetailsNav from "./RefundDetailsNav";
 
 const RefundDetails = () => {
     return ( 
         <div className={styles.screen}>
-            <div className={styles.header}>
-                <ChevronLeft style={{position:"absolute", top: "25%", left: "1rem"}} fontSize="large"/>
-                <h1>Refund Details</h1>
-            </div>
+            <RefundDetailsNav />
 
             <p className={styles.title}>Refund pending</p>
             <p className={styles.subtitle}>The refund request is pending action from you.</p>

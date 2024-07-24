@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import RefundNav from './RefundNav';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import styles from "../../../styles/history/refund_screen/RefundScreen.module.css";
+import styles from "../../styles/refunds/RefundScreen.module.css";
 
 const RefundScreen = () => {
     const [reason, setReason] = useState("");

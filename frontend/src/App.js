@@ -5,8 +5,9 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
-import RefundScreen from './components/history/refund_screen/RefundScreen';
-import RequestRefund from './components/history/request_tab/RequestRefund';
+import RefundScreen from './components/refunds/RefundScreen';
+import RequestRefund from './components/refunds/RequestRefund';
+import RefundDetails from './components/refunds/RefundDetails';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
@@ -60,7 +61,8 @@ function ConditionalNavigation() {
   const location = useLocation();
 
   return (location.pathname !== '/' && location.pathname !== '/register' 
-    && location.pathname !== '/refunds' && location.pathname !== '/refunds/request') ? <Navigation /> : null;
+    && location.pathname !== '/refunds' && location.pathname !== '/refunds/request'
+    && location.pathname !== '/refunds/details') ? <Navigation /> : null;
 }
 
 function App() {
@@ -82,7 +84,7 @@ function App() {
               
               <Route path="/refunds" element={<RequestRefund />} />
               <Route path="/refunds/request" element={<RefundScreen />} />
-              {/* <Route path="/refunds/details" element={<RefundDetails />} /> */}
+              <Route path="/refunds/details" element={<RefundDetails />} />
 
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />

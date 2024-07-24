@@ -1,5 +1,5 @@
 import RequestRefundNav from './RequestRefundNav';
-import styles from "../../../styles/history/request_tab/RequestRefund.module.css";
+import styles from "../../styles/refunds/RequestRefund.module.css";
 
 const RequestRefund = () => {
 

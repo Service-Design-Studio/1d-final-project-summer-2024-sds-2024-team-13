@@ -1,0 +1,99 @@
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ECECEC; /* Ensure the background color is consistent */
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 70px; /* Adjust padding to account for fixed header */
+    padding-bottom: 50px;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #000;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 1rem;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.content {
+    width: 100%;
+    margin: 0;
+    padding: 0 1.2rem; /* Adjust padding for content */
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.paymentTitle {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: left;
+}
+
+.fullWidthSection {
+    width: 100%;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-weight: 500;
+    color: #000;
+}
+
+.amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.prefix {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.input {
+    font-size: 1rem;
+    color: #000;
+}
+
+.refundAmount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    display: block;
+    margin-top: 0.5rem;
+    text-align: left;
+}

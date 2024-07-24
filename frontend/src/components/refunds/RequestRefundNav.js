@@ -6,7 +6,7 @@ import Tab from '@mui/material/Tab';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import styles from "../../../styles/history/request_tab/RequestRefundNav.module.css";
+import styles from "../../styles/refunds/RequestRefundNav.module.css";
 
 const RequestRefundNav = () => {
     const navigate = useNavigate();
