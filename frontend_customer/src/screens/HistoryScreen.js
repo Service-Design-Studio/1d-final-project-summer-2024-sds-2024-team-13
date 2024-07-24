@@ -5,6 +5,8 @@ import TransactionDetailDrawer from "../components/transactions/TransactionDetai
 import axios from "axios"
 import axiosInstance from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
+import { ChevronRight } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const HistoryScreen = () => {
     const [transactions, setTransactions] = useState({});
@@ -17,6 +19,9 @@ const HistoryScreen = () => {
     })
     const [isOpen, setIsOpen] = useState(false)
     const { customer } = useAuth();
+
+    const navigate = useNavigate();
+
     const toggleDrawer = (open) => (event) => {
         if (
             event &&
@@ -27,6 +32,7 @@ const HistoryScreen = () => {
         }
         setIsOpen(open)
     };
+    
     const fetchAllTransactions = useCallback(async () => {
         if (customer) {
             try {
@@ -66,6 +72,12 @@ const HistoryScreen = () => {
             <div className={styles.header}>
                 <h1>History</h1>
             </div>
+            <button className={styles.refundListButton} onClick={()=>navigate("/refunds")}>
+                <div className="">
+                    <p>Requested Refunds</p>
+                </div>
+                <ChevronRight/>
+                </button>
             <div className={styles.transactionsList}>
             {Object.entries(transactions).map(([date, transactionsOnDate]) => (
           <div key={date} className={styles.transactionGroup}>
