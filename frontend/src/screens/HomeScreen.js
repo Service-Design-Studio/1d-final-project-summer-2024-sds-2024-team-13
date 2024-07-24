@@ -6,12 +6,15 @@ import styles from "../styles/Home/Home.module.css"
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import HourlyChart from "../components/home/HourlyChart";
 import dayjs from "dayjs";
 import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
+import { ChevronRight } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const HomeScreen = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
+    const handleCancel = () => {navigate('/refunds')};
     const { user } = useAuth();
     const [transactions, setTransactions] = useState([]);
     const [lastRefresh, setLastRefresh] = useState(null);
@@ -152,6 +155,7 @@ const HomeScreen = () => {
         payment_method: "Loading...",
         id: "Loading..."
 
+    
     })
 
     return (
@@ -160,7 +164,14 @@ const HomeScreen = () => {
 
             <div className={styles.content}>
                 <MainCard {...{ lastRefresh, todayTotal }} />
-                <HourlyChart {...{ hourlyData, formattedCutoffTime }} />
+                
+
+                <button className={styles.refundButton} onClick={handleCancel}>
+                    <p>Requested Refunds</p>
+                    <ChevronRight/>
+                </button>
+
+                
                 <div className={styles.transcContainer}>
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px" }}>
                         LATEST TRANSACTIONS
