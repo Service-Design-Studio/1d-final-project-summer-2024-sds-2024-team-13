@@ -4,6 +4,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
+import animatedBanner from "../../assets/animatedBanner.gif";
 import { useAuth } from '../../context/AuthContext';
 
 const PaymentSuccess = ({ transaction }) => {
@@ -31,6 +32,11 @@ const PaymentSuccess = ({ transaction }) => {
                     className={styles.paymentLogo} 
                     src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon} 
                     alt="Payment Method Logo" 
+                />
+                <img 
+                    className={styles.animatedBanner} 
+                    src={animatedBanner} 
+                    alt="Animated Banner" 
                 />
             </div>
             <div className={styles.footer}>
