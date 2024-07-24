@@ -1,7 +1,14 @@
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 
 const RefundDetails = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    const handleCancel = () => {
+        navigate('/history'); // Redirect to /history page
+    };
+
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
@@ -61,12 +68,12 @@ const RefundDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Amount to be Refunded</div>
-                        <span className={styles.refundAmount}>S$ 524.70</span>
-                    </div>
-                </div>
+                <button
+                    className={styles.cancelButton}
+                    onClick={handleCancel}
+                >
+                    CANCEL REQUEST
+                </button>
             </div>
         </div>
     );
