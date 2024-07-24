@@ -10,4 +10,4 @@ Feature: Customer declines the refund
         And i should see the Rejected Tab
         When i click the Rejected Tab
         Then i should see the rejected transactions
-        And i should see Rejected   
+        And i should see Rejected

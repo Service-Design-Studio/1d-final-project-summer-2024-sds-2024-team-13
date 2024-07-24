@@ -1,4 +1,4 @@
-Feature:Managing wrong payment for Hawker
+Feature: Customer accepting refund request from Hawker
     Background:
         Given i am on the History View
     
