@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get 'earnings_cutoff', to: 'users#show_earnings_cutoff'
       put 'earnings_cutoff', to: 'users#update_earnings_cutoff'
     end
+    get 'refund_requests', to: 'users/refund_requests#index'
   end
 
   resources :customers do
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
         end
       end
     end
+    get 'refund_requests', to: 'customers/refund_requests#index'
   end
 
   post 'users/login', to: 'sessions#create'

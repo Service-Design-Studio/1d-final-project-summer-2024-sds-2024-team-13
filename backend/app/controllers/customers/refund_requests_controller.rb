@@ -4,12 +4,18 @@ module Customers
     skip_before_action :verify_authenticity_token
     before_action :set_customer
     before_action :set_transaction
-    before_action :set_refund_request, except: [:create]
+    before_action :set_refund_request, except: [:create, :index]
 
     def show
       render json: @refund_request
     end
-
+    # GET /customers/:customer_id/refund_requests
+    def index
+      # Assuming you want to get refund requests for a specific customer
+      @refund_requests = @customer.refund_requests
+      render json: @refund_requests
+    end
+    
     def create
       @refund_request = RefundRequest.new(refund_request_params)
       @refund_request.sender = @customer
