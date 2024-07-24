@@ -1,5 +1,5 @@
 class CustomerSessionsController < ApplicationController
-  def create
+  def create      #create customer session 
     customer = Customer.find_by(phone_num: params[:phone_num])
 
     if customer&.authenticate(params[:password])
