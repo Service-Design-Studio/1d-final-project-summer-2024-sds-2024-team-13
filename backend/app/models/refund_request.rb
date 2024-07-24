@@ -1,14 +1,35 @@
 class RefundRequest < ApplicationRecord
-  belongs_to :transaction, foreign_key: :transaction_id
+  belongs_to :transaction_record, foreign_key: :transaction_id, class_name: 'Transaction'
   belongs_to :sender, polymorphic: true   #sender pointer :sender pointer defined as polymorphic, can point to multiple models e.g customer or user
   belongs_to :recipient, polymorphic: true  #:recipient pointer defined as polymorphic
+  after_save :update_transaction_status
+  after_destroy :clear_transaction_status
+  before_create :generate_refundrequest_id
+  before_validation :set_default_status, on: :create
   self.primary_key = 'id'
-     
+  
+
+  private
+
+  def set_default_status
+    self.status ||= 'pending'
+  end
+
+  private
+
+  def update_transaction_status
+    transaction_record.update(status: self.status)
+  end
+
+  def clear_transaction_status
+    transaction_record.update(status: nil) # or some default status
+  end   
+
   private
     def generate_refundrequest_id
         self.id = loop do
           random_id = SecureRandom.hex(10)
-          Rails.logger.info "Generated customer_id: #{random_id}"
+          Rails.logger.info "Generated requestrefund_id: #{random_id}"
           break random_id unless self.class.exists?(id: random_id)
         end
     end

@@ -4,7 +4,6 @@ class CustomerSessionsController < ApplicationController
 
     if customer&.authenticate(params[:password])
       token = encode_token({ customer_id: customer.customer_id })
-      session[:customer_id] = customer.customer_id
       render json: { token: token, customer_id: customer.customer_id, name: customer.name }, status: :ok
     else
       render json: { error: 'Invalid credentials' }, status: :unauthorized

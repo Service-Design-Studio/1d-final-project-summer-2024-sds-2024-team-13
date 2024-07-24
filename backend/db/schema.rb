@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_23_072905) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_24_092723) do
   create_table "customers", primary_key: "customer_id", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "phone_num"
@@ -41,6 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_23_072905) do
     t.string "user_id"
     t.string "customer_id"
     t.string "transaction_id"
+    t.string "status"
   end
 
   create_table "users", force: :cascade do |t|
@@ -58,4 +59,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_23_072905) do
 
   add_foreign_key "refund_requests", "transactions"
   add_foreign_key "transactions", "customers", primary_key: "customer_id"
+  add_foreign_key "transactions", "users", primary_key: "user_id"
 end
