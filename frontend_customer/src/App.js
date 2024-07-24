@@ -15,15 +15,16 @@ import PrivateRoute from './components/PrivateRoute';
 import HistoryScreen from './screens/HistoryScreen';
 import RequestRefund from './screens/RequestRefund';
 import RefundDetails from './screens/RefundDetails';
+import HomeScreen from './screens/HomeScreen';
 
 function Navigation() {
   const navigate = useNavigate();
-  const [screen, setScreen] = useState("payment");
+  const [screen, setScreen] = useState("home");
 
   const handleScreen = (screen) => {
     switch (screen) {
       case "home":
-        navigate("/WIP");
+        navigate("/home");
         break;
       case "payment":
         navigate("/payment");
@@ -82,6 +83,7 @@ function App() {
               <Route path="/testpayment" element={<TempOldPaymentScreen />} />
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/home" element={<HomeScreen />} />
               <Route path="/history" element={<HistoryScreen />} />
               <Route path="/refunds/request" element={<RequestRefund />} />
               <Route path="/refunds/details" element={<RefundDetails />} />
