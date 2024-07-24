@@ -1,0 +1,49 @@
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top p {
+    margin: 0;
+    margin-top: 0.6rem;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 1.2rem
+}
+
+.timestamp {
+    font-weight: 500
+}
+
+.bottom p {
+    margin: 0;
+    margin-bottom: 0.6rem;
+}
+
+.bottom span {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.main {
+    background: #fff;
+    border: 1px solid #bbb;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.main p {
+    font-size: 0.8rem;
+}
