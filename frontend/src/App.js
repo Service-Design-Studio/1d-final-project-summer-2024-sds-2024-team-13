@@ -17,8 +17,6 @@ import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
 import DailyCutoffScreen from './screens/DailyCutoffScreen';
-import RefundApproved from './components/refunds/RefundApproved';
-import RefundRejected from './components/refunds/RefundRejected';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -86,8 +84,6 @@ function App() {
               
               <Route path="/refunds" element={<RequestRefund />} />
               <Route path="/refunds/request" element={<RefundScreen />} />
-              <Route path="/refunds/approved" element={<RefundApproved />} />
-              <Route path="/refunds/rejected" element={<RefundRejected />} />
               <Route path="/refunds/details" element={<RefundDetails />} />
 
               <Route path="/settings" element={<SettingsScreen />} />

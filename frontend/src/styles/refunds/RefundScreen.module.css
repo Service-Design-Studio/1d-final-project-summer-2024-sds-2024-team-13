@@ -16,7 +16,7 @@
 
 .label {
     font-weight: 500;
-    color: #000; /* Changed to a fixed color */
+    color: var(--text-light);
 }
 
 .sectionTitle {
