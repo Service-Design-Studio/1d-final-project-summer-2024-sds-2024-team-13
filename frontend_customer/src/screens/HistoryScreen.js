@@ -7,7 +7,7 @@ import axiosInstance from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
 
 const HistoryScreen = () => {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState({});
     const [selectedTransaction, setSelectedTransaction] = useState({
         amount: 0,
         created_at: new Date(),
@@ -34,7 +34,22 @@ const HistoryScreen = () => {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
                 const sortedTransactions = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                setTransactions(sortedTransactions);
+
+                const groupedTransactions = sortedTransactions.reduce((acc, transaction) => {
+                    const date = new Date(transaction.created_at).toLocaleDateString("en-GB", {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+
+                    if (!acc[date]) {
+                        acc[date] = [];
+                    }
+                    acc[date].push(transaction);
+                    return acc;
+                }, {});
+
+                setTransactions(groupedTransactions);
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -45,17 +60,26 @@ const HistoryScreen = () => {
         fetchAllTransactions();
     }, [fetchAllTransactions]);
 
-   
-    
+
     return (
         <div className={styles.screen}>
             <div className={styles.header}>
                 <h1>History</h1>
             </div>
             <div className={styles.transactionsList}>
-                {transactions.map((item, i) => (
-                    <TransactionCard {...{ toggleDrawer, transaction: item, setSelectedTransaction}} key={item.id} />
-                ))}
+            {Object.entries(transactions).map(([date, transactionsOnDate]) => (
+          <div key={date} className={styles.transactionGroup}>
+            <h4 className={styles.dateLabel}>{date}</h4>
+            {transactionsOnDate.map((transaction) => (
+              <TransactionCard
+                key={transaction.transaction_id}
+                transaction={transaction}
+                toggleDrawer={toggleDrawer}
+                setSelectedTransaction={setSelectedTransaction}
+              />
+            ))}
+          </div>
+        ))}
 
             </div>
             <TransactionDetailDrawer {...{ toggleDrawer, isOpen, transaction: selectedTransaction }} />
