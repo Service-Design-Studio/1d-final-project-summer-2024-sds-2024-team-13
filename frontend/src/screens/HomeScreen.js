@@ -129,11 +129,7 @@ const HomeScreen = () => {
         fetchTransactions();
     };
 
-    const formattedCutoffTime = cutoffTime.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    });
+  
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -157,6 +153,8 @@ const HomeScreen = () => {
 
     
     })
+
+    console.log(hourlyData)
 
     return (
         <div className={styles.screen}>

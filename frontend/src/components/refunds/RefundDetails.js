@@ -15,7 +15,7 @@ const RefundDetails = () => {
         navigate('/refunds/request'); 
     };
 
-    const [status, setStatus] = useState('Approved');
+    const [status, setStatus] = useState('Approved'); // Thanks rachel, remember to correct this logic
 
     return (
         <div className={styles.screen}>
