@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowBackIosNew } from "@mui/icons-material";
-import styles from "../../styles/refunds/RefundNav.module.css";
+import styles from "../../styles/refunds/RefundRequestNav.module.css";
 
-const RefundNav = () => {
+const RefundRequestNav = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -19,4 +19,4 @@ const RefundNav = () => {
     );
 };
 
-export default RefundNav;
+export default RefundRequestNav;

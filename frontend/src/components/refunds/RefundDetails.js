@@ -34,18 +34,13 @@ const RefundDetails = () => {
                     </div> :<></>}
                 
                 <div className={styles.sectionTitle}>
-                    {(status === "Pending" || status === "Rejected") ? <span className={styles.paymentTitle}>
-                        Payment Details
-                        </span> :
-                    (status === "Approved") ? <span className={styles.paymentTitle}>
-                        Refund Details
-                        </span> :<></>}
+                    <span className={styles.paymentTitle}>Refund Details</span>
                 </div>
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
-                            Customer paid
+                            Customer will receive
                             </span> :
                         (status === "Approved") ? <span className={styles.label}>
                             Customer received
@@ -53,84 +48,68 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.amount}>
-                            SGD 530.00
-                            </span> :
-                        (status === "Approved") ? <span className={styles.amount}>
-                            SGD 524.70
-                            </span> :<></>} 
+                        <span className={styles.amount}>SGD 524.70</span>
                     </div>
                 </div>
                 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Paid to</span>
-                        {(status === "Pending" || status === "Rejected") ? <span>
-                            <b>Lai Lai Wanton Mee</b>
+                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                            To be paid to
                             </span> :
-                        (status === "Approved") ? <span>
-                            <b>9XXX XXXX</b>
+                        (status === "Approved") ? <span className={styles.label}>
+                            Paid to
                             </span> :<></>}
+                        <span><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>Paid by</span>
-                        {(status === "Pending" || status === "Rejected") ? <span>
-                            <b>9XXX XXXX</b>
+                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                            To be paid by
                             </span> :
-                        (status === "Approved") ? <span>
-                            <b>Lai Lai Wanton Mee</b>
+                        (status === "Approved") ? <span className={styles.label}>
+                            Paid by
                             </span> :<></>}
+                        <span><b>Lai Lai Wanton Mee</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>Date and Time</span>
+                        <span className={styles.label}>Last updated</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        {(status === "Pending" || status === "Rejected") ? <span>
-                            <b>17 Jul 2024, 09:41:21 AM</b>
-                            </span> :
-                        (status === "Approved") ? <span>
-                            <b>18 Jul 2024, 14:51:52 AM</b>
-                            </span> :<></>}
+                        <span><b>18 Jul 2024, 14:51:52 AM</b></span>
                     </div>
                 </div>
-                {(status === "Pending" || status === "Rejected") ? <div className={styles.fullWidthSection}>
+
+                {(status === "Approved") ? <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Transaction ID</span>
+                        <span className={styles.label}>Refund Transaction ID</span>
                     </div>
                     <div className={styles.row}>
-                        <span><b>PAYLAH18296309271973212</b></span>
+                        <span><b>REPAYLAH18296309271973212</b></span>
                     </div>
-                </div> :
-                <div className={styles.fullWidthSection}>
-                <div className={styles.row}>
-                    <span className={styles.label}>Refund Transaction ID</span>
-                </div>
-                <div className={styles.row}>
-                    <span><b>REPAYLAH18296309271973212</b></span>
-                </div>
-            </div>
-                }
-   
+                </div> :<></>}
 
                 <div className={styles.fullWidthSection}>
-                    {(status==="Pending") ? <div className={styles.section}>
-                        <div className={styles.row}>
-                            <span className={styles.label}>Expected Payment from Customer</span>
+                    {(status === "Pending" || status === "Approved") ? (<>
+                        <div className={styles.section}>
+                            <div className={styles.row}>
+                                <span className={styles.label}>Expected Payment from Customer</span>
+                            </div>
+                            <div className={styles.row}>
+                                <span>SGD 5.30</span>
+                            </div>
+                        </div> 
+                        <div className={styles.section}>
+                            <div className={styles.row}>
+                                <span className={styles.label}>Reason(s) for Refund</span>
+                            </div>
+                            <div className={styles.row}>
+                                <span>Customer supposed to pay 5.30 so I refund him</span>
+                            </div>
                         </div>
-                        <div className={styles.row}>
-                            <span>SGD 5.30</span>
-                        </div>
-                    </div> :<></>}
-                    {(status==="Pending" || status === "Approved") ? <div className={styles.section}>
-                        <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) for Refund</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span>Customer supposed to pay 5.30 so I refund him</span>
-                        </div>
-                    </div> :<></>}
+                    </>) : null}
+
                     {(status==="Rejected") ? <div className={styles.section}>               
                         <div className={styles.row}>
-                            <span className={styles.label}>Reason(s)</span>
+                            <span className={styles.label}>Reason(s) from Customer</span>
                         </div>
                         <div className={styles.row}>
                             <span>I actually bought 100 packets of wanton mee</span>
@@ -138,7 +117,7 @@ const RefundDetails = () => {
                     </div> :<></>}
                 </div>
 
-                {(status==="Approved") ? <div className={styles.fullWidthSection}>
+                <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Original Payment</span>
                         <span><b>SGD 530.00</b></span>
@@ -152,7 +131,7 @@ const RefundDetails = () => {
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                         <span className={styles.smallValue}>PAYLAH18296309271973212</span>
                     </div>
-                </div> :<></>}
+                </div>
 
                 {status === "Rejected" ? (
                     <div className={styles.redRow}>

@@ -6,9 +6,9 @@ import Tab from '@mui/material/Tab';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import styles from "../../styles/refunds/RequestRefundNav.module.css";
+import styles from "../../styles/refunds/RefundScreenNav.module.css";
 
-const RequestRefundNav = () => {
+const RefundScreenNav = () => {
     const navigate = useNavigate();
     const [value, setValue] = useState(0);
 
@@ -37,4 +37,4 @@ const RequestRefundNav = () => {
     );
 };
 
-export default RequestRefundNav;
+export default RefundScreenNav;
