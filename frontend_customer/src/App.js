@@ -6,7 +6,6 @@ import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import LoginScreen from './screens/LoginScreen';
 import WIPScreen from './screens/WIPScreen';
 import PaymentScreen from './screens/PaymentScreen';
-import TempOldPaymentScreen from "./screens/TempOldPaymentScreen"
 import PaymentReview from './components/payment/PaymentReview';
 import PaymentSuccess from './components/payment/PaymentSuccess';
 import AuthProvider from './context/AuthContext';
@@ -15,15 +14,16 @@ import PrivateRoute from './components/PrivateRoute';
 import HistoryScreen from './screens/HistoryScreen';
 import RequestRefund from './screens/RequestRefund';
 import RefundDetails from './screens/RefundDetails';
+import HomeScreen from './screens/HomeScreen';
 
 function Navigation() {
   const navigate = useNavigate();
-  const [screen, setScreen] = useState("payment");
+  const [screen, setScreen] = useState("home");
 
   const handleScreen = (screen) => {
     switch (screen) {
       case "home":
-        navigate("/WIP");
+        navigate("/home");
         break;
       case "payment":
         navigate("/payment");
@@ -79,9 +79,10 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/WIP" element={<WIPScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
-              <Route path="/testpayment" element={<TempOldPaymentScreen />} />
+              {/*<Route path="/testpayment" element={<TempOldPaymentScreen />} />*/}
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/home" element={<HomeScreen />} />
               <Route path="/history" element={<HistoryScreen />} />
               <Route path="/refunds/request" element={<RequestRefund />} />
               <Route path="/refunds/details" element={<RefundDetails />} />

@@ -41,7 +41,7 @@
     padding: 0.8rem 1rem;
     width: 100%;
     box-sizing: border-box;
-    
+    cursor: pointer;
 }
 
 .main p {
