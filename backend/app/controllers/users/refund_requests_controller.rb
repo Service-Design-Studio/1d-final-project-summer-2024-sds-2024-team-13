@@ -1,9 +1,10 @@
 # app/controllers/users/refund_requests_controller.rb
 module Users
   class RefundRequestsController < ApplicationController
+    skip_before_action :verify_authenticity_token
     before_action :set_user
     before_action :set_transaction
-    before_action :set_refund_request, only: [:show, :update_status, :destroy]
+    before_action :set_refund_request
 
     def show
       render json: @refund_request
@@ -14,7 +15,7 @@ module Users
       @refund_request.sender = @user
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
-
+      @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
       else
@@ -22,7 +23,7 @@ module Users
       end
     end
 
-    def update_status
+    def update
       if @refund_request.recipient == @user
         if @refund_request.update(status: params[:status])
           render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
@@ -46,16 +47,24 @@ module Users
     private
 
     def set_user
-      @user = User.find(params[:user_id])
+      Rails.logger.debug("Received parameters: #{params.inspect}")
+      Rails.logger.debug("Received user_id: #{params[:user_id]}")
+      @user = User.find_by(user_id: params[:user_id])
+    
+      if @user.nil?
+        Rails.logger.debug("User with user_id #{params[:user_id]} not found")
+        render json: { error: 'User not found' }, status: :not_found
+      end
     end
+    
 
     def set_transaction
-      @transaction = @user.transactions.find(params[:id])
+      @transaction = @user.transactions.find(params[:transaction_id])
     end
-
+    
     def set_refund_request
-      @refund_request = RefundRequest.find(params[:id])
-    end
+      @refund_request = RefundRequest.find(params[:refund_request_id])
+   end
 
     def refund_request_params
       params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
@@ -63,14 +72,13 @@ module Users
 
     def determine_recipient_from_params
       recipient_id = params[:refund_request][:recipient_id]
-      recipient_type = params[:refund_request][:recipient_type]
-
-      if recipient_type == 'User' && User.exists?(recipient_id)
+  
+      if User.exists?(recipient_id)
         User.find(recipient_id)
-      elsif recipient_type == 'Customer' && Customer.exists?(recipient_id)
-        Customer.find(recipient_id)
+      elsif User.exists?(recipient_id)
+        User.find(recipient_id)
       else
-        render json: { error: 'Recipient not found' }, status: :not_found
+        nil
       end
     end
   end

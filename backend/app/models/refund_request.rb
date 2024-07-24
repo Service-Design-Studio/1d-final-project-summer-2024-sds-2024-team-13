@@ -6,8 +6,6 @@ class RefundRequest < ApplicationRecord
   after_destroy :clear_transaction_status
   before_create :generate_refundrequest_id
   before_validation :set_default_status, on: :create
-  self.primary_key = 'id'
-  
 
   private
 
@@ -27,10 +25,10 @@ class RefundRequest < ApplicationRecord
 
   private
     def generate_refundrequest_id
-        self.id = loop do
+        self.refund_request_id = loop do
           random_id = SecureRandom.hex(10)
           Rails.logger.info "Generated requestrefund_id: #{random_id}"
-          break random_id unless self.class.exists?(id: random_id)
+          break random_id unless self.class.exists?(refund_request_id: random_id)
         end
     end
 end

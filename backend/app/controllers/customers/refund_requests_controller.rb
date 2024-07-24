@@ -1,10 +1,10 @@
 # app/controllers/customers/refund_requests_controller.rb
 module Customers
   class RefundRequestsController < ApplicationController
-    skip_before_action :verify_authenticity_token, only: [:create]
+    skip_before_action :verify_authenticity_token
     before_action :set_customer
     before_action :set_transaction
-    before_action :set_refund_request, only: [:show, :update_status, :destroy]
+    before_action :set_refund_request, except: [:create]
 
     def show
       render json: @refund_request
@@ -15,7 +15,7 @@ module Customers
       @refund_request.sender = @customer
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
-
+      @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
       else
@@ -23,7 +23,7 @@ module Customers
       end
     end
 
-    def update_status
+    def update
       if @refund_request.recipient == @customer
         if @refund_request.update(status: params[:status])
           render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
@@ -59,27 +59,26 @@ module Customers
     
 
     def set_transaction
-      @transaction = @customer.transactions.find(params[:id])
+      @transaction = @customer.transactions.find(params[:transaction_id])
     end
     
     def set_refund_request
-      @refund_request = RefundRequest.find(params[:id])
-    end
+      @refund_request = RefundRequest.find(params[:refund_request_id])
+   end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id, :recipient_type)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
     end
 
     def determine_recipient_from_params
       recipient_id = params[:refund_request][:recipient_id]
-      recipient_type = params[:refund_request][:recipient_type]
-
-      if recipient_type == 'User' && User.exists?(recipient_id)
+  
+      if User.exists?(recipient_id)
         User.find(recipient_id)
-      elsif recipient_type == 'Customer' && Customer.exists?(recipient_id)
+      elsif Customer.exists?(recipient_id)
         Customer.find(recipient_id)
       else
-        render json: { error: 'Recipient not found' }, status: :not_found
+        nil
       end
     end
   end
