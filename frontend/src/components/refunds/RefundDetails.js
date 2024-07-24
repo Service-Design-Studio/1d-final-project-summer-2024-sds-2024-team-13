@@ -16,7 +16,7 @@ const RefundDetails = () => {
                 <div className={styles.title}>Refund pending</div>
                 <div className={styles.subtitle}>The refund request is pending action from the customer.</div>
                 <div className={styles.sectionTitle}>
-                    <span className={styles.paymentTitle}>Payment</span>
+                    <span className={styles.paymentTitle}>Payment Details</span>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
@@ -27,6 +27,7 @@ const RefundDetails = () => {
                         <span className={styles.amount}>SGD 530.00</span>
                     </div>
                 </div>
+                
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
@@ -50,6 +51,7 @@ const RefundDetails = () => {
                         <span><b>PAYLAH18296309271973212</b></span>
                     </div>
                 </div>
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
                         <div className={styles.row}>
@@ -68,6 +70,7 @@ const RefundDetails = () => {
                         </div>
                     </div>
                 </div>
+
                 <button
                     className={styles.cancelButton}
                     onClick={handleCancel}

@@ -25,7 +25,7 @@
 
 .subtitle {
     font-size: 1rem;
-    color: #888;
+    color: var(--text-light);
     margin-bottom: 1rem;
     text-align: left;
     margin-left: 1rem;
@@ -67,7 +67,7 @@
 
 .label {
     font-weight: 500;
-    color: var(--text-light)
+    color: var(--text-light);
 }
 
 .amount {
@@ -86,21 +86,11 @@
     text-align: left;
 }
 
-.cancelButton {
-    width: 95%;
-    max-width: 400px;
-    padding: 1rem;
-    background-color: #FD5A77;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+.header {
+    font-size: 1.3rem;
     font-weight: bold;
-    cursor: pointer;
-    margin-top: 1rem;
-    text-align: center;
 }
 
-.cancelButton:hover {
-    background-color: #e04e63;
+.smallHeader {
+    font-size: 0.9rem;
 }
