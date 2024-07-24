@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+    #push
     protect_from_forgery unless: -> { request.format.json? }
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
