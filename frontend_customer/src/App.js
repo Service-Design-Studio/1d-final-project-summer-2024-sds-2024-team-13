@@ -80,7 +80,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/WIP" element={<WIPScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
-              <Route path="/testpayment" element={<TempOldPaymentScreen />} />
+              {/*<Route path="/testpayment" element={<TempOldPaymentScreen />} />*/}
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/home" element={<HomeScreen />} />

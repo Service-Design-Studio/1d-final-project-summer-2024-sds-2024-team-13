@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import TransactionCard from "../components/transactions/TransactionCard";
 import styles from "../styles/transactions/History.module.css"
 import TransactionDetailDrawer from "../components/transactions/TransactionDetailDrawer";
-import axios from "axios"
 import axiosInstance from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
 import { ChevronRight } from "@mui/icons-material";
