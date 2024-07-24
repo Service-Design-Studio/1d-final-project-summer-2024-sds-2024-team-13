@@ -1,0 +1,47 @@
+.header {
+    background: #FFF;
+    padding: 1rem 0
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.4rem
+}
+
+.screen {
+    width: 100vw
+}
+
+.transactionsList {
+    margin: 1.4rem 1.2rem 
+}
+
+.dateLabel {
+    text-align: left;
+    margin: 12px 0;
+    color: var(--text-light);
+}
+
+.transactionGroup {
+    margin-bottom: 24px;
+}
+
+.refundListButton {
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    margin: 1.4rem 0;
+    border: none;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    background: #fff;
+    cursor: pointer;
+}
+
+.refundListButton p {
+    font-size: 1rem;
+    font-weight: 600;
+}
