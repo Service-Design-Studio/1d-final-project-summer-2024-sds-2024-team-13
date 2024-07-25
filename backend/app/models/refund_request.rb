@@ -6,6 +6,7 @@ class RefundRequest < ApplicationRecord
   after_destroy :clear_transaction_status
   before_create :generate_refundrequest_id
   before_validation :set_default_status, on: :create
+  validates :status, presence: true #Added by hc
 
   private
 
