@@ -46,7 +46,7 @@ const TransactionDetailDrawer = ({
                     <p className = {styles.label}>Merchant Name</p>
                     <p className = {styles.property}>{transaction.user_name}</p>
                     </div>
-                    {(transaction.status != "pending" && transaction.status != "APPROVED" && transaction.status != "REJECTED" && transaction.status != "REFUNDED") ? <button onClick={()=>navigate("/refunds/request", { state: { transaction: transaction } })} className={styles.refundButton}>Request Refund</button> : <></>}
+                    {(transaction.status !== "pending" && transaction.status !== "APPROVED" && transaction.status !== "REJECTED" && transaction.status !== "REFUNDED") ? <button onClick={()=>navigate("/refunds/request", { state: { transaction: transaction } })} className={styles.refundButton}>Request Refund</button> : <></>}
                     {(transaction.status === "pending") ? <button onClick={()=>navigate("/refunds/")} className={styles.refundButton}>Review Refund Request</button> : <></>}
                 </div>
 
