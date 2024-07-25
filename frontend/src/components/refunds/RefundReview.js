@@ -173,12 +173,14 @@ const RefundReview = () => {
                     <button
                         className={styles.decline}
                         onClick={handleDecline}
+                        data-testid="decline-button"
                     >
                         DECLINE
                     </button>
                     <button
                         className={styles.accept}
                         onClick={handleAccept}
+                        data-testid="accept-button"
                     >
                         ACCEPT
                     </button>
