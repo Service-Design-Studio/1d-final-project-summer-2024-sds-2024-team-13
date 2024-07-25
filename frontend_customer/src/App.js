@@ -12,8 +12,9 @@ import AuthProvider from './context/AuthContext';
 import RegisterScreen from './screens/RegisterScreen';
 import PrivateRoute from './components/PrivateRoute';
 import HistoryScreen from './screens/HistoryScreen';
-import RequestRefund from './screens/RequestRefund';
-import RefundDetails from './screens/RefundDetails';
+import RefundScreen from './components/refunds/RefundScreen';
+import RefundRequest from './components/refunds/RefundRequest';
+import RefundDetails from './components/refunds/RefundDetails';
 import HomeScreen from './screens/HomeScreen';
 
 function Navigation() {
@@ -61,7 +62,8 @@ function ConditionalNavigation() {
   return (location.pathname !== '/' && location.pathname !== '/register' 
     && location.pathname !== '/payment' && location.pathname !== '/payment' 
     && location.pathname !== '/payment/review' && location.pathname !== '/payment/success'
-    && location.pathname !== '/refunds/details') ? <Navigation /> : null;
+    && location.pathname !== '/refunds' && location.pathname !== '/refunds/details'
+    && location.pathname !== '/refunds/request') ? <Navigation /> : null;
 }
 
 function App() {
@@ -78,13 +80,16 @@ function App() {
             
             <Route element={<PrivateRoute />}>
               <Route path="/WIP" element={<WIPScreen />} />
+
               <Route path="/payment" element={<PaymentScreen />} />
               {/*<Route path="/testpayment" element={<TempOldPaymentScreen />} />*/}
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/home" element={<HomeScreen />} />
               <Route path="/history" element={<HistoryScreen />} />
-              <Route path="/refunds/request" element={<RequestRefund />} />
+
+              <Route path="/refunds" element={<RefundScreen />} />
+              <Route path="/refunds/request" element={<RefundRequest />} />
               <Route path="/refunds/details" element={<RefundDetails />} />
             </Route>
 
