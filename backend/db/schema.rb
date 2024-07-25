@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_25_043453) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_25_114326) do
   create_table "customers", primary_key: "customer_id", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "phone_num"
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_043453) do
     t.string "refund_request_id"
     t.string "user_id"
     t.string "customer_id"
+    t.string "request_reason"
+    t.string "response_reason"
   end
 
   create_table "transactions", primary_key: "transaction_id", id: :string, force: :cascade do |t|

@@ -33,7 +33,7 @@ module Customers
 
     def update
       if @refund_request.recipient == @customer
-        if @refund_request.update(status: params[:status])
+        if @refund_request.update(status: params[:status], response_reason: params[:response_reason])
           render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
         else
           render json: { errors: @refund_request.errors.full_messages }, status: :unprocessable_entity
@@ -75,7 +75,7 @@ module Customers
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :request_reason, :response_reason)
     end
 
     def determine_recipient_from_params
