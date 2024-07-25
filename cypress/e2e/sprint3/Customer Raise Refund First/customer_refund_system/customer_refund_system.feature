@@ -21,8 +21,8 @@ Feature: Customer Raising Dispute, Customer View
 
 
     Scenario: Requested Refunds View to Request Refund View
+        Given I clicked on the Request Refunds button
         Then I should be directed to requested refunds page
-        When I click on the Request Refunds button
         Then I should see a pending tab
         And I should see a refunded tab
         And I should see a rejected tab

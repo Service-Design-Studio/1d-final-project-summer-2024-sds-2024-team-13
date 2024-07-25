@@ -68,13 +68,15 @@ Then("I should see a pending tab, refunded tab and rejected tab", () => {
   cy.get('[data-testid="rejected-tab"]').should('be.visible');
 });
 
-Then("I should be directed to requested refunds page", () => {
-  cy.url().should('include', '/refunds');
-});
+Given("I clicked on the Request Refunds button", () => {
+    cy.get('[data-testid="refund-button"]').click();
+  });
 
-When("I click on the Request Refunds button", () => {
-  cy.get('[data-testid="refund-button"]').click();
-});
+Then("I should be directed to requested refunds page", () => {
+    cy.url().should('include', '/refunds');
+    cy.get('[data-testid="requested-refunds-page"]').should('be.visible');
+  });
+
 
 Then("I should see a pending tab", () => {
   cy.get('[data-testid="pending-tab"]').should('be.visible');
@@ -89,7 +91,7 @@ Then("I should see a rejected tab", () => {
 });
 
 Then("I see refunds that are pending", () => {
-  cy.get('[data-testid="pending-refunds"]').should('contain', 'Pending');
+    cy.get('[data-testid="pending-refunds"]', { timeout: 10000 }).should('contain', 'Pending');
 });
 
 When("I click on a pending refund if there is any", () => {
