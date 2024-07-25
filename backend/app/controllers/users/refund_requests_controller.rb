@@ -3,8 +3,8 @@ module Users
   class RefundRequestsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_user
-    before_action :set_transaction
-    before_action :set_refund_request
+    before_action :set_transaction, except: [:index]
+    before_action :set_refund_request, except: [:create, :index]
 
     def show
       render json: @refund_request
@@ -15,6 +15,8 @@ module Users
       @refund_request.sender = @user
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
+      @refund_request.user_id = @user.user_id 
+      @refund_request.customer_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
@@ -22,7 +24,11 @@ module Users
         render json: { errors: @refund_request.errors.full_messages }, status: :unprocessable_entity
       end
     end
-
+    def index
+      # Assuming you want to get refund requests for a specific customer
+      @refund_requests = @user.refund_requests
+      render json: @refund_requests
+    end
     def update
       if @refund_request.recipient == @user
         if @refund_request.update(status: params[:status])
@@ -63,18 +69,18 @@ module Users
     end
     
     def set_refund_request
-      @refund_request = RefundRequest.find(params[:refund_request_id])
+      @refund_request = RefundRequest.find_by(refund_request_id: params[:refund_request_id])
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id)
     end
 
     def determine_recipient_from_params
       recipient_id = params[:refund_request][:recipient_id]
   
-      if User.exists?(recipient_id)
-        User.find(recipient_id)
+      if Customer.exists?(recipient_id)
+        Customer.find(recipient_id)
       elsif User.exists?(recipient_id)
         User.find(recipient_id)
       else

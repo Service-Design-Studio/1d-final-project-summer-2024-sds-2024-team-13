@@ -3,18 +3,26 @@ module Customers
   class RefundRequestsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_customer
-    before_action :set_transaction
-    before_action :set_refund_request, except: [:create]
+    before_action :set_transaction , except:[:index]
+    before_action :set_refund_request, except: [:create, :index]
 
     def show
       render json: @refund_request
     end
-
+    # GET /customers/:customer_id/refund_requests
+    def index
+      # Assuming you want to get refund requests for a specific customer
+      @refund_requests = @customer.refund_requests
+      render json: @refund_requests
+    end
+    
     def create
       @refund_request = RefundRequest.new(refund_request_params)
       @refund_request.sender = @customer
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
+      @refund_request.customer_id = @customer.customer_id 
+      @refund_request.user_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created

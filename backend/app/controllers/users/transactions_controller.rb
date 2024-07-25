@@ -19,7 +19,7 @@ module Users
 
     # POST /users/:user_id/transactions
     def create
-      required_params = [:transaction_id, :customer_id, :customer_number, :payment_method, :amount]
+      required_params = [:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status]
       missing_params = required_params.select { |param| transaction_params[param].blank? }
 
       unless missing_params.empty?
@@ -43,6 +43,7 @@ module Users
       end
     end
 
+
     private
 
     def set_user
@@ -62,7 +63,7 @@ module Users
     
 
     def transaction_params
-      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount)
+      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_24_140103) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_25_043453) do
   create_table "customers", primary_key: "customer_id", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "phone_num"
@@ -31,6 +31,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_140103) do
     t.decimal "expect_amount", precision: 10, scale: 2
     t.decimal "refund_amount", precision: 10, scale: 2
     t.string "refund_request_id"
+    t.string "user_id"
+    t.string "customer_id"
   end
 
   create_table "transactions", primary_key: "transaction_id", id: :string, force: :cascade do |t|
@@ -58,7 +60,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_24_140103) do
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
 
+  add_foreign_key "refund_requests", "customers", primary_key: "customer_id"
   add_foreign_key "refund_requests", "transactions", primary_key: "transaction_id"
+  add_foreign_key "refund_requests", "users", primary_key: "user_id"
   add_foreign_key "transactions", "customers", primary_key: "customer_id"
   add_foreign_key "transactions", "users", primary_key: "user_id"
 end

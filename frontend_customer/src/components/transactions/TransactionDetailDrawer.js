@@ -1,9 +1,11 @@
 import { SwipeableDrawer } from "@mui/material";
 import styles from "../../styles/transactions/TransactionDetailDrawer.module.css"
+import { useNavigate } from "react-router-dom";
 
 const TransactionDetailDrawer = ({
     toggleDrawer, isOpen, transaction
 }) => {
+    const navigate = useNavigate();
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
@@ -40,11 +42,12 @@ const TransactionDetailDrawer = ({
                     <p className = {styles.label}>Payment Method</p>
                     <p className = {styles.property}>{transaction.payment_method}</p>
                     <p className = {styles.label}>Transaction ID</p>
-                    <p className = {styles.property}>{transaction.id}</p>
+                    <p className = {styles.property}>{transaction.transaction_id}</p>
                     <p className = {styles.label}>Merchant Name</p>
-                    <p className = {styles.property}>HAWKER NAME</p>
+                    <p className = {styles.property}>{transaction.user_name}</p>
                     </div>
-                    <button className = {styles.refundButton}>REQUEST REFUND</button>
+                    {(transaction.status !== "pending" && transaction.status !== "APPROVED" && transaction.status !== "REJECTED" && transaction.status !== "REFUNDED") ? <button onClick={()=>navigate("/refunds/request", { state: { transaction: transaction } })} className={styles.refundButton}>Request Refund</button> : <></>}
+                    {(transaction.status === "pending") ? <button onClick={()=>navigate("/refunds/")} className={styles.refundButton}>Review Refund Request</button> : <></>}
                 </div>
 
             </div>
