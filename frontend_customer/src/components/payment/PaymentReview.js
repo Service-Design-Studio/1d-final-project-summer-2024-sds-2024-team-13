@@ -43,7 +43,8 @@ const PaymentReview = ({ transaction }) => {
             customer_number: customer.phone_num,
             payment_method: paymentMethod,
             amount: paymentInfo.amount,
-            transaction_id: paymentInfo.transaction_id
+            transaction_id: paymentInfo.transaction_id,
+            status: "nil"
         };
 
         try {
