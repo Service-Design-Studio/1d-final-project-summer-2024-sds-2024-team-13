@@ -3,12 +3,27 @@
   }
   
   .header {
-    font-size: 70%;
-    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 1rem;
-    text-align: center;
+    top: 0;
+    left: 0;
     margin-bottom: 20px;
   }
+
+  .backButton {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
   
   .amountInput {
     display: flex;

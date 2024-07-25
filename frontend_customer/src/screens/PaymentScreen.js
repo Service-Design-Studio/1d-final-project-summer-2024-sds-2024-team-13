@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../styles/payment/Payment.module.css"
 import QrScanner from "qr-scanner";
 import QrFrame from "../assets/qr-frame.svg";
+import { ArrowBackIosNew } from "@mui/icons-material";
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const PaymentScreen = () => {
     console.log('QR scan success:', result); // Log the QR scan result
 
     const data = JSON.parse(result?.data)
-    if (data.type === "DBSBizQR") { 
+    if (data.type === "DBSBizQR") {
       console.log("Redirecting to /payment/review");
       navigate("/payment/review", { state: { data } });
     }
@@ -62,7 +63,11 @@ const PaymentScreen = () => {
   return (
     <div className={styles.qr_reader}>
       <div className={styles.header}>
-        <h1 className={styles.scan_to_pay}>Scan to Pay</h1>
+        <button className={styles.backButton} onClick={() => navigate("/home")}>
+        <ArrowBackIosNew />
+
+        </button>
+          <h1 className={styles.scan_to_pay}>Scan to Pay</h1>
       </div>
       <video ref={videoEl} className={styles.video_element}></video>
       <div ref={qrBoxEl} className={styles.qr_box}>

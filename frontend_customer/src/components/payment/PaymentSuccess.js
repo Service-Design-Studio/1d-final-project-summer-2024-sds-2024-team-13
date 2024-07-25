@@ -5,10 +5,8 @@ import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
 import animatedBanner from "../../assets/animatedBanner.gif";
-import { useAuth } from '../../context/AuthContext';
 
 const PaymentSuccess = ({ transaction }) => {
-    const { logout } = useAuth();
     const location = useLocation();
     const { paymentInfo } = location.state || {};
     const navigate = useNavigate();
@@ -43,7 +41,7 @@ const PaymentSuccess = ({ transaction }) => {
                 <button className={styles.newButton} onClick={handleNewPayment}>
                     Make a new payment
                 </button>
-                <button className={styles.logoutButton} onClick={()=>logout()}>Log Out</button>
+                <button className={styles.logoutButton} onClick={()=>navigate("/home")}>Back to Home</button>
             </div>
         </div>
     );
