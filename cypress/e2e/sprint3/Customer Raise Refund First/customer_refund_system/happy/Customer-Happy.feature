@@ -5,6 +5,7 @@ Feature: Happy Path, Customer View
     Scenario: Submitting Dispute From Transaction History
         Given I am on the Transaction Popup 
         When I click on one of the transaction card in Transaction History View
+        Then I should see how much I've paid
         Then I am redirected to Request Refund view
         And I should see the amount I paid, who I paid to, my phone number, date and time of transaction, transaction ID, expected payment from customer, reason for dispute and amount to be refunded
         When I click on Request Refund button on the Popup
