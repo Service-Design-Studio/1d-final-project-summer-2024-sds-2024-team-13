@@ -5,11 +5,17 @@ import { useAuth } from '../../context/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
 import { v4 as uuidv4 } from 'uuid';
+import RefundRejectReason from './RefundRejectReason';
 const RefundReview = () => {
     const location = useLocation();
     const { user } = useAuth();
     const navigate = useNavigate();
     const { refund } = location.state || {};
+    const [reply, setReply] = useState("")
+
+
+    const [showOverlay, setShowOverlay] = useState(false)
+
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
@@ -90,9 +96,31 @@ const RefundReview = () => {
             }
         }
     }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
+    const declineRefundRequest = useCallback(async (reply) => {
+        if (user && reply!=="") {
+            const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
+            const requestBody = {
+                status: "REJECTED",
+                refund_request_id: refund.refund_request_id,
+                response_reason: reply,
+            };
+
+            try {
+                const response = await axiosInstance.patch(endpoint, requestBody);
+                if (response.status === 200) {
+                    console.log('Refund request updated successfully:', response.data);
+                    navigate("/refunds");
+                } else {
+                    console.error('Unexpected response status:', response.status);
+                }
+            } catch (error) {
+                console.error('Failed to update refund request:', error);
+            }
+        }
+    }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
 
     const handleDecline = () => {
-        patchRefundRequest("REJECTED");
+        setShowOverlay(true);
 
     };
 
@@ -185,6 +213,7 @@ const RefundReview = () => {
                 </div>
 
             </div>
+            <RefundRejectReason {...{refund, transaction, formatDate, formatTimestamp, showOverlay, setShowOverlay, declineRefundRequest, reply, setReply}}/>
         </div>
     );
 };
