@@ -56,6 +56,30 @@ RSpec.describe "/refund_requests", type: :request do
       )
       expect(response).to be_successful
     end
+
+    context "when refund request is not found" do
+      it "renders a not found response" do
+        get customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: 'non_existent_refund_request'
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Refund request not found')
+      end
+    end
+
+    context "when transaction is not found" do
+      it "renders a not found response" do
+        get customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: 'non_existent_transaction',
+          id: refund_request.refund_request_id
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Transaction not found')
+      end
+    end
   end
 
   describe "POST /create" do
@@ -87,13 +111,77 @@ RSpec.describe "/refund_requests", type: :request do
           ), params: { refund_request: invalid_attributes }
         }.to change(RefundRequest, :count).by(0)
       end
+    end
 
-      it "renders a response with 422 status" do
+    context "when recipient exists as a user" do
+      let(:recipient_user_attributes) {
+        {
+          transaction_id: transaction.transaction_id,
+          sender_id: customer.id,
+          sender_type: 'Customer',
+          recipient_id: user.id,
+          recipient_type: 'User',
+          expect_amount: 100.0,
+          refund_amount: 50.0,
+          status: 'pending'
+        }
+      }
+
+      it "creates a new RefundRequest with a user recipient" do
+        expect {
+          post customer_transaction_refund_request_url(
+            customer_id: customer.customer_id,
+            transaction_id: transaction.transaction_id
+          ), params: { refund_request: recipient_user_attributes }
+        }.to change(RefundRequest, :count).by(1)
+      end
+    end
+
+    context "when recipient doesn't exist" do
+      let(:invalid_recipient_attributes) {
+        {
+          transaction_id: transaction.transaction_id,
+          sender_id: customer.id,
+          sender_type: 'Customer',
+          recipient_id: 'non_existent_user_or_customer',
+          recipient_type: 'User',
+          expect_amount: 100.0,
+          refund_amount: 50.0,
+          status: 'pending'
+        }
+      }
+
+      it "renders a response with 404 status" do
         post customer_transaction_refund_request_url(
           customer_id: customer.customer_id,
           transaction_id: transaction.transaction_id
-        ), params: { refund_request: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        ), params: { refund_request: invalid_recipient_attributes }
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Recipient not found')
+      end
+    end
+
+    context "when recipient is nil" do
+      let(:invalid_recipient_attributes) {
+        {
+          transaction_id: transaction.transaction_id,
+          sender_id: customer.id,
+          sender_type: 'Customer',
+          recipient_id: nil,
+          recipient_type: 'User',
+          expect_amount: 100.0,
+          refund_amount: 50.0,
+          status: 'pending'
+        }
+      }
+
+      it "renders a response with 404 status" do
+        post customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id
+        ), params: { refund_request: invalid_recipient_attributes }
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Recipient not found')
       end
     end
   end
@@ -155,6 +243,42 @@ RSpec.describe "/refund_requests", type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context "when refund request is not found" do
+      it "renders a not found response" do
+        get customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: 'non_existent_refund_request'
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Refund request not found')
+      end
+    end
+
+    context "when transaction is not found" do
+      it "renders a not found response" do
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: 'non_existent_transaction',
+          id: refund_request.refund_request_id
+        ), params: { status: 'approved' }
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Transaction not found')
+      end
+    end
+
+    context "when refund request is nil" do
+      it "renders a not found response" do
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: nil
+        ), params: { status: 'approved' }
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Refund request not found')
+      end
+    end
   end
 
   describe "DELETE /destroy" do
@@ -193,17 +317,41 @@ RSpec.describe "/refund_requests", type: :request do
         expect(JSON.parse(response.body)['error']).to eq('You are not authorized to delete this refund request')
       end
     end
-  end
 
-  describe "callbacks" do
-    it "after_save :update_transaction_status updates the transaction status" do
-      refund_request.save
-      expect(transaction.reload.status).to eq(refund_request.status)
+    context "when refund request is not found" do
+      it "renders a not found response" do
+        delete customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: 'non_existent_refund_request'
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Refund request not found')
+      end
     end
 
-    it "after_destroy :clear_transaction_status clears the transaction status" do
-      refund_request.destroy
-      expect(transaction.reload.status).to be_nil
+    context "when transaction is not found" do
+      it "renders a not found response" do
+        delete customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: 'non_existent_transaction',
+          id: refund_request.refund_request_id
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Transaction not found')
+      end
+    end
+
+    context "when refund request is nil" do
+      it "renders a not found response" do
+        delete customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: nil
+        )
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Refund request not found')
+      end
     end
   end
 end

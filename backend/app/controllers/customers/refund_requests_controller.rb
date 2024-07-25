@@ -22,7 +22,7 @@ module Customers
       @refund_request.recipient = determine_recipient_from_params
       
       if @refund_request.recipient.nil?
-        return render json: { error: 'Recipient not found' }, status: :unprocessable_entity
+        return render json: { error: 'Recipient not found' }, status: :not_found
       end
       
       @refund_request.customer_id = @customer.customer_id
@@ -31,16 +31,10 @@ module Customers
 
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
-      else
-        render json: { errors: @refund_request.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
     def update
-      if @refund_request.nil?
-        return render json: { error: 'Refund request not found' }, status: :not_found
-      end
-      
       if @refund_request.recipient == @customer
         if @refund_request.update(status: params[:status], response_reason: params[:response_reason])
           render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
@@ -53,10 +47,6 @@ module Customers
     end
 
     def destroy
-      if @refund_request.nil?
-        return render json: { error: 'Refund request not found' }, status: :not_found
-      end
-      
       if @refund_request.sender == @customer
         @refund_request.destroy
         render json: { status: 'Refund request deleted successfully' }, status: :ok
@@ -100,8 +90,8 @@ module Customers
       
       if User.exists?(recipient_id)
         User.find(recipient_id)
-      elsif Customer.exists?(recipient_id)
-        Customer.find(recipient_id)
+      # elsif Customer.exists?(recipient_id)
+      #   Customer.find(recipient_id)
       else
         nil
       end
