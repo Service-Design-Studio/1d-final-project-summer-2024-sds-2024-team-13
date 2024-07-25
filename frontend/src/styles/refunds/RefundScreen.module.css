@@ -1,0 +1,19 @@
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ECECEC; /* Ensure the background color is consistent */
+    width: 100%;
+    min-height: 100vh;
+}
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 120px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+}

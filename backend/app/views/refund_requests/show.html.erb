@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @refund_request %>
+
+<div>
+  <%= link_to "Edit this refund request", edit_refund_request_path(@refund_request) %> |
+  <%= link_to "Back to refund requests", refund_requests_path %>
+
+  <%= button_to "Destroy this refund request", @refund_request, method: :delete %>
+</div>
