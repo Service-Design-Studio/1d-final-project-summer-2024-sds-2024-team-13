@@ -162,7 +162,7 @@ const RefundRequest = () => {
         }).toUpperCase();
     };
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-request-view">
             <RefundRequestNav />
             <div className={styles.content}>
                 <div className={styles.sectionTitle}>
@@ -174,21 +174,21 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(transaction.amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-request-amount">SGD {parseFloat(transaction.amount).toFixed(2)}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
-                        <span><b>{transaction.user_name}</b></span>
+                        <span data-testid="refund-request-hawker"><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
-                        <span><b>{transaction.customer_number}</b></span>
+                        <span data-testid="refund-request-customer-mobile"><b>{transaction.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
-                        <span><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
+                        <span data-testid="refund-request-timestamp"><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
                     </div>
                 </div>
 
@@ -204,6 +204,7 @@ const RefundRequest = () => {
                                 value={expectedPayment}
                                 onChange={handleExpectedPaymentChange}
                                 onBlur={() => handleBlur("payment")}
+                                data-testid="refund-request-expected-payment"
                             />
                             {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount).toFixed(2) && (
                                 <ErrorOutline className={styles.errorIcon} />
@@ -221,6 +222,7 @@ const RefundRequest = () => {
                                 value={expectedRefund}
                                 onChange={handleExpectedRefundChange}
                                 onBlur={() => handleBlur("refund")}
+                                data-testid="refund-request-amount-to-be-refunded"
                             />
                             {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount).toFixed(2) && (
                                 <ErrorOutline className={styles.errorIcon} />
@@ -235,6 +237,7 @@ const RefundRequest = () => {
                             className={styles.input}
                             value={reason}
                             onChange={handleReasonChange}
+                            data-testid="refund-request-reasons"
                         />
                         <div className={styles.charCount}>{reason.length}/250</div>
                     </div>
@@ -244,7 +247,7 @@ const RefundRequest = () => {
                         <span className={styles.label}>Transaction ID</span>
                     </div>
                     <div className={styles.row}>
-                        <span><b>{transaction.transaction_id}</b></span>
+                        <span data-testid="refund-request-transaction-id"><b>{transaction.transaction_id}</b></span>
                     </div>
                 </div>
                 {!isSubmitted ? (
@@ -252,11 +255,12 @@ const RefundRequest = () => {
                         className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
                         onClick={handleSubmit}
                         disabled={isButtonDisabled}
+                        data-testid="refund-request-submit-button"
                     >
                         SUBMIT
                     </button>
                 ) : (
-                    <div className={styles.submittedMessage}>
+                    <div className={styles.submittedMessage} data-testid="refund-request-submitted">
                         <CheckCircleIcon className={styles.successIcon} />
                         <span>SUBMITTING...</span>
                     </div>

@@ -26,7 +26,7 @@ const RefundScreen = () => {
     }, [fetchRefundRequests]);
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="requested-refunds-page">
             <RefundScreenNav {...{ setValue, value }} />
             <div className={styles.content}>
                 {refunds.filter(refund => {
@@ -40,8 +40,8 @@ const RefundScreen = () => {
                         default:
                             return true; // If no value matches, return all
                     }
-                }).map(refund => (
-                    <RefundCard key={refund.id} {...{ refund }} />
+                }).map((refund, index) => (
+                    <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`}/>
                 ))}
             </div>
         </div>

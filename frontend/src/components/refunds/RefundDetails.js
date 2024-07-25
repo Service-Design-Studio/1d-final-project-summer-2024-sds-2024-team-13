@@ -1,7 +1,6 @@
-import { useLocation } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom';
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
-import { ErrorOutline } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 import { useCallback, useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
@@ -17,7 +16,7 @@ const RefundDetails = () => {
                 const response = await axiosInstance.get(`/users/${user.user_id}/transactions/${refund.transaction_id}`);
                 if (response.status === 200) {
                     console.log('Transaction details:', response.data);
-                    setTransaction(response.data);  
+                    setTransaction(response.data);
                 } else {
                     console.error('Failed to fetch transaction:', response.status);
                 }
@@ -42,22 +41,24 @@ const RefundDetails = () => {
             year: 'numeric'
         }).toUpperCase();
     };
+    
+    
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-details-view">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {refund.status}</div>
-                
+
                 {(refund.status === "pending") ? <div className={styles.subtitle}>
-                    The refund request is pending action from the customer.
+                    The refund request is pending action from you.
+                </div> :
+                    (refund.status === "APPROVED") ? <div className={styles.subtitle}>
+                        The refund has been approved and processed to the customer.
                     </div> :
-                (refund.status === "APPROVED") ? <div className={styles.subtitle}>
-                    The refund has been approved and processed to the customer.
-                    </div> :
-                (refund.status === "REJECTED") ? <div className={styles.subtitle}>
-                    The refund request has been rejected by the customer.
-                    </div> :<></>}
-                
+                        (refund.status === "REJECTED") ? <div className={styles.subtitle}>
+                            The refund request has been rejected by you.
+                        </div> : <></>}
+
                 <div className={styles.sectionTitle}>
                     <span className={styles.paymentTitle}>Refund Details</span>
                 </div>
@@ -66,43 +67,43 @@ const RefundDetails = () => {
                     <div className={styles.row}>
                         {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
                             Customer will receive
-                            </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
-                            Customer received
-                            </span> :<></>}
+                        </span> :
+                            (refund.status === "APPROVED") ? <span className={styles.label}>
+                                Customer received
+                            </span> : <></>}
                     </div>
                     <div className={styles.row}>
                         <span></span>
                         <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
-                
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(refund.status === "pending" || refund.status === "REJECED") ? <span className={styles.label}>
+                        {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
                             To be paid to
-                            </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
-                            Paid to
-                            </span> :<></>}
-                        <span><b>{transaction?.customer_number ?? "-"}</b></span>
+                        </span> :
+                            (refund.status === "APPROVED") ? <span className={styles.label}>
+                                Paid to
+                            </span> : <></>}
+                        <span data-testid="refund-customer-mobile"><b>{transaction?.customer_number ?? "-"}</b></span>
                     </div>
                     <div className={styles.row}>
                         {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
                             To be paid by
-                            </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
-                            Paid by
-                            </span> :<></>}
-                        <span><b>{transaction.user_name}</b></span>
+                        </span> :
+                            (refund.status === "APPROVED") ? <span className={styles.label}>
+                                Paid by
+                            </span> : <></>}
+                        <span data-testid="refund-hawker"><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
-                        <span><b>{formatDate(refund?.updated_at)}, {formatTimestamp(refund?.updated_at)}</b></span>
+                        <span data-testid="refund-timestamp"><b>{formatDate(refund?.updated_at)}, {formatTimestamp(refund?.updated_at)}</b></span>
                     </div>
                 </div>
 
-               
+
 
                 <div className={styles.fullWidthSection}>
                     {(refund.status === "pending" || refund.status === "APPROVED") ? (<>
@@ -111,33 +112,33 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Expected Payment from Customer</span>
                             </div>
                             <div className={styles.row}>
-                                <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                                <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                             </div>
-                        </div> 
+                        </div>
                         <div className={styles.section}>
                             <div className={styles.row}>
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
+                                <span data-testid="refund-reasons">{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                             </div>
                         </div>
                     </>) : null}
 
-                    {(refund.status==="REJECTED") ? <div className={styles.section}>               
+                    {(refund.status === "REJECTED") ? <div className={styles.section}>
                         <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) from Customer</span>
+                            <span className={styles.label}>Customer Reason(s) for Refund</span>
                         </div>
                         <div className={styles.row}>
-                            <span>I actually bought 100 packets of wanton mee</span>
+                            <span>{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                         </div>
-                    </div> :<></>}
+                    </div> : <></>}
                 </div>
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Original Payment</span>
-                        <span><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
+                        <span data-testid="transaction-amount"><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
@@ -145,28 +146,21 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
-                        <span className={styles.smallID}>{transaction?.transaction_id ?? ""}</span>
+                        <span className={styles.smallID} data-testid="transaction-id">{transaction?.transaction_id ?? ""}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthTransparent}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Refund ID</span>
+                        <span className={styles.label}><b>Refund ID</b></span>
                     </div>
                     <div className={styles.row}>
                         <span><b>{refund.refund_request_id}</b></span>
                     </div>
                 </div>
 
-                {refund.status === "REJECTED" ? (
-                    <div className={styles.redRow}>
-                        <ErrorOutline className={styles.redIcon} />
-                        <span className={styles.redLabel}>
-                            Please contact the customer at the given phone number to verify transaction details.
-                        </span>
-                    </div>
-                ) :<></>}
-
                 
+
+
 
             </div>
         </div>
