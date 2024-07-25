@@ -1,28 +1,39 @@
-import { useLocation } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom'; 
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 import { ErrorOutline } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 
 const RefundDetails = () => {
+    const navigate = useNavigate(); 
     const location = useLocation();
     const { refund } = location.state || {};
-    const { user } = useAuth();
+    const { customer } = useAuth();
 
+
+    const handleCancel = () => {
+        navigate('/history'); 
+    };
+
+    {/*const handleResubmit = () => {
+        navigate('/refunds/request'); 
+    };*/}
+
+    const status = refund.status
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
             <div className={styles.content}>
-                <div className={styles.title}>Refund {refund.status}</div>
+                <div className={styles.title}>Refund {status}</div>
                 
-                {(refund.status === "pending") ? <div className={styles.subtitle}>
-                    The refund request is pending action from the customer.
+                {(status === "pending") ? <div className={styles.subtitle}>
+                    The refund request is pending action from <br></br>the merchant.
                     </div> :
-                (refund.status === "APPROVED") ? <div className={styles.subtitle}>
-                    The refund has been approved and processed to the customer.
+                (status === "APPROVED") ? <div className={styles.subtitle}>
+                    The refund has been approved and processed <br></br>to you.
                     </div> :
-                (refund.status === "REJECTED") ? <div className={styles.subtitle}>
-                    The refund request has been rejected by the customer.
+                (status === "REJECTED") ? <div className={styles.subtitle}>
+                    The refund request has been rejected by <br></br>the merchant.
                     </div> :<></>}
                 
                 <div className={styles.sectionTitle}>
@@ -31,11 +42,11 @@ const RefundDetails = () => {
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
-                            Customer will receive
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
+                            You will receive
                             </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
-                            Customer received
+                        (status === "APPROVED") ? <span className={styles.label}>
+                            You received
                             </span> :<></>}
                     </div>
                     <div className={styles.row}>
@@ -46,22 +57,22 @@ const RefundDetails = () => {
                 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(refund.status === "pending" || refund.status === "REJECED") ? <span className={styles.label}>
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid to
                             </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
+                        (status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
                         <span><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
-                        {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid by
                             </span> :
-                        (refund.status === "APPROVED") ? <span className={styles.label}>
+                        (status === "APPROVED") ? <span className={styles.label}>
                             Paid by
                             </span> :<></>}
-                        <span><b>{user.name}</b></span>
+                        <span><b>LAILAICHICKEN</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
@@ -70,20 +81,19 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {(refund.status === "APPROVED") ? <div className={styles.fullWidthSection}>
+                {(status === "APPROVED") ? <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Refund Transaction ID</span>
                     </div>
                     <div className={styles.row}>
-                        <span><b>REPAYLAH18296309271973212</b></span>
+                        <span><b>REPAYLAH798329781223872</b></span>
                     </div>
                 </div> :<></>}
 
-                <div className={styles.fullWidthSection}>
-                    {(refund.status === "pending" || refund.status === "APPROVED") ? (<>
+                {(status === "pending" || status === "APPROVED") ? <div className={styles.fullWidthSection}>
                         <div className={styles.section}>
                             <div className={styles.row}>
-                                <span className={styles.label}>Expected Payment from Customer</span>
+                                <span className={styles.label}>Expected Payment from You</span>
                             </div>
                             <div className={styles.row}>
                                 <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
@@ -97,17 +107,7 @@ const RefundDetails = () => {
                                 <span>NIL</span>
                             </div>
                         </div>
-                    </>) : null}
-
-                    {(refund.status==="REJECTED") ? <div className={styles.section}>               
-                        <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) from Customer</span>
-                        </div>
-                        <div className={styles.row}>
-                            <span>I actually bought 100 packets of wanton mee</span>
-                        </div>
-                    </div> :<></>}
-                </div>
+                </div> : null}
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
@@ -116,27 +116,31 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue}>17 JUL 24, 09:41:21 AM</span>
+                        <span className={styles.smallValue}>14 JUL 2024, 02:34:19 PM</span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span className={styles.smallValue}>PAYLAH18296309271973212</span>
+                        <span className={styles.smallValue}>PAYLAH798329781223872</span>
                     </div>
                 </div>
 
-                {refund.status === "REJECTED" ? (
+                {status === "REJECTED" ? (
                     <div className={styles.redRow}>
                         <ErrorOutline className={styles.redIcon} />
                         <span className={styles.redLabel}>
-                            Please contact the customer at the given phone number to verify transaction details.
+                            Please make an attempt to contact the merchant to verify transaction details.
                             <br></br>
-                            Resubmit the refund request only if the transaction is confirmed as erroneous.
                         </span>
                     </div>
                 ) :<></>}
 
-                
+                {(status==="pending") ? <button
+                    className={styles.Button}
+                    onClick={handleCancel}
+                >
+                    CANCEL REQUEST
+                </button> :<></>}
 
             </div>
         </div>

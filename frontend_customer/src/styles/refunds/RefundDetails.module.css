@@ -87,63 +87,53 @@
     text-align: left;
 }
 
-.smallLabel {
-    font-weight: 500;
-    color: var(--text-light);
-    font-size: 0.9rem;
-    text-align: left;
-}
-
-.smallValue {
-    font-size: 0.9rem;
-    text-align: right;
-    white-space: nowrap;
-    max-width: 55%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.buttons {
+.Button {
     width: 95%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto; /* Center the buttons container */
-    align-items: center;
-}
-
-.accept, .decline {
-    flex: 1; /* Make both buttons take up equal space */
+    max-width: 400px;
     padding: 1rem;
+    background-color: #FD5A77;
+    color: white;
+    border: none;
+    border-radius: 5px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     margin-top: 1rem;
     text-align: center;
-    margin-right: 0.5rem; /* Add some spacing between the buttons */
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.accept {
-    background-color: #FD5A77;
-    color: white;
-    border: 1px solid #FD5A77;
-}
-
-.accept:hover {
+.Button:hover {
     background-color: #e04e63;
 }
 
-.decline {
-    background-color: white;
-    color: #FD5A77;
-    border: 1px solid #FD5A77;
+.smallLabel {
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 0.9rem;
 }
 
-.decline:hover {
-    background-color: #f8d7da;
+.smallValue {
+    font-size: 0.9rem;
 }
 
-.accept:last-child, .decline:last-child {
-    margin-right: 0; /* Remove the margin from the last button */
+.redRow {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: 0.85rem;
+}
+
+.redLabel {
+    font-weight: 500;
+    color: var(--primary);
+    margin-left: 0.5rem; 
+    flex: 1;
+}
+
+.redIcon {
+    color: var(--primary);
+    margin-top: 0.2rem;
 }

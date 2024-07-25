@@ -6,9 +6,12 @@ import axiosInstance from "../utils/axiosConfig";
 import HistoryList from "../components/history/HistoryList";
 import Insights from "../components/history/Insights";
 import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
+import { ChevronRight } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const HistoryScreen = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [displayedTransactions, setDisplayedTransactions] = useState([]);
     
     const [filterOption, setFilterOption] = useState("thismonth")
@@ -179,6 +182,14 @@ const HistoryScreen = () => {
             <Insights/>
             <div className={styles.content}>
                 <DropdownFilter {...{filterOption, setFilterOption, startDate, setStartDate, setEndDate, endDate}}/>
+                <button 
+                    onClick={()=>navigate("/refunds")}
+                    className={styles.refundRequestsButton}>
+                    <div className={styles.left}>
+                        <p>Requested Refunds</p>
+                    </div>
+                    <ChevronRight/>
+                </button>
                 <HistoryList {...{filterOption, displayedTransactions, isOpen, toggleDrawer, setSelectedTransaction}}/>
 
             </div>

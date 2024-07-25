@@ -1,6 +1,5 @@
 .content {
-    margin: 0 1.2rem;
-    padding: 2rem 0 5.5rem 0;
+    padding: 1.6rem 0 5.5rem 0;
     
 }
 
@@ -25,4 +24,26 @@
 
 .dayInfo p {
     margin: 2px 0;
+}
+
+.refundRequestsButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0.9rem 1rem;
+    width: 100%;
+    margin: 1rem 0;
+    background: #fff;
+    border: none;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+
+}
+
+.refundRequestsButton .left p{
+    margin: 2px 0;
+    font-size: 1rem;
+    font-weight: 600;
 }

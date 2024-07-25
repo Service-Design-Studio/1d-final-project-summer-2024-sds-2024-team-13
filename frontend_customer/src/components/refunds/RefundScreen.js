@@ -1,35 +1,37 @@
 import RefundScreenNav from './RefundScreenNav';
 import styles from "../../styles/refunds/RefundScreen.module.css";
 import { useCallback, useEffect, useState } from 'react';
-import RefundCard from './RefundCard';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from "../../context/AuthContext";
 import axiosInstance from '../../utils/axiosConfig';
+import RefundCard from './RefundCard';
+
 
 const RefundScreen = () => {
-    const { user } = useAuth();
+    const [value, setValue] = useState(0);
+    const { customer } = useAuth();
     const [refunds, setRefunds] = useState([]);
-    const [value, setValue] = useState(0)
     const fetchRefundRequests = useCallback(async () => {
-        if (user) {
+        if (customer) {
             try {
-                const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
+                const response = await axiosInstance.get(`/customers/${customer.customer_id}/refund_requests`);
                 const sortedRefunds = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
                 setRefunds(sortedRefunds);
             } catch (error) {
                 console.error('Failed to fetch refund requests:', error);
             }
         }
-    }, [user]);
+    }, [customer]);
 
     useEffect(() => {
         fetchRefundRequests();
     }, [fetchRefundRequests]);
 
+
     return (
         <div className={styles.screen}>
-            <RefundScreenNav {...{ setValue, value }} />
+            <RefundScreenNav {...{value, setValue}}/>
             <div className={styles.content}>
-                {refunds.filter(refund => {
+            {refunds.filter(refund => {
                     switch (value) {
                         case 0: // Pending refunds
                             return refund.status === "pending";

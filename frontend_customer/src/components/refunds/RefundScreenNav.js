@@ -5,11 +5,9 @@ import Tab from '@mui/material/Tab';
 import styles from "../../styles/refunds/RefundScreenNav.module.css";
 
 const RefundScreenNav = ({
-    value,
-    setValue
+    value, setValue
 }) => {
     const navigate = useNavigate();
-    
 
     const handleBack = () => {
         navigate("/history");
@@ -28,7 +26,7 @@ const RefundScreenNav = ({
                 <h2 className={styles.title}>Requested Refunds</h2>
             </div>
             <Tabs value={value} onChange={handleChange} centered className={styles.tabs}>
-                <Tab  label="Requests" />
+                <Tab  label="Pending" />
                 <Tab  label="Refunded" />
                 <Tab  label="Rejected" />
             </Tabs>

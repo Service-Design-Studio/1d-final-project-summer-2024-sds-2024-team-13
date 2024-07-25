@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RefundRequestNav from './RefundRequestNav';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ErrorOutline } from '@mui/icons-material';
 import styles from "../../styles/refunds/RefundRequest.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
-import { v4 as uuidv4 } from 'uuid';
 
 const RefundRequest = () => {
     const location = useLocation();
@@ -16,8 +15,7 @@ const RefundRequest = () => {
     const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const { user } = useAuth();
-    const navigate = useNavigate();
+    const { customer } = useAuth();
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -34,9 +32,9 @@ const RefundRequest = () => {
                 setHasError(false);
             } else {
                 const payment = parseFloat(value) || 0;
-                const refund = (parseFloat(transaction.amount).toFixed(2) - payment).toFixed(2);
+                const refund = (parseFloat(transaction.amount) - payment).toFixed(2);
                 setExpectedRefund(refund >= 0 ? refund : "");
-                setHasError(payment > parseFloat(transaction.amount).toFixed(2));
+                setHasError(payment > parseFloat(transaction.amount));
             }
         }
     };
@@ -50,9 +48,9 @@ const RefundRequest = () => {
                 setHasError(false);
             } else {
                 const refund = parseFloat(value) || 0;
-                const payment = (parseFloat(transaction.amount).toFixed(2) - refund).toFixed(2);
+                const payment = (parseFloat(transaction.amount) - refund).toFixed(2);
                 setExpectedPayment(payment >= 0 ? payment : "");
-                setHasError(refund > parseFloat(transaction.amount).toFixed(2));
+                setHasError(refund > parseFloat(transaction.amount));
             }
         }
     };
@@ -76,55 +74,32 @@ const RefundRequest = () => {
         }
     };
 
-    const createTransaction = useCallback(async () => {
-        if (user) {
-            const endpoint = `/users/${user.user_id}/transactions`;
-            try {
-                const response = await axiosInstance.post(endpoint, 
-                    {
-                        customer_id: transaction.customer_id,
-                        customer_number: transaction.customer_number,
-                        payment_method: transaction.payment_method,
-                        amount: expectedRefund,
-                        transaction_id: uuidv4(),
-                        status: "REFUNDED"
-                    }
-                );
-                if (response.status === 201) {
-                    console.log('Transaction created successfully:', response.data);
-                    return response.data;  // Return the created transaction data or true to indicate success
-                } else {
-                    console.error('Failed to create transaction:', response.status, response.data);
-                    return null;  // Return null or false to indicate failure
-                }
-            } catch (error) {
-                console.error('Error creating transaction:', error);
-                return null;
-            }
-        }
-        return null;  // Return null if user is not defined
-    }, [user, expectedRefund, transaction.customer_id, transaction.customer_number, transaction.payment_method]);
+    const navigate = useNavigate();
 
-    // SEND FROM HAWKER TO CUSTOMER
+    const handleSubmit = () => {
+        setIsSubmitted(true);
+        createRefundRequest();
+    };
+
+    const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
     const createRefundRequest = useCallback(async () => {
-        if (user) {
+        if (customer) {
             try {
                 const requestBody = {
                     refund_request: {
                         transaction_id: transaction?.transaction_id ?? "",
-                        status: "APPROVED",
+                        status: "pending",
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
-                        recipient_id: transaction?.customer_id ?? "",
-                        recipient_type: "Customer"
+                        recipient_id: transaction?.user_id ?? "",
+                        recipient_type: "User"
                     }
                 };
     
-                const response = await axiosInstance.post(`/users/${user.user_id}/transactions/${transaction.transaction_id}/refund_request`, requestBody);
+                const response = await axiosInstance.post(`/customers/${customer.customer_id}/transactions/${transaction.transaction_id}/refund_request`, requestBody);
     
                 if (response.status === 201) {
                     console.log('Refund request created successfully:', response.data);
-                    createTransaction();
                     navigate("/refunds")
                 } else {
                     console.error('Unexpected response status:', response.status);
@@ -133,21 +108,12 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error);
             }
         }
-    }, [ user, 
+    }, [ customer, 
         expectedPayment, 
         expectedRefund, 
         transaction?.transaction_id, 
         transaction?.customer_id, 
-        navigate,
-    createTransaction]);
-    
-    const handleSubmit = () => {
-        setIsSubmitted(true);
-        createRefundRequest();
-    };
-
-    const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
-
+        navigate]);
     return (
         <div className={styles.screen}>
             <RefundRequestNav />
@@ -157,7 +123,7 @@ const RefundRequest = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Customer paid</span>
+                        <span className={styles.label}>You've paid</span>
                     </div>
                     <div className={styles.row}>
                         <span></span>
@@ -176,7 +142,7 @@ const RefundRequest = () => {
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>17 Jul 2024, 09:41:21 AM</b></span>
+                        <span><b>14 JUL 2024, 02:34:19 PM</b></span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
@@ -189,7 +155,7 @@ const RefundRequest = () => {
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Expected Payment from Customer</div>
+                        <div className={styles.sectionTitle}>Expected Payment from You</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
                             <input 
@@ -200,7 +166,7 @@ const RefundRequest = () => {
                                 onChange={handleExpectedPaymentChange}
                                 onBlur={() => handleBlur("payment")}
                             />
-                            {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount).toFixed(2) && (
+                            {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount) && (
                                 <ErrorOutline className={styles.errorIcon} />
                             )}
                         </div>
@@ -217,7 +183,7 @@ const RefundRequest = () => {
                                 onChange={handleExpectedRefundChange}
                                 onBlur={() => handleBlur("refund")}
                             />
-                            {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount).toFixed(2) && (
+                            {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount) && (
                                 <ErrorOutline className={styles.errorIcon} />
                             )}
                         </div>
@@ -245,7 +211,7 @@ const RefundRequest = () => {
                 ) : (
                     <div className={styles.submittedMessage}>
                         <CheckCircleIcon className={styles.successIcon} />
-                        <span>SUBMITTING...</span>
+                        <span>SUBMITTED!</span>
                     </div>
                 )}
             </div>
