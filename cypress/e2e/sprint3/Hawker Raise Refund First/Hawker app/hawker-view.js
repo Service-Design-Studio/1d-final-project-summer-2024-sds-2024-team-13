@@ -9,10 +9,6 @@ Before(() => {
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
 });
 
-Given("I am on logged into the app", () => {
-  // Already covered in Before hook
-});
-
 Given("on Transaction History View", () => {
   cy.contains("History").click();
   cy.url().should('include', '/history');

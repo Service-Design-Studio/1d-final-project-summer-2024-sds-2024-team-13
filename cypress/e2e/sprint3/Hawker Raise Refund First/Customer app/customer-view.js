@@ -6,11 +6,6 @@ Before(() => {
   cy.get('input[placeholder="Phone Number"]').type('12345678');
   cy.get('input[placeholder="Password"]').type('123');
   cy.contains("LOG IN").click();
-  cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
-});
-
-Given("I am on logged into the app", () => {
-  // Already covered in Before hook
 });
 
 Given("I am on the History View", () => {

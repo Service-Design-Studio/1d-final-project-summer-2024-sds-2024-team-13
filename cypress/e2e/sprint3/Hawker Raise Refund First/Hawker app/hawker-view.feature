@@ -1,7 +1,6 @@
 Feature: Hawker Raising Refund First, Hawker View
     Background: 
-        Given I am on logged into the app
-        And on Transaction History View
+        Given on Transaction History View
     
     Scenario: Transaction History View to Transaction Details Popup
         When I click on one of the transactions in the Transaction History View
