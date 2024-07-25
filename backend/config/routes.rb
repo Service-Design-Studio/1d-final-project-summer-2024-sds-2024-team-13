@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :customers do
-    resources :transactions, module: :customers, param: :transaction_id do
+    resources :transactions, module: :customers do
       resource :refund_request, controller: 'refund_requests' do
         member do
           patch :update_status
