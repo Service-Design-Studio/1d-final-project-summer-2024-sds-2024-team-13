@@ -174,21 +174,21 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(transaction.amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(transaction.amount).toFixed(2)}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
-                        <span><b>{transaction.user_name}</b></span>
+                        <span data-testid="refund-hawker"><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
-                        <span><b>{transaction.customer_number}</b></span>
+                        <span data-testid="refund-customer-mobile"><b>{transaction.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
-                        <span><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
+                        <span data-testid="refund-timestamp"><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
                     </div>
                 </div>
 
