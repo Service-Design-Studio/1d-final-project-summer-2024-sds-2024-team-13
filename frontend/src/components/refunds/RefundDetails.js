@@ -30,7 +30,18 @@ const RefundDetails = () => {
     useEffect(() => {
         fetchTransactionDetails();
     }, [fetchTransactionDetails]);
-
+    const formatTimestamp = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+    };
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
@@ -83,12 +94,11 @@ const RefundDetails = () => {
                         (refund.status === "APPROVED") ? <span className={styles.label}>
                             Paid by
                             </span> :<></>}
-                        <span><b>{user.name}</b></span>
+                        <span><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>18 Jul 2024, 14:51:52 AM</b></span>
+                        <span><b>{formatDate(refund?.updated_at)}, {formatTimestamp(refund?.updated_at)}</b></span>
                     </div>
                 </div>
 
@@ -127,15 +137,15 @@ const RefundDetails = () => {
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Original Payment</span>
-                        <span><b>SGD {parseFloat(parseFloat(refund.expect_amount)+parseFloat(refund.refund_amount)).toFixed(2)}</b></span>
+                        <span><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue}>17 JUL 24, 09:41:21 AM</span>
+                        <span className={styles.smallValue}>{formatDate(transaction?.created_at)}, {formatTimestamp(transaction?.created_at)}</span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
-                        <span className={styles.smallValue}>PAYLAH18296309271973212</span>
+                        <span className={styles.smallID}>{transaction?.transaction_id ?? ""}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthTransparent}>
