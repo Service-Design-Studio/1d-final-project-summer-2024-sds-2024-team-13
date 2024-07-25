@@ -178,13 +178,15 @@ const HistoryScreen = () => {
     })
 
     return ( 
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="transaction-history-view">
             <Insights/>
             <div className={styles.content}>
                 <DropdownFilter {...{filterOption, setFilterOption, startDate, setStartDate, setEndDate, endDate}}/>
                 <button 
                     onClick={()=>navigate("/refunds")}
-                    className={styles.refundRequestsButton}>
+                    className={styles.refundRequestsButton}
+                    data-testid="requested-refunds-button"
+                    >
                     <div className={styles.left}>
                         <p>Requested Refunds</p>
                     </div>
