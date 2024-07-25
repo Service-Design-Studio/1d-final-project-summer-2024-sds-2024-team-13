@@ -86,7 +86,8 @@ Then("I should see green SUBMITTED", () => {
 });
 
 When("I fill up accordingly", () => {
-  cy.get('input[placeholder="Reason"]').type('Incorrect amount charged');
+  cy.get('input[data-testid="refund-reasons"]').type('Incorrect amount charged');
+  cy.get('input[data-testid="refund-expected-payment"]').type('1');
 });
 
 When("click on Submit", () => {
