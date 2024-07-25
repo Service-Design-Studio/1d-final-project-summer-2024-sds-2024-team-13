@@ -91,10 +91,16 @@
     font-weight: 500;
     color: var(--text-light);
     font-size: 0.9rem;
+    text-align: left;
 }
 
 .smallValue {
     font-size: 0.9rem;
+    text-align: right;
+    white-space: nowrap;
+    max-width: 55%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttons {
