@@ -92,12 +92,13 @@ const RefundRequest = () => {
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
                         recipient_id: transaction?.user_id ?? "",
-                        recipient_type: "User"
+                        recipient_type: "User",
+                        request_reason: reason
                     }
                 };
-    
+
                 const response = await axiosInstance.post(`/customers/${customer.customer_id}/transactions/${transaction.transaction_id}/refund_request`, requestBody);
-    
+
                 if (response.status === 201) {
                     console.log('Refund request created successfully:', response.data);
                     navigate("/refunds")
@@ -108,12 +109,25 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error);
             }
         }
-    }, [ customer, 
-        expectedPayment, 
-        expectedRefund, 
-        transaction?.transaction_id, 
+    }, [customer,
+        expectedPayment,
+        expectedRefund,
+        transaction?.transaction_id,
         transaction?.user_id,
         navigate]);
+
+    const formatTimestamp = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+    };
     return (
         <div className={styles.screen} data-testid="refund-request-view">
             <RefundRequestNav />
@@ -141,27 +155,19 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span data-testid="refund-timestamp"><b>14 JUL 2024, 02:34:19 PM</b></span>
+                        <span data-testid="refund-timestamp"><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
                     </div>
                 </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Transaction ID</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span data-testid="refund-transaction-id"><b>{transaction.transaction_id}</b></span>
-                    </div>
-                </div>
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
                         <div className={styles.sectionTitle}>Expected Payment from You</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
-                            <input 
-                                type="text" 
-                                placeholder="0.00" 
-                                className={styles.input} 
+                            <input
+                                type="text"
+                                placeholder="0.00"
+                                className={styles.input}
                                 value={expectedPayment}
                                 onChange={handleExpectedPaymentChange}
                                 onBlur={() => handleBlur("payment")}
@@ -176,10 +182,10 @@ const RefundRequest = () => {
                         <div className={styles.sectionTitle}>Amount to be Refunded</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
-                            <input 
-                                type="text" 
-                                placeholder="0.00" 
-                                className={styles.input} 
+                            <input
+                                type="text"
+                                placeholder="0.00"
+                                className={styles.input}
                                 value={expectedRefund}
                                 onChange={handleExpectedRefundChange}
                                 onBlur={() => handleBlur("refund")}
@@ -192,15 +198,23 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.section}>
                         <div className={styles.sectionTitle}>Reason(s) for Refund</div>
-                        <input 
-                            type="text" 
-                            placeholder="Add comments" 
-                            className={styles.input} 
+                        <input
+                            type="text"
+                            placeholder="Add comments"
+                            className={styles.input}
                             value={reason}
                             onChange={handleReasonChange}
                             data-testid="refund-reason-input"
                         />
                         <div className={styles.charCount}>{reason.length}/250</div>
+                    </div>
+                </div>
+                <div className={styles.fullWidthTransparent}>
+                    <div className={styles.row}>
+                        <span className={styles.label}>Transaction ID</span>
+                    </div>
+                    <div className={styles.row}>
+                        <span data-testid="refund-transaction-id"><b>{transaction.transaction_id}</b></span>
                     </div>
                 </div>
                 {!isSubmitted ? (
