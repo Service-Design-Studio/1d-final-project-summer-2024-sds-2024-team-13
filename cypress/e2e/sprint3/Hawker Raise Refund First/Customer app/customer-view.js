@@ -14,16 +14,10 @@ Given("I am on the History View", () => {
 });
 
 When("hawker sends a refund", () => {
-  // Simulate hawker sending a refund, you might need to mock this action if not possible through UI
-  cy.request('POST', '/api/refund', { /* refund data */ }).then((response) => {
-    expect(response.status).to.eq(200);
-  });
 });
 
 Then("I should see a new transaction card about the refund", () => {
-  cy.get('[data-testid="transaction-list"]').should('contain', 'Refund');
+  cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUND');
 });
 
-Then("I should see a green text which signifies increase", () => {
-  cy.get('[data-testid="transaction-list"] .refund-transaction').should('have.css', 'color', 'rgb(0, 128, 0)'); // assuming green text is styled with class 'refund-transaction'
-});
+

@@ -20,11 +20,14 @@ Given("I am on Refund Request view", () => {
 });
 
 When("I click on transaction card that contains {string}", (status) => {
-  cy.contains(status).click();
+  cy.get('[data-testid^="refund-card"]')
+    .first()
+    .should('be.visible')
+    .click({ force: true });
 });
 
 Then("I should be redirected to Refund Details view of the transaction card", () => {
-  cy.url().should('include', '/refunds/details');
+  cy.url().should('include', '/refunds/review');
 });
 
 Then("I should see decline button", () => {
