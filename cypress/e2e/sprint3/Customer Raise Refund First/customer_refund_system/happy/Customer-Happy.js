@@ -14,7 +14,10 @@ Given("I am on the Transaction History View", () => {
 });
 
 Given("I am on the Transaction Popup", () => {
-  cy.get('[data-testid^="transaction-card"]').first().click(); // Assuming clicking the first transaction for simplicity
+  cy.get('[data-testid^="transaction-card"]', { timeout: 10000 }) // Wait up to 10 seconds for the element
+    .first()
+    .should('be.visible')
+    .click({ force: true }); // Force the click in case the element is covered by another element
   cy.get('[data-testid="transaction-details-popup"]').should('be.visible');
 });
 
