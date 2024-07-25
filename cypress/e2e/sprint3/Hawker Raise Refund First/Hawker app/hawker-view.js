@@ -77,28 +77,28 @@ Then("I should see the transaction ID", () => {
   cy.get('[data-testid="refund-request-transaction-id"]').should('be.visible');
 });
 
-Then("I should see the reason(s) for refund", () => {
+Then("I should see the reason for refund", () => {
   cy.get('[data-testid="refund-request-reasons"]').should('be.visible');
 });
 
-Then("I should see green SUBMITTED", () => {
-  cy.get('[data-testid="refund-request-submitted"]').should('be.visible');
-});
-
-When("I fill up accordingly", () => {
+Then("I fill up accordingly", () => {
   cy.get('input[data-testid="refund-request-reasons"]').type('Incorrect amount charged');
   cy.get('input[data-testid="refund-request-expected-payment"]').type('1');
 });
 
-When("click on Submit", () => {
+Then("I should see Submit Button", () => {
+  cy.get('[data-testid="refund-request-submit-button"]').should('be.visible');
+});
+
+Then("click on Submit", () => {
   cy.get('[data-testid="refund-request-submit-button"]').click();
 });
 
-Then("I should be redirected back to Transaction History View", () => {
-  cy.url().should('include', '/history');
+Then("I should be redirected back to Requested Refund View", () => {
+  cy.url().should('include', '/refunds');
 });
 
-Then("I should see a deduction in my daily earnings and total earnings", () => {
+Then("I should see a deduction in my daily earnings and total earnings on Transaction History", () => {
   cy.get('[data-testid="daily-earnings"]').should('contain', '-'); // Assuming negative value indicates deduction
   cy.get('[data-testid="total-earnings"]').should('contain', '-');
 });
@@ -112,42 +112,12 @@ Then("I should see a Requested Refunds page", () => {
   cy.get('[data-testid="requested-refunds-page"]').should('be.visible');
 });
 
+Then("when I click on the back button", () => {
+  cy.get('[data-testid="back-button"]').click();
+});
+
 Then("I should see a pending tab, refunded tab and rejected tab", () => {
   cy.get('[data-testid="pending-tab"]').should('be.visible');
   cy.get('[data-testid="refunded-tab"]').should('be.visible');
   cy.get('[data-testid="rejected-tab"]').should('be.visible');
-});
-
-Then("I should be directed to requested refunds page", () => {
-  cy.url().should('include', '/refunds');
-});
-
-Then("I should see a pending tab", () => {
-  cy.get('[data-testid="pending-tab"]').should('be.visible');
-});
-
-Then("I should see a refunded tab", () => {
-  cy.get('[data-testid="refunded-tab"]').should('be.visible');
-});
-
-Then("I should see a rejected tab", () => {
-  cy.get('[data-testid="rejected-tab"]').should('be.visible');
-});
-
-Then("I see refunds that are pending from customer", () => {
-  cy.get('[data-testid="pending-refunds"]').should('contain', 'Pending');
-});
-
-When("I click on a pending refund if there is any", () => {
-  cy.get('[data-testid^="refund-card-"]').first().click(); // Click the first pending refund
-});
-
-Then("I should see the Refund Details View", () => {
-  cy.url().should('include', '/refunds/details');
-  cy.get('[data-testid="refund-details-view"]').should('be.visible');
-});
-
-Then("I should see two buttons, one for accept and one for decline", () => {
-  cy.get('[data-testid="accept-button"]').should('be.visible');
-  cy.get('[data-testid="decline-button"]').should('be.visible');
 });

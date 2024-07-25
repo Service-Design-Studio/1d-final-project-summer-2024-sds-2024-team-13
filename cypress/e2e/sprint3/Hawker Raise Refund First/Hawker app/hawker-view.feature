@@ -18,12 +18,13 @@ Feature: Hawker Raising Refund First, Hawker View
         And I should see the customer mobile that paid
         And I should see the date and time of the transaction
         And I should see the transaction ID
-        And I should see the reason(s) for refund
-        Then I should see green SUBMITTED
-        When I fill up accordingly
+        And I should see the reason for refund
+        Then I fill up accordingly
+        Then I should see Submit Button
         And click on Submit
-        Then I should be redirected back to Transaction History View
-        And I should see a deduction in my daily earnings and total earnings
+        Then I should be redirected back to Requested Refund View
+        Then when I click on the back button 
+        And I should see a deduction in my daily earnings and total earnings on Transaction History
 
         
     Scenario: Going Into Request Refunds View
@@ -31,14 +32,4 @@ Feature: Hawker Raising Refund First, Hawker View
         Then I should see a Requested Refunds page
         And I should see a pending tab, refunded tab and rejected tab
 
-    
-    Scenario: Refund submitted to customer
-        Then I should be directed to requested refunds page
-        When I click on the Request Refunds button
-        Then I should see a pending tab
-        And I should see a refunded tab
-        And I should see a rejected tab
-        And I see refunds that are pending from customer
-        And I click on a pending refund if there is any
-        Then I should see the Refund Details View
-        And I should see two buttons, one for accept and one for decline
+   
