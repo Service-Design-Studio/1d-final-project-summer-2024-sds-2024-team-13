@@ -15,6 +15,8 @@ module Users
       @refund_request.sender = @user
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
+      @refund_request.user_id = @user.user_id 
+      @refund_request.customer_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
@@ -67,11 +69,11 @@ module Users
     end
     
     def set_refund_request
-      @refund_request = RefundRequest.find(params[:refund_request_id])
+      @refund_request = RefundRequest.find_by(refund_request_id: params[:refund_request_id])
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id)
     end
 
     def determine_recipient_from_params

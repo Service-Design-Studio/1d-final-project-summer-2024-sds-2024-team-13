@@ -4,3 +4,4 @@ backend/db/development.sqlite3
 backend/db/development.sqlite3-shm
 backend/db/development.sqlite3-wal
 backend/tmp/
+backend/db/development.sqlite3-wal

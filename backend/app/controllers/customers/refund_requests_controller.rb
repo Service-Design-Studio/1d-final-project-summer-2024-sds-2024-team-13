@@ -21,6 +21,8 @@ module Customers
       @refund_request.sender = @customer
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
+      @refund_request.customer_id = @customer.customer_id 
+      @refund_request.user_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
