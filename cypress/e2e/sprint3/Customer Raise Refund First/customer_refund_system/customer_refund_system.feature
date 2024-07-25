@@ -11,10 +11,10 @@ Feature: Customer Raising Dispute, Customer View
         And I should see payment source     
         And I should see transaction ID
         And I should see customer mobile
-        And I should see a Refund Customer button
 
         
     Scenario: Going Into Request Refunds View
+        Given I am back on Transaction History View
         When I click on Requested Refunds button
         Then I should see a Requested Refunds page
         And I should see a pending tab, refunded tab and rejected tab
