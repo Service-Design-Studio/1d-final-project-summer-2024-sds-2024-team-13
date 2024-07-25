@@ -41,6 +41,8 @@ const RefundDetails = () => {
             year: 'numeric'
         }).toUpperCase();
     };
+    
+    
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
