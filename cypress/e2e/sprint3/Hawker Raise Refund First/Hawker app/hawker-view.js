@@ -15,7 +15,7 @@ Given("on Transaction History View", () => {
 });
 
 When("I click on one of the transactions in the Transaction History View", () => {
-  cy.get('[data-testid="transaction-list"] > :first-child').click(); // Assuming clicking the first transaction for simplicity
+  cy.get('[data-testid^="transaction-card"]').first().should('be.visible').click({ force: true });
 });
 
 Then("I should see a popup Transaction Details View", () => {
@@ -100,7 +100,7 @@ Then("I should see a deduction in my daily earnings and total earnings", () => {
 });
 
 When("I click on Requested Refunds button", () => {
-  cy.get('[data-testid="refund-button"]').click();
+  cy.get('[data-testid="requested-refunds-button"]').click();
 });
 
 Then("I should see a Requested Refunds page", () => {
@@ -135,7 +135,7 @@ Then("I see refunds that are pending from customer", () => {
 });
 
 When("I click on a pending refund if there is any", () => {
-  cy.get('[data-testid="pending-refunds"] > :first-child').click(); // Assuming clicking the first pending refund for simplicity
+  cy.get('[data-testid^="refund-card-"]').first().click(); // Click the first pending refund
 });
 
 Then("I should see the Refund Details View", () => {
