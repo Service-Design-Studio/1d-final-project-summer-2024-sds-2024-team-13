@@ -19,7 +19,7 @@ const TransactionCard = ({
             
             }}>
             <div className={styles.top}>
-                <p className={styles.title}>HAWKER NAME</p>
+                <p className={styles.title}>{transaction.user_name}</p>
                 <ChevronRight/>
             </div>
             <div className={styles.bottom}>

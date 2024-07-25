@@ -40,9 +40,9 @@ const TransactionDetailDrawer = ({
                     <p className = {styles.label}>Payment Method</p>
                     <p className = {styles.property}>{transaction.payment_method}</p>
                     <p className = {styles.label}>Transaction ID</p>
-                    <p className = {styles.property}>{transaction.id}</p>
+                    <p className = {styles.property}>{transaction.transaction_id}</p>
                     <p className = {styles.label}>Merchant Name</p>
-                    <p className = {styles.property}>HAWKER NAME</p>
+                    <p className = {styles.property}>{transaction.user_name}</p>
                     </div>
                     <button className = {styles.refundButton}>REQUEST REFUND</button>
                 </div>
