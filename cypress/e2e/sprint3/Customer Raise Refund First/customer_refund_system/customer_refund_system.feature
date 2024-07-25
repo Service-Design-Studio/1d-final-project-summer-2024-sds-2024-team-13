@@ -34,5 +34,5 @@ Feature: Customer Raising Dispute, Customer View
         And I should see the customer mobile that paid
         And I should see the date and time of the transaction
         And I should see the transaction ID
-        And I should see the reason(s) for refund
+        And I should see the reasons for refund
     

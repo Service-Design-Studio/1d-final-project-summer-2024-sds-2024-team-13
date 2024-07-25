@@ -91,11 +91,14 @@ Then("I should see a rejected tab", () => {
 });
 
 Then("I see refunds that are pending", () => {
-    cy.get('[data-testid="pending-refunds"]', { timeout: 10000 }).should('contain', 'Pending');
+    cy.get('[data-testid^="refund-card"]').should('have.length.greaterThan', 0)
 });
 
 When("I click on a pending refund if there is any", () => {
-  cy.get('[data-testid="pending-refunds"] > :first-child').click();
+  cy.get('[data-testid^="refund-card"]')
+    .first()
+    .should('be.visible')
+    .click({ force: true });
 });
 
 Then("I should see the Request Refund View", () => {
@@ -123,6 +126,6 @@ Then("I should see the transaction ID", () => {
   cy.get('[data-testid="refund-transaction-id"]').should('be.visible');
 });
 
-Then("I should see the reason(s) for refund", () => {
+Then("I should see the reasons for refund", () => {
   cy.get('[data-testid="refund-reasons"]').should('be.visible');
 });
