@@ -38,14 +38,28 @@ Then("I should see accept button", () => {
   cy.get('[data-testid="accept-button"]').should('be.visible');
 });
 
-Then("I did not give a reason for rejection", () => {
-  // Assume the form or the field for giving a reason for rejection is left empty
-});
+Then("I click on the Accept button", () => {
+    cy.get('[data-testid="accept-button"]').click();
+  });
+  
+  Then("I should be redirected back to Transaction History view", () => {
+    cy.get('[data-testid="back-button"]').click();
+    cy.url().should('include', '/history');
+  });
+  
+  Then("I should see a new transaction card with a deduction and word saying “REFUNDED”", () => {
+    cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUND');
+    });
+   
+  Then("I click on Requested Refund button", () => {
+    cy.get('[data-testid="requested-refunds-button"]').click();
+      });
+  Then("Click on Refunded Tab in Requested Refunds view", () => {
+    cy.get('[data-testid="refunded-tab"]').click();
+      });
 
-Then("I should see that the Decline button is greyed out", () => {
-  cy.get('[data-testid="decline-button"]').should('have.attr', 'disabled');
-});
-
-Then("I should not be able to press it", () => {
-  cy.get('[data-testid="decline-button"]').should('be.disabled');
-});
+  Then("I should see the refunded transaction in the Refunded Tab", () => {
+    cy.get('[data-testid^="refund-card"]')
+      .first()
+      .should('contain', 'REFUNDED');
+    });

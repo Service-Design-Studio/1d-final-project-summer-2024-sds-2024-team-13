@@ -50,7 +50,7 @@ When("I click on Request Refund button on the Popup", () => {
 });
 
 Then("I fill in the respective fields for expected payment from customer", () => {
-  cy.get('[data-testid="expected-payment-input"]').type('50'); // Example value
+  cy.get('[data-testid="expected-payment-input"]').type('1'); // Example value
   cy.get('[data-testid="refund-reason-input"]').type('Incorrect amount charged');
 });
 
