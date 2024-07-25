@@ -109,7 +109,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>{(refund.request_reason != "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
+                                <span>{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                             </div>
                         </div>
                     </>) : null}
