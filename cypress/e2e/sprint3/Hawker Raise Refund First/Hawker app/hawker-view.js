@@ -58,40 +58,40 @@ Then("I should be redirected to Refund Customer View", () => {
 });
 
 Then("I should see the amount the customer paid", () => {
-  cy.get('[data-testid="refund-amount"]').should('be.visible');
+  cy.get('[data-testid="refund-request-amount"]').should('be.visible');
 });
 
 Then("I should see the hawker the amount was paid to", () => {
-  cy.get('[data-testid="refund-hawker"]').should('be.visible');
+  cy.get('[data-testid="refund-request-hawker"]').should('be.visible');
 });
 
 Then("I should see the customer mobile that paid", () => {
-  cy.get('[data-testid="refund-customer-mobile"]').should('be.visible');
+  cy.get('[data-testid="refund-request-customer-mobile"]').should('be.visible');
 });
 
 Then("I should see the date and time of the transaction", () => {
-  cy.get('[data-testid="refund-timestamp"]').should('be.visible');
+  cy.get('[data-testid="refund-request-timestamp"]').should('be.visible');
 });
 
 Then("I should see the transaction ID", () => {
-  cy.get('[data-testid="refund-transaction-id"]').should('be.visible');
+  cy.get('[data-testid="refund-request-transaction-id"]').should('be.visible');
 });
 
 Then("I should see the reason(s) for refund", () => {
-  cy.get('[data-testid="refund-reasons"]').should('be.visible');
+  cy.get('[data-testid="refund-request-reasons"]').should('be.visible');
 });
 
 Then("I should see green SUBMITTED", () => {
-  cy.get('[data-testid="refund-submitted"]').should('be.visible');
+  cy.get('[data-testid="refund-request-submitted"]').should('be.visible');
 });
 
 When("I fill up accordingly", () => {
-  cy.get('input[data-testid="refund-reasons"]').type('Incorrect amount charged');
-  cy.get('input[data-testid="refund-expected-payment"]').type('1');
+  cy.get('input[data-testid="refund-request-reasons"]').type('Incorrect amount charged');
+  cy.get('input[data-testid="refund-request-expected-payment"]').type('1');
 });
 
 When("click on Submit", () => {
-  cy.get('[data-testid="refund-submit-button"]').click();
+  cy.get('[data-testid="refund-request-submit-button"]').click();
 });
 
 Then("I should be redirected back to Transaction History View", () => {
