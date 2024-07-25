@@ -9,8 +9,11 @@
 
 .content {
     width: 100%;
-    max-width: 400px;
     margin: 0 auto;
-    padding-top: 70px; /* Adjust padding to account for fixed header */
+    padding-top: 120px;
     padding-bottom: 50px;
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
 }

@@ -1,0 +1,43 @@
+.section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main {
+    background: #fff;
+    box-sizing: border-box;
+    padding: 0.8rem 1rem; 
+    cursor: pointer;
+}
+
+.details {
+    text-align: left;
+}
+
+.details p {
+    margin: 2px 0;
+    font-weight: 600;
+}
+
+
+.timestamp {
+    font-size: 0.7rem;
+}
+
+.amount span {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+
+.amount {
+    margin: 2px;
+}
+
+.status {
+    text-align: right;
+    margin: 4px;
+    font-weight: 600;
+    color: var(--primary);
+}
