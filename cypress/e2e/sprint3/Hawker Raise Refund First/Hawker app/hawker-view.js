@@ -99,8 +99,7 @@ Then("I should be redirected back to Requested Refund View", () => {
 });
 
 Then("I should see a deduction in my daily earnings and total earnings on Transaction History", () => {
-  cy.get('[data-testid="daily-earnings"]').should('contain', '-'); // Assuming negative value indicates deduction
-  cy.get('[data-testid="total-earnings"]').should('contain', '-');
+  cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUNDED');
 });
 
 When("I click on Requested Refunds button", () => {

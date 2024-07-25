@@ -11,5 +11,6 @@ Feature: Happy Path, Customer View
         Then I fill in the respective fields for expected payment from customer
         And I click on Submit button
         Then I see a notification at the bottom saying "SUBMITTED!"
+        Then I should be redirected to Refund Request View
         Then I should be redirected to Transaction History View
         And I should see that transaction card becomes yellow

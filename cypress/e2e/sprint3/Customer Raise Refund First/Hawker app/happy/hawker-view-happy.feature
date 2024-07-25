@@ -9,6 +9,7 @@ Feature: Customer Raising Dispute, Hawker View
         And I should see decline button
         And I should see accept button
         Then I click on the Accept button
+        Then I should be redirected to Refund Request View
         Then I should be redirected back to Transaction History view
         Then I should see a new transaction card with a deduction and word saying “REFUNDED”
         Then I click on Requested Refund button

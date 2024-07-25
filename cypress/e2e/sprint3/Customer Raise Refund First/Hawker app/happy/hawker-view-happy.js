@@ -42,13 +42,20 @@ Then("I click on the Accept button", () => {
     cy.get('[data-testid="accept-button"]').click();
   });
   
+
+  Then("I should be redirected to Refund Request View", () => {
+    cy.url().should('include', '/refunds');
+  });
+
   Then("I should be redirected back to Transaction History view", () => {
     cy.get('[data-testid="back-button"]').click();
     cy.url().should('include', '/history');
   });
   
   Then("I should see a new transaction card with a deduction and word saying “REFUNDED”", () => {
-    cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUND');
+    cy.get('[data-testid^="transaction-card"]')
+      .first()
+      .should('contain', 'REFUNDED')
     });
    
   Then("I click on Requested Refund button", () => {
