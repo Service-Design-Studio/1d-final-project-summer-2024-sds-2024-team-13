@@ -28,9 +28,9 @@ const RefundScreenNav = ({
                 <h2 className={styles.title}>Requested Refunds</h2>
             </div>
             <Tabs value={value} onChange={handleChange} centered className={styles.tabs}>
-                <Tab  label="Requests" />
-                <Tab  label="Refunded" />
-                <Tab  label="Rejected" />
+                <Tab  label="Requests" data-testid="pending-tab" />
+                <Tab  label="Refunded" data-testid="refunded-tab" />
+                <Tab  label="Rejected" data-testid="rejected-tab" />
             </Tabs>
         </div>
     );
