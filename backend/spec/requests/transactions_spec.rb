@@ -27,14 +27,14 @@ RSpec.describe "Users::TransactionsController", type: :request do
     end
   end
 
-  describe "GET /users/:user_id/transactions/:id" do
+  describe "GET /users/:user_id/transactions/:transaction_id" do
     it "renders a successful response when transaction exists" do
-      get user_transaction_path(user_id: user.user_id, id: transaction.transaction_id)
+      get user_transaction_path(user_id: user.user_id, transaction_id: transaction.transaction_id)
       expect(response).to be_successful
     end
 
     it "returns not found when transaction does not exist" do
-      get user_transaction_path(user_id: user.user_id, id: 'non_existent_transaction')
+      get user_transaction_path(user_id: user.user_id, transaction_id: 'non_existent_transaction')
       expect(response).to have_http_status(:not_found)
       expect(response.body).to include('Transaction not found')
     end
@@ -43,13 +43,13 @@ RSpec.describe "Users::TransactionsController", type: :request do
       allow(User).to receive(:find_by).and_return(user)
       allow(user.transactions).to receive(:find_by).and_return(nil) 
 
-      get user_transaction_path(user_id: user.user_id, id: 'some_non_existent_id')
+      get user_transaction_path(user_id: user.user_id, transaction_id: 'some_non_existent_id')
       expect(response).to have_http_status(:not_found)
       expect(response.body).to include('Transaction not found')
     end
 
     it "returns not found when user does not exist" do
-      get user_transaction_path(user_id: 'non_existent_user', id: transaction.transaction_id)
+      get user_transaction_path(user_id: 'non_existent_user', transaction_id: transaction.transaction_id)
       expect(response).to have_http_status(:not_found)
       expect(response.body).to include('User not found')
     end
@@ -123,14 +123,14 @@ RSpec.describe "Customers::TransactionsController", type: :request do
     end
   end
 
-  describe "GET /customers/:customer_id/transactions/:id" do
+  describe "GET /customers/:customer_id/transactions/:transaction_id" do
     it "renders a successful response when transaction exists" do
-      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.transaction_id)
+      get customer_transaction_path(customer_id: customer.customer_id, transaction_id: transaction.transaction_id)
       expect(response).to be_successful
     end
 
     it "returns not found when transaction does not exist" do
-      get customer_transaction_path(customer_id: customer.customer_id, id: 'non_existent_transaction')
+      get customer_transaction_path(customer_id: customer.customer_id, transaction_id: 'non_existent_transaction')
       expect(response).to have_http_status(:not_found)
     end
   end
