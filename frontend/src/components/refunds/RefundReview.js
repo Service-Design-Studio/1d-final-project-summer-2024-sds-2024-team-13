@@ -130,70 +130,70 @@ const RefundReview = () => {
     };
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-review-screen">
             <RefundDetailsNav />
             <div className={styles.content}>
-                <div className={styles.title}>Refund Requested</div>
-                <div className={styles.subtitle}>The refund request is pending action <br></br>from you.</div>
+                <div className={styles.title} data-testid="refund-requested-title">Refund Requested</div>
+                <div className={styles.subtitle} data-testid="refund-requested-subtitle">The refund request is pending action <br></br>from you.</div>
                 <div className={styles.sectionTitle}>
-                    <span className={styles.paymentTitle}>Refund Details</span>
+                    <span className={styles.paymentTitle} data-testid="refund-details-title">Refund Details</span>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Customer will receive</span>
+                        <span className={styles.label} data-testid="customer-will-receive-label"> Customer will receive</span>
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="customer-will-receive-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>To be paid to</span>
-                        <span><b>{transaction?.customer_number}</b></span>
+                        <span className={styles.label} data-testid="to-be-paid-to-label">To be paid to</span>
+                        <span data-testid="to-be-paid-to-value"><b>{transaction?.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>To be paid by</span>
-                        <span><b>{transaction?.user_name}</b></span>
+                        <span className={styles.label} data-testid="to-be-paid-by-label">To be paid by</span>
+                        <span data-testid="to-be-paid-by-value"><b>{transaction?.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>Last updated</span>
-                        <span><b>{formatDate(refund.updated_at)}, {formatTimestamp(refund.updated_at)}</b></span>
+                        <span className={styles.label} data-testid="last-updated-label">Last updated</span>
+                        <span data-testid="last-updated-value"><b>{formatDate(refund.updated_at)}, {formatTimestamp(refund.updated_at)}</b></span>
                     </div>
                 </div>
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
                         <div className={styles.row}>
-                            <span className={styles.label}>Expected Payment from Customer</span>
+                            <span className={styles.label} data-testid="expected-payment-label">Expected Payment from Customer</span>
                         </div>
                         <div className={styles.row}>
-                            <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                            <span data-testid="expected-payment-amount">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                         </div>
                     </div>
                     <div className={styles.section}>
                         <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) for Refund</span>
+                            <span className={styles.label} data-testid="refund-reason-label">Reason(s) for Refund</span>
                         </div>
                         <div className={styles.row}>
-                            <span>{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
+                            <span data-testid="refund-reason-value">{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Original Payment</span>
-                        <span><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
+                    <div className={styles.row} >
+                        <span className={styles.label} data-testid="original-payment-label">Original Payment</span>
+                        <span data-testid="original-payment-amount"><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue}>{formatDate(transaction?.created_at)}, {formatTimestamp(transaction?.created_at)}</span>
+                        <span className={styles.smallLabel} data-testid="original-payment-date-label">Date and Time</span>
+                        <span className={styles.smallValue} data-testid="original-payment-date-value">{formatDate(transaction?.created_at)}, {formatTimestamp(transaction?.created_at)}</span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.smallLabel}>Transaction ID</span>
-                        <span className={styles.smallID}>{refund.transaction_id}</span>
+                        <span className={styles.smallLabel} data-testid="transaction-id-label">Transaction ID</span>
+                        <span className={styles.smallID} data-testid="transaction-id-value">{refund.transaction_id}</span>
                     </div>
                 </div>
 

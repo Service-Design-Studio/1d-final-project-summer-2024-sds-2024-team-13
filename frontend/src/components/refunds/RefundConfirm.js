@@ -49,7 +49,7 @@ const RefundConfirm = ({
                         </div>
                     </div>
                 </div>
-                <button onClick={()=>createRefundRequest()} className={styles.confirmButton}>Confirm Refund</button>
+                <button onClick={()=>createRefundRequest()} className={styles.confirmButton} data-testid="confirm-refund-button">Confirm Refund</button>
             </div>
         </div>
     );
