@@ -12,6 +12,7 @@ RSpec.describe "Users::TransactionsController", type: :request do
   let(:missing_attributes) { 
     { transaction_id: 'new_transaction', customer_id: '', customer_number: '12345', payment_method: 'credit', amount: "10" }
   }
+
   describe "GET /users/:user_id/transactions" do
     it "renders a successful response when user exists" do
       transaction
@@ -33,7 +34,6 @@ RSpec.describe "Users::TransactionsController", type: :request do
     end
 
     it "returns not found when transaction does not exist" do
-      allow(user.transactions).to receive(:find_by).and_return(nil) 
       get user_transaction_path(user_id: user.user_id, id: 'non_existent_transaction')
       expect(response).to have_http_status(:not_found)
       expect(response.body).to include('Transaction not found')
@@ -105,7 +105,6 @@ RSpec.describe "Users::TransactionsController", type: :request do
   end
 end
 
-
 RSpec.describe "Customers::TransactionsController", type: :request do
   let(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'test@example.com', password: 'password123', phone_num: '1234567890') }
   let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password123') }
@@ -126,7 +125,7 @@ RSpec.describe "Customers::TransactionsController", type: :request do
 
   describe "GET /customers/:customer_id/transactions/:id" do
     it "renders a successful response when transaction exists" do
-      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.id)
+      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.transaction_id)
       expect(response).to be_successful
     end
 

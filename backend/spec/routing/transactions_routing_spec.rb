@@ -7,7 +7,7 @@ RSpec.describe "Transactions Routing", type: :routing do
     end
 
     it "routes to #show" do
-      expect(get: "/customers/1/transactions/1").to route_to("customers/transactions#show", customer_id: "1", id: "1")
+      expect(get: "/customers/1/transactions/1").to route_to("customers/transactions#show", customer_id: "1", transaction_id: "1")
     end
 
     it "routes to #create" do
@@ -15,15 +15,15 @@ RSpec.describe "Transactions Routing", type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/customers/1/transactions/1").to route_to("customers/transactions#update", customer_id: "1", id: "1")
+      expect(put: "/customers/1/transactions/1").to route_to("customers/transactions#update", customer_id: "1", transaction_id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/customers/1/transactions/1").to route_to("customers/transactions#update", customer_id: "1", id: "1")
+      expect(patch: "/customers/1/transactions/1").to route_to("customers/transactions#update", customer_id: "1", transaction_id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/customers/1/transactions/1").to route_to("customers/transactions#destroy", customer_id: "1", id: "1")
+      expect(delete: "/customers/1/transactions/1").to route_to("customers/transactions#destroy", customer_id: "1", transaction_id: "1")
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe "Transactions Routing", type: :routing do
     end
 
     it "routes to #show" do
-      expect(get: "/users/1/transactions/1").to route_to("users/transactions#show", user_id: "1", id: "1")
+      expect(get: "/users/1/transactions/1").to route_to("users/transactions#show", user_id: "1", transaction_id: "1")
     end
 
     it "routes to #create" do
@@ -41,15 +41,15 @@ RSpec.describe "Transactions Routing", type: :routing do
     end
 
     it "routes to #update via PUT" do
-      expect(put: "/users/1/transactions/1").to route_to("users/transactions#update", user_id: "1", id: "1")
+      expect(put: "/users/1/transactions/1").to route_to("users/transactions#update", user_id: "1", transaction_id: "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(patch: "/users/1/transactions/1").to route_to("users/transactions#update", user_id: "1", id: "1")
+      expect(patch: "/users/1/transactions/1").to route_to("users/transactions#update", user_id: "1", transaction_id: "1")
     end
 
     it "routes to #destroy" do
-      expect(delete: "/users/1/transactions/1").to route_to("users/transactions#destroy", user_id: "1", id: "1")
+      expect(delete: "/users/1/transactions/1").to route_to("users/transactions#destroy", user_id: "1", transaction_id: "1")
     end
   end
 end

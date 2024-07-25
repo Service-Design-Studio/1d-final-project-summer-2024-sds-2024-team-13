@@ -37,11 +37,23 @@ RSpec.describe "/refund_requests", type: :request do
       get customer_refund_requests_url(customer_id: customer.customer_id)
       expect(response).to be_successful
     end
+
+    context "when customer is not found" do
+      it "renders a not found response" do
+        get customer_refund_requests_url(customer_id: 'non_existent_customer')
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body)['error']).to eq('Customer not found')
+      end
+    end
   end
 
   describe "GET /show" do
     it "renders a successful response" do
-      get customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id)
+      get customer_transaction_refund_request_url(
+        customer_id: customer.customer_id,
+        transaction_id: transaction.transaction_id,
+        id: refund_request.id
+      )
       expect(response).to be_successful
     end
   end
@@ -50,12 +62,18 @@ RSpec.describe "/refund_requests", type: :request do
     context "with valid parameters" do
       it "creates a new RefundRequest" do
         expect {
-          post customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id), params: { refund_request: valid_attributes }
+          post customer_transaction_refund_request_url(
+            customer_id: customer.customer_id,
+            transaction_id: transaction.transaction_id
+          ), params: { refund_request: valid_attributes }
         }.to change(RefundRequest, :count).by(1)
       end
 
       it "renders a successful response" do
-        post customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id), params: { refund_request: valid_attributes }
+        post customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id
+        ), params: { refund_request: valid_attributes }
         expect(response).to have_http_status(:created)
       end
 
@@ -69,7 +87,10 @@ RSpec.describe "/refund_requests", type: :request do
           })
 
           expect {
-            post customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id), params: { refund_request: valid_attributes_with_customer_recipient }
+            post customer_transaction_refund_request_url(
+              customer_id: customer.customer_id,
+              transaction_id: transaction.transaction_id
+            ), params: { refund_request: valid_attributes_with_customer_recipient }
           }.to change(RefundRequest, :count).by(1)
         end
       end
@@ -78,12 +99,18 @@ RSpec.describe "/refund_requests", type: :request do
     context "with invalid parameters" do
       it "does not create a new RefundRequest" do
         expect {
-          post customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id), params: { refund_request: invalid_attributes }
+          post customer_transaction_refund_request_url(
+            customer_id: customer.customer_id,
+            transaction_id: transaction.transaction_id
+          ), params: { refund_request: invalid_attributes }
         }.to change(RefundRequest, :count).by(0)
       end
 
       it "renders a response with 422 status" do
-        post customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id), params: { refund_request: invalid_attributes }
+        post customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id
+        ), params: { refund_request: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -95,7 +122,11 @@ RSpec.describe "/refund_requests", type: :request do
         another_customer = Customer.create!(customer_id: 'another_customer', name: 'Another Customer', phone_num: '0987654321', password_digest: 'password')
         refund_request.update(recipient: another_customer)
 
-        patch customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id), params: { status: 'approved' }
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        ), params: { status: 'approved' }
         expect(response).to have_http_status(:forbidden)
         expect(JSON.parse(response.body)['error']).to eq('You are not authorized to update this refund request')
       end
@@ -103,18 +134,30 @@ RSpec.describe "/refund_requests", type: :request do
 
     context "with valid parameters" do
       it "updates the requested refund_request" do
-        patch customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id), params: { status: 'approved' }
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        ), params: { status: 'approved' }
         refund_request.reload
         expect(refund_request.status).to eq('approved')
       end
 
       it "renders a successful response" do
-        patch customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id), params: { status: 'approved' }
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        ), params: { status: 'approved' }
         expect(response).to have_http_status(:ok)
       end
 
       it "updates the requested refund_request with new attributes" do
-        patch customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id), params: new_attributes
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        ), params: new_attributes
         refund_request.reload
         expect(refund_request.status).to eq(new_attributes[:status])
       end
@@ -122,7 +165,11 @@ RSpec.describe "/refund_requests", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status" do
-        patch customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id), params: { status: nil }
+        patch customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        ), params: { status: nil }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -134,7 +181,11 @@ RSpec.describe "/refund_requests", type: :request do
         another_customer = Customer.create!(customer_id: 'another_customer', name: 'Another Customer', phone_num: '0987654321', password_digest: 'password')
         refund_request.update(sender: another_customer)
 
-        delete customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id)
+        delete customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        )
         expect(response).to have_http_status(:forbidden)
         expect(JSON.parse(response.body)['error']).to eq('You are not authorized to delete this refund request')
       end
@@ -142,23 +193,21 @@ RSpec.describe "/refund_requests", type: :request do
 
     it "destroys the requested refund_request" do
       expect {
-        delete customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id)
+        delete customer_transaction_refund_request_url(
+          customer_id: customer.customer_id,
+          transaction_id: transaction.transaction_id,
+          id: refund_request.id
+        )
       }.to change(RefundRequest, :count).by(-1)
     end
 
     it "renders a successful response" do
-      delete customer_transaction_refund_request_url(customer_id: customer.customer_id, transaction_id: transaction.transaction_id, refund_request_id: refund_request.id)
+      delete customer_transaction_refund_request_url(
+        customer_id: customer.customer_id,
+        transaction_id: transaction.transaction_id,
+        id: refund_request.id
+      )
       expect(response).to have_http_status(:ok)
-    end
-  end
-
-  describe "GET /index" do
-    context "when customer is not found" do
-      it "renders a not found response" do
-        get customer_refund_requests_url(customer_id: 'non_existent_customer')
-        expect(response).to have_http_status(:not_found)
-        expect(JSON.parse(response.body)['error']).to eq('Customer not found')
-      end
     end
   end
 end
