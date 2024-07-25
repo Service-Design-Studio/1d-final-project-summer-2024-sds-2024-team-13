@@ -181,6 +181,7 @@ const RefundDetails = () => {
                 {(status === "pending") ? <button
                     className={styles.Button}
                     onClick={handleCancel}
+                    data-testid="cancel-request-button"
                 >
                     CANCEL REQUEST
                 </button> : <></>}
