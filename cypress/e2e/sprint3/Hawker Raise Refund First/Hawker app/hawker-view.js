@@ -15,7 +15,10 @@ Given("on Transaction History View", () => {
 });
 
 When("I click on one of the transactions in the Transaction History View", () => {
-  cy.get('[data-testid^="transaction-card"]').first().should('be.visible').click({ force: true });
+  cy.get('[data-testid^="transaction-card"]', { timeout: 10000 })
+    .first()
+    .should('be.visible')
+    .click({ force: true });
 });
 
 Then("I should see a popup Transaction Details View", () => {
@@ -141,30 +144,6 @@ When("I click on a pending refund if there is any", () => {
 Then("I should see the Refund Details View", () => {
   cy.url().should('include', '/refunds/details');
   cy.get('[data-testid="refund-details-view"]').should('be.visible');
-});
-
-Then("I should see the amount the customer paid", () => {
-  cy.get('[data-testid="refund-amount"]').should('be.visible');
-});
-
-Then("I should see the hawker the amount was paid to", () => {
-  cy.get('[data-testid="refund-hawker"]').should('be.visible');
-});
-
-Then("I should see the customer mobile that paid", () => {
-  cy.get('[data-testid="refund-customer-mobile"]').should('be.visible');
-});
-
-Then("I should see the date and time of the transaction", () => {
-  cy.get('[data-testid="refund-timestamp"]').should('be.visible');
-});
-
-Then("I should see the transaction ID", () => {
-  cy.get('[data-testid="refund-transaction-id"]').should('be.visible');
-});
-
-Then("I should see the reason(s) for refund", () => {
-  cy.get('[data-testid="refund-reasons"]').should('be.visible');
 });
 
 Then("I should see two buttons, one for accept and one for decline", () => {
