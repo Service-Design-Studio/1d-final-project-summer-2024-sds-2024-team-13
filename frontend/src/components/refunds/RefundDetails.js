@@ -162,8 +162,6 @@ const RefundDetails = () => {
                         <ErrorOutline className={styles.redIcon} />
                         <span className={styles.redLabel}>
                             Please contact the customer at the given phone number to verify transaction details.
-                            <br></br>
-                            Resubmit the refund request only if the transaction is confirmed as erroneous.
                         </span>
                     </div>
                 ) :<></>}
