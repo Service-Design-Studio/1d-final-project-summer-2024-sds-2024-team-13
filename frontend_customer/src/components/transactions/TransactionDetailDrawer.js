@@ -29,25 +29,26 @@ const TransactionDetailDrawer = ({
         onOpen = {(event) => {
             toggleDrawer(true)(event);
         }}
+        data-testid="transaction-details-popup"
         >
             <div className={styles.content}>
                 <div className={styles.swipeBar}></div>
                 <div className={styles.top}>
                     <h3>You've paid</h3>
-                    <h1 className = {styles.amount}>SGD<span>{parseFloat(transaction.amount).toFixed(2)}</span> </h1>
-                    <h4 className = {styles.timestamp}>{formatDate(transaction.created_at)} • {formatTimestamp(transaction.created_at)}</h4>
+                    <h1 className = {styles.amount} data-testid="transaction-amount">SGD<span>{parseFloat(transaction.amount).toFixed(2)}</span> </h1>
+                    <h4 className = {styles.timestamp} data-testid="transaction-timestamp">{formatDate(transaction.created_at)} • {formatTimestamp(transaction.created_at)}</h4>
                 </div>
                 <div className={styles.bottom}>
                     <div>
                     <p className = {styles.label}>Payment Method</p>
-                    <p className = {styles.property}>{transaction.payment_method}</p>
+                    <p className = {styles.property} data-testid="transaction-payment-source">{transaction.payment_method}</p>
                     <p className = {styles.label}>Transaction ID</p>
-                    <p className = {styles.property}>{transaction.transaction_id}</p>
+                    <p className = {styles.property} data-testid="transaction-id">{transaction.transaction_id}</p>
                     <p className = {styles.label}>Merchant Name</p>
-                    <p className = {styles.property}>{transaction.user_name}</p>
+                    <p className = {styles.property} data-testid="transaction-customer-mobile">{transaction.user_name}</p>
                     </div>
-                    {(transaction.status !== "pending" && transaction.status !== "APPROVED" && transaction.status !== "REJECTED" && transaction.status !== "REFUNDED") ? <button onClick={()=>navigate("/refunds/request", { state: { transaction: transaction } })} className={styles.refundButton}>Request Refund</button> : <></>}
-                    {(transaction.status === "pending") ? <button onClick={()=>navigate("/refunds/")} className={styles.refundButton}>Review Refund Request</button> : <></>}
+                    {(transaction.status !== "pending" && transaction.status !== "APPROVED" && transaction.status !== "REJECTED" && transaction.status !== "REFUNDED") ? <button onClick={()=>navigate("/refunds/request", { state: { transaction: transaction } })} className={styles.refundButton} data-testid="refund-customer-button">Request Refund</button> : <></>}
+                    {(transaction.status === "pending") ? <button onClick={()=>navigate("/refunds/")} className={styles.refundButton} data-testid="review-refund-button">Review Refund Request</button> : <></>}
                 </div>
 
             </div>

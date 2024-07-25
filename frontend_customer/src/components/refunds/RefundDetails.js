@@ -19,7 +19,7 @@ const RefundDetails = () => {
 
     const status = refund.status
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-details-view">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {status}</div>
@@ -49,7 +49,7 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
                 
@@ -61,7 +61,7 @@ const RefundDetails = () => {
                         (status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
-                        <span><b>9XXX XXXX</b></span>
+                        <span data-testid="refund-customer-mobile"><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
                         {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
@@ -70,12 +70,12 @@ const RefundDetails = () => {
                         (status === "APPROVED") ? <span className={styles.label}>
                             Paid by
                             </span> :<></>}
-                        <span><b>LAILAICHICKEN</b></span>
+                        <span data-testid="refund-hawker"><b>LAILAICHICKEN</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>18 Jul 2024, 14:51:52 AM</b></span>
+                        <span data-testid="refund-timestamp"><b>18 Jul 2024, 14:51:52 AM</b></span>
                     </div>
                 </div>
 
@@ -94,7 +94,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Expected Payment from You</span>
                             </div>
                             <div className={styles.row}>
-                                <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                                <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                             </div>
                         </div> 
                         <div className={styles.section}>
@@ -102,7 +102,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>NIL</span>
+                                <span data-testid="refund-reasons">NIL</span>
                             </div>
                         </div>
                 </div> : null}
@@ -119,7 +119,7 @@ const RefundDetails = () => {
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span className={styles.smallValue}>PAYLAH798329781223872</span>
+                        <span className={styles.smallValue} data-testid="refund-transaction-id">PAYLAH798329781223872</span>
                     </div>
                 </div>
 
