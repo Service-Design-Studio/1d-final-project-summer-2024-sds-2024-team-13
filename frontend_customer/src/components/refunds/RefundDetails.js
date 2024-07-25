@@ -1,35 +1,38 @@
-import { useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom'; 
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
-import { useState } from 'react';
 import { ErrorOutline } from '@mui/icons-material';
+import { useAuth } from '../../context/AuthContext';
 
 const RefundDetails = () => {
     const navigate = useNavigate(); 
+    const location = useLocation();
+    const { refund } = location.state || {};
+    const { customer } = useAuth();
+
 
     const handleCancel = () => {
         navigate('/history'); 
     };
 
-    const handleResubmit = () => {
+    {/*const handleResubmit = () => {
         navigate('/refunds/request'); 
-    };
+    };*/}
 
-    const [status, setStatus] = useState('Rejected'); // Thanks rachel, remember to correct this logic
-
+    const status = refund.status
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {status}</div>
                 
-                {(status === "Pending") ? <div className={styles.subtitle}>
+                {(status === "pending") ? <div className={styles.subtitle}>
                     The refund request is pending action from <br></br>the merchant.
                     </div> :
-                (status === "Approved") ? <div className={styles.subtitle}>
+                (status === "APPROVED") ? <div className={styles.subtitle}>
                     The refund has been approved and processed <br></br>to you.
                     </div> :
-                (status === "Rejected") ? <div className={styles.subtitle}>
+                (status === "REJECTED") ? <div className={styles.subtitle}>
                     The refund request has been rejected by <br></br>the merchant.
                     </div> :<></>}
                 
@@ -39,37 +42,37 @@ const RefundDetails = () => {
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             You will receive
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (status === "APPROVED") ? <span className={styles.label}>
                             You received
                             </span> :<></>}
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD 32.40</span>
+                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
                 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid to
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
                         <span><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid by
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (status === "APPROVED") ? <span className={styles.label}>
                             Paid by
                             </span> :<></>}
-                        <span><b>Lai Lai Wanton Mee</b></span>
+                        <span><b>LAILAICHICKEN</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
@@ -78,7 +81,7 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {(status === "Approved") ? <div className={styles.fullWidthSection}>
+                {(status === "APPROVED") ? <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Refund Transaction ID</span>
                     </div>
@@ -87,13 +90,13 @@ const RefundDetails = () => {
                     </div>
                 </div> :<></>}
 
-                {(status === "Pending" || status === "Approved") ? <div className={styles.fullWidthSection}>
+                {(status === "pending" || status === "APPROVED") ? <div className={styles.fullWidthSection}>
                         <div className={styles.section}>
                             <div className={styles.row}>
                                 <span className={styles.label}>Expected Payment from You</span>
                             </div>
                             <div className={styles.row}>
-                                <span>SGD 3.60</span>
+                                <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                             </div>
                         </div> 
                         <div className={styles.section}>
@@ -101,7 +104,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>amount is supposed to be 3.60</span>
+                                <span>NIL</span>
                             </div>
                         </div>
                 </div> : null}
@@ -109,7 +112,7 @@ const RefundDetails = () => {
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Original Payment</span>
-                        <span><b>SGD 36.00</b></span>
+                        <span><b>SGD {parseFloat(parseFloat(refund.expect_amount)+parseFloat(refund.refund_amount)).toFixed(2)}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
@@ -122,28 +125,21 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {status === "Rejected" ? (
+                {status === "REJECTED" ? (
                     <div className={styles.redRow}>
                         <ErrorOutline className={styles.redIcon} />
                         <span className={styles.redLabel}>
                             Please make an attempt to contact the merchant to verify transaction details.
                             <br></br>
-                            Resubmit the refund request only if the transaction is confirmed as erroneous.
                         </span>
                     </div>
                 ) :<></>}
 
-                {(status==="Pending") ? <button
+                {(status==="pending") ? <button
                     className={styles.Button}
                     onClick={handleCancel}
                 >
                     CANCEL REQUEST
-                </button> :
-                (status==="Rejected") ? <button
-                    className={styles.Button}
-                    onClick={handleResubmit}
-                >
-                    RESUBMIT REQUEST
                 </button> :<></>}
 
             </div>

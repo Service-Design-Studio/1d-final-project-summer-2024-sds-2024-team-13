@@ -14,7 +14,7 @@ const RefundScreen = () => {
             try {
                 const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
                 const sortedRefunds = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                setRefunds(response.data);
+                setRefunds(sortedRefunds);
             } catch (error) {
                 console.error('Failed to fetch refund requests:', error);
             }
