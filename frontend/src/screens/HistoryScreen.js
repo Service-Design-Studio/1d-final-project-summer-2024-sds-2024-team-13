@@ -18,6 +18,25 @@ const HistoryScreen = () => {
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [pendingRefundsNum, setPendingRefundsNum] = useState(0)
+    
+    const fetchRefundRequests = useCallback(async () => {
+        if (user) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
+                const pendingRefunds = response.data
+                    .filter(refund => refund.status.toLowerCase() === 'pending')  
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));  
+                setPendingRefundsNum(pendingRefunds.length);  
+            } catch (error) {
+                console.error('Failed to fetch pending refund requests:', error);
+            }
+        }
+    }, [user]);
+
+    useEffect(() => {
+        fetchRefundRequests();
+    }, [fetchRefundRequests])
 
     const fetchThisMonthsTransactions = useCallback(async () => {
         if (user) {
@@ -187,8 +206,9 @@ const HistoryScreen = () => {
                     className={styles.refundRequestsButton}
                     data-testid="requested-refunds-button"
                     >
-                    <div className={styles.left}>
+                    <div className={styles.refundButtonContent}>
                         <p>Requested Refunds</p>
+                        {(pendingRefundsNum > 0) ? <div className={styles.refundButtonBadge}><span>{pendingRefundsNum}</span></div>:<></>}
                     </div>
                     <ChevronRight/>
                 </button>
