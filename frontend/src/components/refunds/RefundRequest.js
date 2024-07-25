@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 import RefundRequestNav from './RefundRequestNav';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ErrorOutline } from '@mui/icons-material';
 import styles from "../../styles/refunds/RefundRequest.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
 import { v4 as uuidv4 } from 'uuid';
+import RefundConfirm from './RefundConfirm';
 
 const RefundRequest = () => {
     const location = useLocation();
@@ -14,11 +14,10 @@ const RefundRequest = () => {
     const [reason, setReason] = useState("");
     const [expectedPayment, setExpectedPayment] = useState("");
     const [expectedRefund, setExpectedRefund] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
-
+    const [showOverlay, setShowOverlay] = useState(false)
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
             setReason(e.target.value);
@@ -144,8 +143,7 @@ const RefundRequest = () => {
     reason]);
 
     const handleSubmit = () => {
-        setIsSubmitted(true);
-        createRefundRequest();
+        setShowOverlay(true)
     };
 
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
@@ -180,11 +178,11 @@ const RefundRequest = () => {
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
-                        <span><b>{transaction.user_name}</b></span>
+                        <span><b>{transaction.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
-                        <span><b>{transaction.customer_number}</b></span>
+                        <span><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
@@ -250,7 +248,7 @@ const RefundRequest = () => {
                         <span data-testid="transaction-id"><b>{transaction.transaction_id}</b></span>
                     </div>
                 </div>
-                {!isSubmitted ? (
+               
                     <button
                         className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
                         onClick={handleSubmit}
@@ -259,13 +257,9 @@ const RefundRequest = () => {
                     >
                         SUBMIT
                     </button>
-                ) : (
-                    <div className={styles.submittedMessage}>
-                        <CheckCircleIcon className={styles.successIcon} />
-                        <span>SUBMITTING...</span>
-                    </div>
-                )}
+                
             </div>
+            <RefundConfirm {...{showOverlay, setShowOverlay, reason, transaction, expectedPayment, expectedRefund, createRefundRequest}}/>
         </div>
     );
 };
