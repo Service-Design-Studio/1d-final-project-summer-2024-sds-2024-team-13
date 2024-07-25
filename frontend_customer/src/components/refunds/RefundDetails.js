@@ -13,9 +13,6 @@ const RefundDetails = () => {
         navigate('/history'); 
     };
 
-    /*const handleResubmit = () => {
-        navigate('/refunds/request'); 
-    };*/
 
     const status = refund.status
     return (
@@ -118,7 +115,6 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                         <span className={styles.smallValue} data-testid="refund-transaction-id">PAYLAH798329781223872</span>
                     </div>
                 </div>
@@ -128,7 +124,6 @@ const RefundDetails = () => {
                         <ErrorOutline className={styles.redIcon} />
                         <span className={styles.redLabel}>
                             Please make an attempt to contact the merchant to verify transaction details.
-                            <br></br>
                         </span>
                     </div>
                 ) :<></>}

@@ -71,7 +71,7 @@ const HistoryScreen = () => {
             <div className={styles.header}>
                 <h1>History</h1>
             </div>
-            <button className={styles.refundListButton} onClick={()=>navigate("/refunds")}>
+            <button className={styles.refundListButton} onClick={()=>navigate("/refunds")} data-testid="refund-button">
                 <div className="">
                     <p>Requested Refunds</p>
                 </div>

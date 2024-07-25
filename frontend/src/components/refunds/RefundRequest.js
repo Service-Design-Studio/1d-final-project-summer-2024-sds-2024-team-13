@@ -188,7 +188,6 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                         <span><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
                     </div>
                 </div>

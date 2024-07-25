@@ -137,3 +137,14 @@
     color: var(--primary);
     margin-top: 0.2rem;
 }
+
+.fullWidthTransparent {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.2rem 1rem;
+
+}
+
+.fullWidthTransparent span {
+    font-size: 0.8rem;
+}
