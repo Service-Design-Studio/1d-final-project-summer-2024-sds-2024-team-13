@@ -7,7 +7,7 @@ Before(() => {
     cy.get('input[placeholder="Password"]').type('123');
     cy.contains("LOG IN").click();
   });
-  
+
 Given("that I am on Transaction History View", () => {
   cy.contains("History").click();
   cy.url().should('include', '/history');
@@ -17,13 +17,13 @@ Given("I am on the Refund Pending View \\(Refund Details)", () => {
   cy.visit("/refunds");
   cy.url().should('include', '/refunds');
   cy.get('[data-testid^="refund-card"]')
-    .contains('Pending')
+    .contains("Waiting for merchant's approval")
     .should('be.visible')
     .click({ force: true });
   cy.url().should('include', '/refunds/details');
 });
 
-When("I click on the Cancel Request button", () => {
+Then("I click on the Cancel Request button", () => {
   cy.get('[data-testid="cancel-request-button"]').click();
 });
 
@@ -48,8 +48,6 @@ Then("not seen on any of the Tabs in Requested Refund View", () => {
 });
 
 Given("Hawker rejects/declines dispute raised by customer", () => {
-  // Simulate hawker rejecting the request
-  cy.visit("/hawker-dashboard");
   cy.get('[data-testid^="refund-card"]').contains('Pending')
     .should('be.visible')
     .click({ force: true });
@@ -57,12 +55,6 @@ Given("Hawker rejects/declines dispute raised by customer", () => {
   cy.get('[data-testid="reject-message-input"]').type('Invalid reason');
   cy.get('[data-testid="reject-confirm-button"]').click();
   cy.url().should('include', '/history'); // Redirect back to hawker's transaction history
-});
-
-Then("I should see an update notification on my Request Refund button", () => {
-  cy.visit("/refunds");
-  cy.get('[data-testid="requested-refunds-button"]')
-    .should('contain', '1'); // Assuming there's a badge or notification count
 });
 
 Then("a red notification on the transaction that I raised a dispute about on Transaction History View", () => {

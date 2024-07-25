@@ -4,7 +4,7 @@ Feature: Sad Path, Customer View
 
     Scenario: Cancelling Refund Request 
         Given I am on the Refund Pending View (Refund Details)
-        And I click on the "Cancel Request" button
+        And I click on the Cancel Request button
         Then I should be redirected back to Transaction History View
         Then I click on the Requested Refund button
         Then it should be deleted
