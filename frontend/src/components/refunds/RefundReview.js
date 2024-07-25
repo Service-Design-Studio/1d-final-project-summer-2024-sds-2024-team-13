@@ -4,18 +4,46 @@ import styles from "../../styles/refunds/RefundReview.module.css";
 import { useAuth } from '../../context/AuthContext';
 import { useCallback } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
-
+import { v4 as uuidv4 } from 'uuid';
 const RefundReview = () => {
     const location = useLocation();
     const { user } = useAuth();
     const navigate = useNavigate(); 
     const { refund } = location.state || {};
+    const createTransaction = useCallback(async () => {
+        if (user) {
+            const endpoint = `/users/${user.user_id}/transactions`;
+            try {
+                const response = await axiosInstance.post(endpoint, 
+                    {
+                        customer_id: refund.customer_id,
+                        customer_number: "12345678", //TODO: to change
+                        payment_method: "PayLah",
+                        amount: refund.refund_amount,
+                        transaction_id: uuidv4(),
+                        status: "REFUNDED"
+                    }
+                );
+                if (response.status === 201) {
+                    console.log('Transaction created successfully:', response.data);
+                    return response.data;  // Return the created transaction data or true to indicate success
+                } else {
+                    console.error('Failed to create transaction:', response.status, response.data);
+                    return null;  // Return null or false to indicate failure
+                }
+            } catch (error) {
+                console.error('Error creating transaction:', error);
+                return null;
+            }
+        }
+        return null;  // Return null if user is not defined
+    }, [user, refund.customer_id, refund.refund_amount]);
     const patchRefundRequest = useCallback(async (newStatus) => {
         if (user) {
             const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
             const requestBody = {
+                status: newStatus,
                 refund_request_id: refund.refund_request_id,
-                status: newStatus
             };
 
             try {
@@ -30,7 +58,7 @@ const RefundReview = () => {
                 console.error('Failed to update refund request:', error);
             }
         }
-    }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
+    }, [user, navigate, refund.refund_request_id, refund.transaction_id, createTransaction]);
 
     const handleDecline = () => {
         patchRefundRequest("REJECTED");
@@ -39,8 +67,9 @@ const RefundReview = () => {
 
     const handleAccept = () => {
         patchRefundRequest("APPROVED");
+        createTransaction();
     };
-
+    
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />

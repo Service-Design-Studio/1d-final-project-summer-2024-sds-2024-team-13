@@ -9,6 +9,7 @@
     box-sizing: border-box;
     padding: 0.8rem 1rem; 
     cursor: pointer;
+    margin-bottom: 0.8rem
 }
 
 .details {
