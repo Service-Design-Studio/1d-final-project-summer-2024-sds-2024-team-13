@@ -18,7 +18,7 @@ const RefundRequest = () => {
     const [hasError, setHasError] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
-    
+
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
             setReason(e.target.value);
@@ -92,17 +92,17 @@ const RefundRequest = () => {
                 );
                 if (response.status === 201) {
                     console.log('Transaction created successfully:', response.data);
-                    return response.data;  // Return the created transaction data or true to indicate success
+                    return response.data; 
                 } else {
                     console.error('Failed to create transaction:', response.status, response.data);
-                    return null;  // Return null or false to indicate failure
+                    return null;  
                 }
             } catch (error) {
                 console.error('Error creating transaction:', error);
                 return null;
             }
         }
-        return null;  // Return null if user is not defined
+        return null; 
     }, [user, expectedRefund, transaction.customer_id, transaction.customer_number, transaction.payment_method]);
 
     // SEND FROM HAWKER TO CUSTOMER
@@ -140,7 +140,8 @@ const RefundRequest = () => {
         transaction?.transaction_id,
         transaction?.customer_id,
         navigate,
-        createTransaction]);
+        createTransaction,
+    reason]);
 
     const handleSubmit = () => {
         setIsSubmitted(true);
