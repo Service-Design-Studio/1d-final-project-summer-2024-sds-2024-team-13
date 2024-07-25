@@ -58,7 +58,7 @@ const RefundReview = () => {
                 console.error('Failed to update refund request:', error);
             }
         }
-    }, [user, navigate, refund.refund_request_id, refund.transaction_id, createTransaction]);
+    }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
 
     const handleDecline = () => {
         patchRefundRequest("REJECTED");

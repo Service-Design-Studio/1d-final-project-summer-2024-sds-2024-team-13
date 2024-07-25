@@ -112,7 +112,7 @@ const RefundRequest = () => {
         expectedPayment, 
         expectedRefund, 
         transaction?.transaction_id, 
-        transaction?.customer_id, 
+        transaction?.user_id,
         navigate]);
     return (
         <div className={styles.screen}>
