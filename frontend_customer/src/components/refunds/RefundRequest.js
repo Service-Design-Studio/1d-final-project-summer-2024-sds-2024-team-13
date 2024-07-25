@@ -114,7 +114,8 @@ const RefundRequest = () => {
         expectedRefund,
         transaction?.transaction_id,
         transaction?.user_id,
-        navigate]);
+        navigate,
+        reason]);
 
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
