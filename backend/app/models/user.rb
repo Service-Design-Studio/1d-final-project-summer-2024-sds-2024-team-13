@@ -6,6 +6,7 @@ class User < ApplicationRecord
     has_many :transactions, primary_key: "user_id", foreign_key: "user_id"
     has_many :sent_refund_requests, as: :sender, class_name: 'RefundRequest'
     has_many :received_refund_requests, as: :recipient, class_name: 'RefundRequest'
+    has_many :refund_requests
     before_create :generate_user_id
     self.primary_key = 'user_id'
     

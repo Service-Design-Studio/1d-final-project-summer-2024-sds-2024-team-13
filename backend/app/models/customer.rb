@@ -8,6 +8,7 @@ class Customer < ApplicationRecord
     #this means that sent_request_refund can fetch RequestRefund model from db if :sender inside RequestRefund model is Customer
     has_many :received_refund_requests, as: :recipient, class_name: 'RefundRequest'
     #customer has many received_refund_requests as recipient, which fetches all RefundRequests for customer being the recipient
+    has_many :refund_requests
     
     before_create :generate_customer_id
     self.primary_key = 'customer_id'

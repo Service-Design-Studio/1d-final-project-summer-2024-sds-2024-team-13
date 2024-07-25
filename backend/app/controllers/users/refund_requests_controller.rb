@@ -3,7 +3,7 @@ module Users
   class RefundRequestsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_user
-    before_action :set_transaction
+    before_action :set_transaction, except:[:index]
     before_action :set_refund_request, except: [:create, :index]
 
     def show
@@ -15,6 +15,8 @@ module Users
       @refund_request.sender = @user
       @refund_request.transaction_record = @transaction
       @refund_request.recipient = determine_recipient_from_params
+      @refund_request.user_id = @user.user_id 
+      @refund_request.customer_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
       if @refund_request.save
         render json: { status: 'Refund request created successfully', refund_request: @refund_request }, status: :created
