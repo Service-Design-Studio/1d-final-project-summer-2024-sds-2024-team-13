@@ -2,22 +2,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 import { ErrorOutline } from '@mui/icons-material';
-import { useAuth } from '../../context/AuthContext';
 
 const RefundDetails = () => {
     const navigate = useNavigate(); 
     const location = useLocation();
     const { refund } = location.state || {};
-    const { customer } = useAuth();
 
 
     const handleCancel = () => {
         navigate('/history'); 
     };
 
-    {/*const handleResubmit = () => {
+    /*const handleResubmit = () => {
         navigate('/refunds/request'); 
-    };*/}
+    };*/
 
     const status = refund.status
     return (
