@@ -16,7 +16,7 @@ const TransactionCard = ({
             toggleDrawer(true)(event);
         }}>
             <div className={styles.top}>
-                <p style={{margin: 0, fontWeight: 600, fontSize: "0.8rem"}}>TRANSFER FROM {transaction.payment_method.toUpperCase()}: <br/>8XXX XXXX</p>
+                <p style={{margin: 0, fontWeight: 600, fontSize: "0.8rem"}}>TRANSFER FROM {transaction.payment_method.toUpperCase()}: <br/>{transaction.customer_number}</p>
                 <ChevronRightOutlined/>
             </div>
             <div className={styles.bottom}>

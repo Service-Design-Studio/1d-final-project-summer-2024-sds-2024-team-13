@@ -3,14 +3,15 @@ import RefundRequestNav from './RefundRequestNav';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ErrorOutline } from '@mui/icons-material';
 import styles from "../../styles/refunds/RefundRequest.module.css";
-
+import { useLocation } from "react-router-dom";
 const RefundRequest = () => {
+    const location = useLocation();
+    const { transaction } = location.state || {};
     const [reason, setReason] = useState("");
     const [expectedPayment, setExpectedPayment] = useState("");
     const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const paymentAmount = 530.00;
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -27,9 +28,9 @@ const RefundRequest = () => {
                 setHasError(false);
             } else {
                 const payment = parseFloat(value) || 0;
-                const refund = (paymentAmount - payment).toFixed(2);
+                const refund = (parseFloat(transaction.amount).toFixed(2) - payment).toFixed(2);
                 setExpectedRefund(refund >= 0 ? refund : "");
-                setHasError(payment > paymentAmount);
+                setHasError(payment > parseFloat(transaction.amount).toFixed(2));
             }
         }
     };
@@ -43,9 +44,9 @@ const RefundRequest = () => {
                 setHasError(false);
             } else {
                 const refund = parseFloat(value) || 0;
-                const payment = (paymentAmount - refund).toFixed(2);
+                const payment = (parseFloat(transaction.amount).toFixed(2) - refund).toFixed(2);
                 setExpectedPayment(payment >= 0 ? payment : "");
-                setHasError(refund > paymentAmount);
+                setHasError(refund > parseFloat(transaction.amount).toFixed(2));
             }
         }
     };
@@ -69,11 +70,12 @@ const RefundRequest = () => {
         }
     };
 
+
     const handleSubmit = () => {
         setIsSubmitted(true);
     };
 
-    const isButtonDisabled = !reason || expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
+    const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
 
     return (
         <div className={styles.screen}>
@@ -88,17 +90,17 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {paymentAmount.toFixed(2)}</span>
+                        <span className={styles.amount}>SGD {parseFloat(transaction.amount).toFixed(2)}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
-                        <span><b>Lai Lai Wanton Mee</b></span>
+                        <span><b>{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
-                        <span><b>9XXX XXXX</b></span>
+                        <span><b>{transaction.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
@@ -111,7 +113,7 @@ const RefundRequest = () => {
                         <span className={styles.label}>Transaction ID</span>
                     </div>
                     <div className={styles.row}>
-                        <span><b>PAYLAH18296309271973212</b></span>
+                        <span><b>{transaction.transaction_id}</b></span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
@@ -127,7 +129,7 @@ const RefundRequest = () => {
                                 onChange={handleExpectedPaymentChange}
                                 onBlur={() => handleBlur("payment")}
                             />
-                            {hasError && parseFloat(expectedPayment) > paymentAmount && (
+                            {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount).toFixed(2) && (
                                 <ErrorOutline className={styles.errorIcon} />
                             )}
                         </div>
@@ -144,7 +146,7 @@ const RefundRequest = () => {
                                 onChange={handleExpectedRefundChange}
                                 onBlur={() => handleBlur("refund")}
                             />
-                            {hasError && parseFloat(expectedRefund) > paymentAmount && (
+                            {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount).toFixed(2) && (
                                 <ErrorOutline className={styles.errorIcon} />
                             )}
                         </div>
