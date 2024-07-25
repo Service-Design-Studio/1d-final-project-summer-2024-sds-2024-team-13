@@ -8,16 +8,13 @@ import axiosInstance from '../../utils/axiosConfig';
 const RefundScreen = () => {
     const { user } = useAuth();
     const [refunds, setRefunds] = useState([]);
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(0);
+
     const fetchRefundRequests = useCallback(async () => {
         if (user) {
-            try {
-                const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
-                const sortedRefunds = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                setRefunds(sortedRefunds);
-            } catch (error) {
-                console.error('Failed to fetch refund requests:', error);
-            }
+            const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
+            const sortedRefunds = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            setRefunds(sortedRefunds);
         }
     }, [user]);
 
@@ -25,24 +22,35 @@ const RefundScreen = () => {
         fetchRefundRequests();
     }, [fetchRefundRequests]);
 
+    const renderRefunds = () => {
+        const filteredRefunds = refunds.filter(refund => {
+            switch (value) {
+                case 0:
+                    return refund.status === "pending";
+                case 1:
+                    return refund.status === "APPROVED";
+                case 2:
+                    return refund.status === "REJECTED";
+                default:
+                    return true;
+            }
+        });
+        
+        if (filteredRefunds.length === 0) {
+            const statusText = ["Pending", "Approved", "Rejected"];
+            return <p>No {statusText[value]} Requests</p>;
+        }
+
+        return filteredRefunds.map((refund, index) => (
+            <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`} />
+        ));
+    };
+
     return (
         <div className={styles.screen} data-testid="requested-refunds-page">
             <RefundScreenNav {...{ setValue, value }} />
             <div className={styles.content}>
-                {refunds.filter(refund => {
-                    switch (value) {
-                        case 0: // Pending refunds
-                            return refund.status === "pending";
-                        case 1: // Approved refunds
-                            return refund.status === "APPROVED";
-                        case 2: // Rejected refunds
-                            return refund.status === "REJECTED";
-                        default:
-                            return true; // If no value matches, return all
-                    }
-                }).map((refund, index) => (
-                    <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`}/>
-                ))}
+                {renderRefunds()}
             </div>
         </div>
     );
