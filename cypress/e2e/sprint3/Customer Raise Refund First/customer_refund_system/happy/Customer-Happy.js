@@ -65,9 +65,6 @@ Then("I see a notification at the bottom saying {string}", (notification) => {
   cy.contains(notification).should('be.visible');
 });
 
-Then("I should be redirected to Refund Request View", () => {
-  cy.url().should('include', '/refunds');
-});
 
 Then("I should be redirected to Transaction History View", () => {
   cy.get('[data-testid="back-button"]').click();

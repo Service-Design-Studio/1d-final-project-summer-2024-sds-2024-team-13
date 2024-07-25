@@ -27,9 +27,13 @@ Then("I click on the Cancel Request button", () => {
   cy.get('[data-testid="cancel-request-button"]').click();
 });
 
-Then("I should be redirected back to Transaction History View", () => {
-  cy.url().should('include', '/history');
-});
+Then("I should be redirected back to Requested Refund View", () => {
+    cy.url().should('include', '/refunds');
+  });
+  
+Then("I click on the back button", () => {
+    cy.get('[data-testid="back-button"]').click();
+  });
 
 Then("I click on the Requested Refund button", () => {
   cy.get('[data-testid="requested-refunds-button"]').click();

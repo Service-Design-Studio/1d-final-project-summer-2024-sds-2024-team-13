@@ -98,6 +98,10 @@ Then("I should be redirected back to Requested Refund View", () => {
   cy.url().should('include', '/refunds');
 });
 
+Then("I click on the back button", () => {
+  cy.get('[data-testid="back-button"]').click();
+});
+
 Then("I should see a deduction in my daily earnings and total earnings on Transaction History", () => {
   cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUNDED');
 });

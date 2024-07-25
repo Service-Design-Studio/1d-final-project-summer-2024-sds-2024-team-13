@@ -23,7 +23,7 @@ Feature: Hawker Raising Refund First, Hawker View
         Then I should see Submit Button
         And click on Submit
         Then I should be redirected back to Requested Refund View
-        Then when I click on the back button 
+        Then I click on the back button 
         And I should see a deduction in my daily earnings and total earnings on Transaction History
 
         
