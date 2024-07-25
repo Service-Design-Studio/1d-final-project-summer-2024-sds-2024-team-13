@@ -10,7 +10,7 @@ const RefundDetails = () => {
     const { user } = useAuth();
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-details-view">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {refund.status}</div>
@@ -40,7 +40,7 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
                 
@@ -52,7 +52,7 @@ const RefundDetails = () => {
                         (refund.status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
-                        <span><b>9XXX XXXX</b></span>
+                        <span><b data-testid="refund-hawker">9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
                         {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
@@ -94,7 +94,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>NIL</span>
+                                <span data-testid="refund-reasons">NIL</span>
                             </div>
                         </div>
                     </>) : null}
@@ -116,12 +116,12 @@ const RefundDetails = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue}>17 JUL 24, 09:41:21 AM</span>
+                        <span className={styles.smallValue} data-testid="refund-timestamp">17 JUL 24, 09:41:21 AM</span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span className={styles.smallValue}>PAYLAH18296309271973212</span>
+                        <span className={styles.smallValue} data-testid="refund-transaction-id">PAYLAH18296309271973212</span>
                     </div>
                 </div>
 

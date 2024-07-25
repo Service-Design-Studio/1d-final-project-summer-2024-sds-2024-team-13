@@ -149,7 +149,7 @@ const RefundRequest = () => {
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-request-page">
             <RefundRequestNav />
             <div className={styles.content}>
                 <div className={styles.sectionTitle}>
@@ -161,22 +161,22 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(transaction.amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(transaction.amount).toFixed(2)}</span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid to</span>
-                        <span><b>{transaction.user_name}</b></span>
+                        <span><b data-testid="refund-hawker">{transaction.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
-                        <span><b>{transaction.customer_number}</b></span>
+                        <span><b data-testid="refund-customer-mobile">{transaction.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>17 Jul 2024, 09:41:21 AM</b></span>
+                        <span><b data-testid="refund-timestamp">17 Jul 2024, 09:41:21 AM</b></span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
@@ -184,7 +184,7 @@ const RefundRequest = () => {
                         <span className={styles.label}>Transaction ID</span>
                     </div>
                     <div className={styles.row}>
-                        <span><b>{transaction.transaction_id}</b></span>
+                        <span><b data-testid="refund-transaction-id">{transaction.transaction_id}</b></span>
                     </div>
                 </div>
                 <div className={styles.fullWidthSection}>
@@ -230,6 +230,7 @@ const RefundRequest = () => {
                             className={styles.input} 
                             value={reason}
                             onChange={handleReasonChange}
+                            data-testid="refund-reasons"
                         />
                         <div className={styles.charCount}>{reason.length}/250</div>
                     </div>
@@ -239,11 +240,12 @@ const RefundRequest = () => {
                         className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
                         onClick={handleSubmit}
                         disabled={isButtonDisabled}
+                        data-testid="refund-submit-button"
                     >
                         SUBMIT
                     </button>
                 ) : (
-                    <div className={styles.submittedMessage}>
+                    <div className={styles.submittedMessage} data-testid="refund-submitted">
                         <CheckCircleIcon className={styles.successIcon} />
                         <span>SUBMITTING...</span>
                     </div>

@@ -16,7 +16,7 @@ const RefundCard = ({
     return ( 
         <div className={styles.main} onClick={()=>{
             handleDetails();
-            }}>
+            }} data-testid="refund-card">
             <div className={styles.section}>
                 <div className={styles.details}>
                     <p>{(refund.status === "APPROVED") ? "REFUNDED FROM" : "TRANSFER FROM:"}</p>

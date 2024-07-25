@@ -26,9 +26,9 @@ const RefundScreen = () => {
     }, [fetchRefundRequests]);
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="requested-refunds-page">
             <RefundScreenNav {...{ setValue, value }} />
-            <div className={styles.content}>
+            <div className={styles.content} data-testid="refund-content">
                 {refunds.filter(refund => {
                     switch (value) {
                         case 0: // Pending refunds

@@ -71,7 +71,7 @@ const RefundReview = () => {
     };
     
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="refund-details-view">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund Requested</div>
@@ -85,7 +85,7 @@ const RefundReview = () => {
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
                 
@@ -119,7 +119,7 @@ const RefundReview = () => {
                             <span className={styles.label}>Reason(s) for Refund</span>
                         </div>
                         <div className={styles.row}>
-                            <span>NIL</span>
+                            <span data-testid="refund-reasons">NIL</span>
                         </div>
                     </div>
                 </div>
@@ -131,12 +131,12 @@ const RefundReview = () => {
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue}>14 Jul 2024, 02:34:19 PM</span>
+                        <span className={styles.smallValue} data-testid="refund-timestamp">14 Jul 2024, 02:34:19 PM</span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.smallLabel}>Transaction ID</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span className={styles.smallValue}>{refund.transaction_id}</span>
+                        <span className={styles.smallValue} data-testid="refund-transaction-id">{refund.transaction_id}</span>
                     </div>
                 </div>
 
@@ -144,12 +144,14 @@ const RefundReview = () => {
                     <button
                         className={styles.decline}
                         onClick={handleDecline}
+                        data-testid="decline-button"
                     >
                         DECLINE
                     </button>
                     <button
                         className={styles.accept}
                         onClick={handleAccept}
+                        data-testid="accept-button"
                     >
                         ACCEPT
                     </button>
