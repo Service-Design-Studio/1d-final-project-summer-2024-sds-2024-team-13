@@ -3,11 +3,33 @@ import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 import { ErrorOutline } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
+import { useCallback, useEffect, useState } from 'react';
+import axiosInstance from '../../utils/axiosConfig';
 
 const RefundDetails = () => {
     const location = useLocation();
     const { refund } = location.state || {};
     const { user } = useAuth();
+    const [transaction, setTransaction] = useState({})
+    const fetchTransactionDetails = useCallback(async () => {
+        if (user && refund?.transaction_id) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/transactions/${refund.transaction_id}`);
+                if (response.status === 200) {
+                    console.log('Transaction details:', response.data);
+                    setTransaction(response.data);  
+                } else {
+                    console.error('Failed to fetch transaction:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching transaction:', error);
+            }
+        }
+    }, [user, refund?.transaction_id]);
+
+    useEffect(() => {
+        fetchTransactionDetails();
+    }, [fetchTransactionDetails]);
 
     return (
         <div className={styles.screen}>
@@ -52,7 +74,7 @@ const RefundDetails = () => {
                         (refund.status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
-                        <span><b>9XXX XXXX</b></span>
+                        <span><b>{transaction?.customer_number ?? "-"}</b></span>
                     </div>
                     <div className={styles.row}>
                         {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
@@ -70,14 +92,7 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {(refund.status === "APPROVED") ? <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Refund Transaction ID</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span><b>REPAYLAH18296309271973212</b></span>
-                    </div>
-                </div> :<></>}
+               
 
                 <div className={styles.fullWidthSection}>
                     {(refund.status === "pending" || refund.status === "APPROVED") ? (<>
@@ -94,7 +109,7 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>NIL</span>
+                                <span>{(refund.request_reason != "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                             </div>
                         </div>
                     </>) : null}
@@ -122,6 +137,14 @@ const RefundDetails = () => {
                         <span className={styles.smallLabel}>Transaction ID</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
                         <span className={styles.smallValue}>PAYLAH18296309271973212</span>
+                    </div>
+                </div>
+                <div className={styles.fullWidthTransparent}>
+                    <div className={styles.row}>
+                        <span className={styles.label}>Refund ID</span>
+                    </div>
+                    <div className={styles.row}>
+                        <span><b>{refund.refund_request_id}</b></span>
                     </div>
                 </div>
 

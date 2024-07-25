@@ -135,3 +135,14 @@
 .successIcon {
     margin-right: 0.5rem;
 }
+
+.fullWidthTransparent {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.2rem 1rem;
+
+}
+
+.fullWidthTransparent span {
+    font-size: 0.8rem;
+}
