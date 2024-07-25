@@ -22,7 +22,7 @@ const RefundScreenNav = ({
     return (
         <div className={styles.main}>
             <div className={styles.header}>
-                <button className={styles.backButton} onClick={handleBack}>
+                <button className={styles.backButton} onClick={handleBack} data-testid="back-button">
                     <ArrowBackIosNew />
                 </button>
                 <h2 className={styles.title}>Requested Refunds</h2>
