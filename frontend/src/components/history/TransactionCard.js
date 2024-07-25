@@ -6,8 +6,7 @@ const TransactionCard = ({
     toggleDrawer,
     setSelectedTransaction
 }) => {
-    //TEMP
-    const status = ""
+    const status = transaction.status.toUpperCase()
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
@@ -22,7 +21,7 @@ const TransactionCard = ({
             style={(status === "PENDING") ? {borderLeft: "7px solid #E7B416"} : (status === "REFUNDED") ? {borderLeft: "7px solid #AAA"} : (status === "REJECTED") ? {borderLeft: "7px solid #EB3223"} : {borderLeft: "1px solid #d3d3d3"}}
         >
             <div className={styles.top}>
-                <p style={{margin: 0, fontWeight: 600, fontSize: "0.8rem"}}>TRANSFER FROM {transaction.payment_method.toUpperCase()}: <br/>{transaction.customer_number}</p>
+                <p style={{margin: 0, fontWeight: 600, fontSize: "0.8rem"}}>{(status==="REFUNDED") ? "REFUND TO": "TRANSFER FROM"} {transaction.payment_method.toUpperCase()}: <br/>{transaction.customer_number}</p>
                 <ChevronRightOutlined/>
             </div>
             <div className={styles.bottom}>

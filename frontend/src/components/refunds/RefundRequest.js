@@ -6,6 +6,8 @@ import styles from "../../styles/refunds/RefundRequest.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
+import { v4 as uuidv4 } from 'uuid';
+
 const RefundRequest = () => {
     const location = useLocation();
     const { transaction } = location.state || {};
@@ -74,6 +76,35 @@ const RefundRequest = () => {
         }
     };
 
+    const createTransaction = useCallback(async () => {
+        if (user) {
+            const endpoint = `/users/${user.user_id}/transactions`;
+            try {
+                const response = await axiosInstance.post(endpoint, 
+                    {
+                        customer_id: transaction.customer_id,
+                        customer_number: transaction.customer_number,
+                        payment_method: transaction.payment_method,
+                        amount: expectedRefund,
+                        transaction_id: uuidv4(),
+                        status: "REFUNDED"
+                    }
+                );
+                if (response.status === 201) {
+                    console.log('Transaction created successfully:', response.data);
+                    return response.data;  // Return the created transaction data or true to indicate success
+                } else {
+                    console.error('Failed to create transaction:', response.status, response.data);
+                    return null;  // Return null or false to indicate failure
+                }
+            } catch (error) {
+                console.error('Error creating transaction:', error);
+                return null;
+            }
+        }
+        return null;  // Return null if user is not defined
+    }, [user, expectedRefund, transaction.customer_id, transaction.customer_number, transaction.payment_method]);
+
     // SEND FROM HAWKER TO CUSTOMER
     const createRefundRequest = useCallback(async () => {
         if (user) {
@@ -93,6 +124,7 @@ const RefundRequest = () => {
     
                 if (response.status === 201) {
                     console.log('Refund request created successfully:', response.data);
+                    createTransaction();
                     navigate("/refunds")
                 } else {
                     console.error('Unexpected response status:', response.status);
@@ -106,7 +138,8 @@ const RefundRequest = () => {
         expectedRefund, 
         transaction?.transaction_id, 
         transaction?.customer_id, 
-        navigate]);
+        navigate,
+    createTransaction]);
     
     const handleSubmit = () => {
         setIsSubmitted(true);

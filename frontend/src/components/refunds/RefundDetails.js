@@ -1,35 +1,27 @@
-import { useNavigate } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom'; 
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
-import { useState } from 'react';
 import { ErrorOutline } from '@mui/icons-material';
+import { useAuth } from '../../context/AuthContext';
 
 const RefundDetails = () => {
-    const navigate = useNavigate(); 
-
-    const handleCancel = () => {
-        navigate('/history'); 
-    };
-
-    const handleResubmit = () => {
-        navigate('/refunds/request'); 
-    };
-
-    const [status, setStatus] = useState('Approved'); // Thanks rachel, remember to correct this logic
+    const location = useLocation();
+    const { refund } = location.state || {};
+    const { user } = useAuth();
 
     return (
         <div className={styles.screen}>
             <RefundDetailsNav />
             <div className={styles.content}>
-                <div className={styles.title}>Refund {status}</div>
+                <div className={styles.title}>Refund {refund.status}</div>
                 
-                {(status === "Pending") ? <div className={styles.subtitle}>
+                {(refund.status === "pending") ? <div className={styles.subtitle}>
                     The refund request is pending action from the customer.
                     </div> :
-                (status === "Approved") ? <div className={styles.subtitle}>
+                (refund.status === "APPROVED") ? <div className={styles.subtitle}>
                     The refund has been approved and processed to the customer.
                     </div> :
-                (status === "Rejected") ? <div className={styles.subtitle}>
+                (refund.status === "REJECTED") ? <div className={styles.subtitle}>
                     The refund request has been rejected by the customer.
                     </div> :<></>}
                 
@@ -39,37 +31,37 @@ const RefundDetails = () => {
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
                             Customer will receive
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (refund.status === "APPROVED") ? <span className={styles.label}>
                             Customer received
                             </span> :<></>}
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount}>SGD 524.70</span>
+                        <span className={styles.amount}>SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
                 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(refund.status === "pending" || refund.status === "REJECED") ? <span className={styles.label}>
                             To be paid to
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (refund.status === "APPROVED") ? <span className={styles.label}>
                             Paid to
                             </span> :<></>}
                         <span><b>9XXX XXXX</b></span>
                     </div>
                     <div className={styles.row}>
-                        {(status === "Pending" || status === "Rejected") ? <span className={styles.label}>
+                        {(refund.status === "pending" || refund.status === "REJECTED") ? <span className={styles.label}>
                             To be paid by
                             </span> :
-                        (status === "Approved") ? <span className={styles.label}>
+                        (refund.status === "APPROVED") ? <span className={styles.label}>
                             Paid by
                             </span> :<></>}
-                        <span><b>Lai Lai Wanton Mee</b></span>
+                        <span><b>{user.name}</b></span>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Last updated</span>
@@ -78,7 +70,7 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {(status === "Approved") ? <div className={styles.fullWidthSection}>
+                {(refund.status === "APPROVED") ? <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Refund Transaction ID</span>
                     </div>
@@ -88,13 +80,13 @@ const RefundDetails = () => {
                 </div> :<></>}
 
                 <div className={styles.fullWidthSection}>
-                    {(status === "Pending" || status === "Approved") ? (<>
+                    {(refund.status === "pending" || refund.status === "APPROVED") ? (<>
                         <div className={styles.section}>
                             <div className={styles.row}>
                                 <span className={styles.label}>Expected Payment from Customer</span>
                             </div>
                             <div className={styles.row}>
-                                <span>SGD 5.30</span>
+                                <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                             </div>
                         </div> 
                         <div className={styles.section}>
@@ -102,12 +94,12 @@ const RefundDetails = () => {
                                 <span className={styles.label}>Reason(s) for Refund</span>
                             </div>
                             <div className={styles.row}>
-                                <span>Customer supposed to pay 5.30 so I refund him</span>
+                                <span>NIL</span>
                             </div>
                         </div>
                     </>) : null}
 
-                    {(status==="Rejected") ? <div className={styles.section}>               
+                    {(refund.status==="REJECTED") ? <div className={styles.section}>               
                         <div className={styles.row}>
                             <span className={styles.label}>Reason(s) from Customer</span>
                         </div>
@@ -133,7 +125,7 @@ const RefundDetails = () => {
                     </div>
                 </div>
 
-                {status === "Rejected" ? (
+                {refund.status === "REJECTED" ? (
                     <div className={styles.redRow}>
                         <ErrorOutline className={styles.redIcon} />
                         <span className={styles.redLabel}>
@@ -144,18 +136,7 @@ const RefundDetails = () => {
                     </div>
                 ) :<></>}
 
-                {(status==="Pending") ? <button
-                    className={styles.Button}
-                    onClick={handleCancel}
-                >
-                    CANCEL REQUEST
-                </button> :
-                (status==="Rejected") ? <button
-                    className={styles.Button}
-                    onClick={handleResubmit}
-                >
-                    RESUBMIT REQUEST
-                </button> :<></>}
+                
 
             </div>
         </div>
