@@ -10,7 +10,7 @@ module Customers
 
     # GET /customers/:customer_id/transactions/:id
     def show
-      @transaction = @customer.transactions.find(params[:id])
+      @transaction = @customer.transactions.find(params[:transaction_id])
       render json: @transaction
     end
 

@@ -17,7 +17,7 @@ const PaymentScreen = () => {
   const onScanSuccess = (result) => {
     console.log('QR scan success:', result);
     setScannedResult(result?.data);
-
+    console.log(scannedResult)
     const data = JSON.parse(result?.data)
     // Redirect based on the scanned result
     if (data.type === "DBSBizQR") { // FOR TESTING QR CODES
