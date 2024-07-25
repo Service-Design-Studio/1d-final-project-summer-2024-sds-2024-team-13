@@ -10,7 +10,7 @@ const TransactionCard = ({
         const date = new Date(dateString);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
     };
-    const status = transaction.status.toUpperCase()
+    const status = transaction?.status?.toUpperCase() ?? ""
 
     return ( 
         <div className={styles.main} onClick={(event) => {
