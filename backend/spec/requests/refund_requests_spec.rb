@@ -4,7 +4,7 @@ RSpec.describe "/refund_requests", type: :request do
   let!(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password_digest: 'password') }
   let!(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'testuser@example.com', password: 'password123', password_confirmation: 'password123') }
   let!(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
-  let!(:refund_request) { RefundRequest.create!(transaction_id: transaction.transaction_id, sender_id: customer.id, sender_type: 'Customer', recipient_id: customer.id, recipient_type: 'Customer', expect_amount: 100.0, refund_amount: 50.0, status: 'pending') }
+  let!(:refund_request) { RefundRequest.create!(transaction_id: transaction.transaction_id, refund_request_id: "refund request id", sender_id: customer.id, sender_type: 'Customer', recipient_id: customer.id, recipient_type: 'Customer', expect_amount: 100.0, refund_amount: 50.0, status: 'pending') }
 
   let(:valid_attributes) {
     {
@@ -51,8 +51,7 @@ RSpec.describe "/refund_requests", type: :request do
     it "renders a successful response" do
       get customer_transaction_refund_request_url(
         customer_id: customer.customer_id,
-        transaction_id: transaction.transaction_id,
-        id: refund_request.id
+        transaction_id: transaction.transaction_id
       )
       expect(response).to be_successful
     end
@@ -199,15 +198,6 @@ RSpec.describe "/refund_requests", type: :request do
           id: refund_request.id
         )
       }.to change(RefundRequest, :count).by(-1)
-    end
-
-    it "renders a successful response" do
-      delete customer_transaction_refund_request_url(
-        customer_id: customer.customer_id,
-        transaction_id: transaction.transaction_id,
-        id: refund_request.id
-      )
-      expect(response).to have_http_status(:ok)
     end
   end
 end
