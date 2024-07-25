@@ -31,7 +31,7 @@ const RefundCard = ({
             {(refund.status === "pending") ? <p className={styles.status} style={{color: "#EB3223"}}>Waiting for your action</p> : <></>}
             {(refund.status === "APPROVED") ? <p className={styles.status}>Payment Refunded</p> : <></>}
             {(refund.status === "REJECTED") ? <p className={styles.status}>Request Rejected</p> : <></>}
-
+            
         </div>
      );
 }

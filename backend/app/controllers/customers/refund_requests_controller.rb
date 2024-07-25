@@ -71,7 +71,7 @@ module Customers
     end
     
     def set_refund_request
-      @refund_request = RefundRequest.find(params[:refund_request_id])
+      @refund_request = RefundRequest.find_by(refund_request_id: params[:refund_request_id])
    end
 
     def refund_request_params
