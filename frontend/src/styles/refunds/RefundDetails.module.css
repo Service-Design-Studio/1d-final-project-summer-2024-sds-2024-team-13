@@ -64,6 +64,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
+    align-items: center;
 }
 
 .label {
@@ -110,10 +111,19 @@
     font-weight: 500;
     color: var(--text-light);
     font-size: 0.9rem;
+    text-align: left;
 }
 
 .smallValue {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    text-align: right;
+    max-width: 50%;
+    
+}
+
+.smallID {
+    font-size: 0.7rem;
+    text-align: right;
 }
 
 .redRow {
