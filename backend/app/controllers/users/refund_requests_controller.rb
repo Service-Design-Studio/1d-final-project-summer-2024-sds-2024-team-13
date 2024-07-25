@@ -3,7 +3,7 @@ module Users
   class RefundRequestsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_user
-    before_action :set_transaction, except:[:index]
+    before_action :set_transaction, except: [:index]
     before_action :set_refund_request, except: [:create, :index]
 
     def show

@@ -101,7 +101,12 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error);
             }
         }
-    }, [user]);
+    }, [ user, 
+        expectedPayment, 
+        expectedRefund, 
+        transaction?.transaction_id, 
+        transaction?.customer_id, 
+        navigate]);
     
     const handleSubmit = () => {
         setIsSubmitted(true);
