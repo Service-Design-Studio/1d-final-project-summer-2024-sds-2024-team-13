@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import RefundRequestNav from './RefundRequestNav';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ErrorOutline } from '@mui/icons-material';
 import styles from "../../styles/refunds/RefundRequest.module.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext';
+import axiosInstance from '../../utils/axiosConfig';
 const RefundRequest = () => {
     const location = useLocation();
     const { transaction } = location.state || {};
@@ -12,6 +14,8 @@ const RefundRequest = () => {
     const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -70,9 +74,38 @@ const RefundRequest = () => {
         }
     };
 
-
+    // SEND FROM HAWKER TO CUSTOMER
+    const createRefundRequest = useCallback(async () => {
+        if (user) {
+            try {
+                const requestBody = {
+                    refund_request: {
+                        transaction_id: transaction?.transaction_id ?? "",
+                        status: "APPROVED",
+                        expect_amount: expectedPayment,
+                        refund_amount: expectedRefund,
+                        recipient_id: transaction?.customer_id ?? "",
+                        recipient_type: "Customer"
+                    }
+                };
+    
+                const response = await axiosInstance.post(`/users/${user.user_id}/transactions/${transaction.transaction_id}/refund_request`, requestBody);
+    
+                if (response.status === 201) {
+                    console.log('Refund request created successfully:', response.data);
+                    navigate("/refunds")
+                } else {
+                    console.error('Unexpected response status:', response.status);
+                }
+            } catch (error) {
+                console.error('Failed to create refund request:', error);
+            }
+        }
+    }, [user]);
+    
     const handleSubmit = () => {
         setIsSubmitted(true);
+        createRefundRequest();
     };
 
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
@@ -174,7 +207,7 @@ const RefundRequest = () => {
                 ) : (
                     <div className={styles.submittedMessage}>
                         <CheckCircleIcon className={styles.successIcon} />
-                        <span>SUBMITTED!</span>
+                        <span>SUBMITTING...</span>
                     </div>
                 )}
             </div>

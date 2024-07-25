@@ -8,9 +8,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import styles from "../../styles/refunds/RefundScreenNav.module.css";
 
-const RefundScreenNav = () => {
+const RefundScreenNav = ({
+    value,
+    setValue
+}) => {
     const navigate = useNavigate();
-    const [value, setValue] = useState(0);
+    
 
     const handleBack = () => {
         navigate(-1);
@@ -29,7 +32,7 @@ const RefundScreenNav = () => {
                 <h2 className={styles.title}>Requested Refunds</h2>
             </div>
             <Tabs value={value} onChange={handleChange} centered className={styles.tabs}>
-                <Tab icon={<HourglassEmptyIcon />} label="Pending" />
+                <Tab icon={<HourglassEmptyIcon />} label="Requests" />
                 <Tab icon={<CheckCircleIcon />} label="Refunded" />
                 <Tab icon={<CancelIcon />} label="Rejected" />
             </Tabs>

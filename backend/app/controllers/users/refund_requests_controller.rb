@@ -71,14 +71,14 @@ module Users
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id)
     end
 
     def determine_recipient_from_params
       recipient_id = params[:refund_request][:recipient_id]
   
-      if User.exists?(recipient_id)
-        User.find(recipient_id)
+      if Customer.exists?(recipient_id)
+        Customer.find(recipient_id)
       elsif User.exists?(recipient_id)
         User.find(recipient_id)
       else
