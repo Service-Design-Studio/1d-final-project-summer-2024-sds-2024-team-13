@@ -13,9 +13,6 @@ Feature: Sad Path, Customer View
 
 
     Scenario: Hawker rejects request/dispute raised by customer
-       Given Hawker rejects/declines dispute raised by customer
-       Then I should see an update notification on my Request Refund button
-       And a red notification on the transaction that I raised a dispute about on Transaction History View
-       Then I should see a Resubmit Request button
-       And an error message saying "Please contact..."
-       When I click on the transaction on Transaction History View
+       Given I am on the Refund Pending View and on rejected Tab
+       When I click into Refund Details
+       Then I will see Please make an...

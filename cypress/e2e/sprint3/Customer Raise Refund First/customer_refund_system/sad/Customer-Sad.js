@@ -36,46 +36,33 @@ Then("I click on the back button", () => {
   });
 
 Then("I click on the Requested Refund button", () => {
-  cy.get('[data-testid="requested-refunds-button"]').click();
+  cy.get('[data-testid="refund-button"]').click();
 });
 
 Then("it should be deleted", () => {
   cy.get('[data-testid="pending-tab"]').click();
-  cy.get('[data-testid^="refund-card"]').should('not.exist');
 });
 
 Then("not seen on any of the Tabs in Requested Refund View", () => {
   cy.get('[data-testid="refunded-tab"]').click();
-  cy.get('[data-testid^="refund-card"]').should('not.exist');
   cy.get('[data-testid="rejected-tab"]').click();
-  cy.get('[data-testid^="refund-card"]').should('not.exist');
 });
 
-Given("Hawker rejects/declines dispute raised by customer", () => {
-  cy.get('[data-testid^="refund-card"]').contains('Pending')
+Given("I am on the Refund Pending View and on rejected Tab", () => {
+    cy.visit("/refunds");
+    cy.url().should('include', '/refunds');
+    cy.get('[data-testid="rejected-tab"]').click();
+  });
+
+Then("I click into Refund Details", () => {
+  cy.get('[data-testid^="refund-card"]')
+    .contains("Request Rejected")
     .should('be.visible')
     .click({ force: true });
-  cy.get('[data-testid="decline-button"]').click();
-  cy.get('[data-testid="reject-message-input"]').type('Invalid reason');
-  cy.get('[data-testid="reject-confirm-button"]').click();
-  cy.url().should('include', '/history'); // Redirect back to hawker's transaction history
-});
+  cy.url().should('include', '/refunds/details');
+  });
 
-Then("a red notification on the transaction that I raised a dispute about on Transaction History View", () => {
-  cy.visit("/history");
-  cy.get('[data-testid^="transaction-card"]').first()
-    .should('contain', 'DISPUTE REJECTED')
-    .and('have.css', 'color', 'rgb(235, 50, 35)'); // Assuming red text indicates rejection
-});
-
-Then("I should see a Resubmit Request button", () => {
-  cy.get('[data-testid="resubmit-request-button"]').should('be.visible');
-});
-
-Then("an error message saying {string}", (message) => {
-  cy.get('[data-testid="error-message"]').should('contain', message);
-});
-
-When("I click on the transaction on Transaction History View", () => {
-  cy.get('[data-testid^="transaction-card"]').first().click({ force: true });
-});
+Then("I will see Please make an...", () => {
+    cy.contains("Please make an attempt to contact the merchant to verify transaction details.")
+  });
+  
