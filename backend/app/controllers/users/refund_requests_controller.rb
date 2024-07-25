@@ -3,7 +3,7 @@ module Users
   class RefundRequestsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_user
-    before_action :set_transaction
+    before_action :set_transaction, except: [:index]
     before_action :set_refund_request, except: [:create, :index]
 
     def show
@@ -77,8 +77,8 @@ module Users
     def determine_recipient_from_params
       recipient_id = params[:refund_request][:recipient_id]
   
-      if User.exists?(recipient_id)
-        User.find(recipient_id)
+      if Customer.exists?(recipient_id)
+        Customer.find(recipient_id)
       elsif User.exists?(recipient_id)
         User.find(recipient_id)
       else
