@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 import RefundCard from './RefundCard';
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
-
 const RefundScreen = () => {
     const { user } = useAuth();
     const [refunds, setRefunds] = useState([]);

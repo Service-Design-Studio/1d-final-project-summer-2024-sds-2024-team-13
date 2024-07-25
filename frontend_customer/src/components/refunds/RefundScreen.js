@@ -26,7 +26,7 @@ const RefundScreen = () => {
     }, [fetchRefundRequests]);
 
     const getFilteredRefunds = (status) => {
-        return refunds.filter(refund => refund.status === status.toUpperCase());
+        return refunds.filter(refund => refund.status === status);
     };
 
     const renderRefundCards = () => {

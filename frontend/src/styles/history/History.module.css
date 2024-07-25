@@ -42,8 +42,23 @@
 
 }
 
-.refundRequestsButton .left p{
-    margin: 2px 0;
+.refundButtonContent p {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
+}
+.refundButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.refundButtonBadge {
+    width: 22px;
+    height: 22px;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
 }
