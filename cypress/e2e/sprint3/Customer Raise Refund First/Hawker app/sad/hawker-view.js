@@ -38,14 +38,22 @@ Then("I should see accept button", () => {
   cy.get('[data-testid="accept-button"]').should('be.visible');
 });
 
-Then("I did not give a reason for rejection", () => {
-  // Assume the form or the field for giving a reason for rejection is left empty
+Then("I click on the decline button", () => {
+  cy.get('[data-testid="decline-button"]').click();
 });
 
-Then("I should see that the Decline button is greyed out", () => {
-  cy.get('[data-testid="decline-button"]').should('have.attr', 'disabled');
+Then("I should see the Decline Refund overlay", () => {
+  cy.get('[data-testid="refund-reject-overlay"]').should('be.visible');
+});
+
+Then("I did not give a reason for rejection", () => {
+  cy.get('[data-testid="reject-message-input"]').should('have.value', '');
+});
+
+Then("I should see that the Decline Request button is greyed out", () => {
+  cy.get('[data-testid="reject-confirm-button"]').should('have.attr', 'disabled');
 });
 
 Then("I should not be able to press it", () => {
-  cy.get('[data-testid="decline-button"]').should('be.disabled');
+  cy.get('[data-testid="reject-confirm-button"]').should('be.disabled');
 });
