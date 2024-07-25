@@ -132,6 +132,12 @@ const RefundDetails = () => {
                         <div className={styles.row}>
                             <span>{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                         </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Your response:</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span>{(refund.response_reason !== "" && refund.response_reason) ? refund.response_reason : "N.A"}</span>
+                        </div>
                     </div> : <></>}
                 </div>
 

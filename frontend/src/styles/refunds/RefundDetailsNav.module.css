@@ -27,5 +27,5 @@
     font-weight: bold;
     text-align: center;
     flex-grow: 1;
-    margin-right: 3.5rem; /* Adjust to center the text considering the back button */
+    margin-right: 3.5rem; 
 }
