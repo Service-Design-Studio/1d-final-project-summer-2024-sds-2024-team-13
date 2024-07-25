@@ -91,17 +91,17 @@ const RefundRequest = () => {
                 );
                 if (response.status === 201) {
                     console.log('Transaction created successfully:', response.data);
-                    return response.data; 
+                    return response.data;
                 } else {
                     console.error('Failed to create transaction:', response.status, response.data);
-                    return null;  
+                    return null;
                 }
             } catch (error) {
                 console.error('Error creating transaction:', error);
                 return null;
             }
         }
-        return null; 
+        return null;
     }, [user, expectedRefund, transaction.customer_id, transaction.customer_number, transaction.payment_method]);
 
     // SEND FROM HAWKER TO CUSTOMER
@@ -140,7 +140,7 @@ const RefundRequest = () => {
         transaction?.customer_id,
         navigate,
         createTransaction,
-    reason]);
+        reason]);
 
     const handleSubmit = () => {
         setShowOverlay(true)
@@ -183,7 +183,6 @@ const RefundRequest = () => {
                     <div className={styles.row}>
                         <span className={styles.label}>Paid by</span>
                         <span data-testid="refund-request-hawker"><b>{transaction.user_name}</b></span>
-                    </div>
                     </div>
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
@@ -258,7 +257,7 @@ const RefundRequest = () => {
                     >
                         SUBMIT
                     </button>
-
+                        
             </div>
             <RefundConfirm {...{showOverlay, setShowOverlay, reason, transaction, expectedPayment, expectedRefund, createRefundRequest}}/>
         </div>
