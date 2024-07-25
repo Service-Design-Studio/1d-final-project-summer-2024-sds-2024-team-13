@@ -28,7 +28,7 @@ const RefundScreen = () => {
 
 
     return (
-        <div className={styles.screen}>
+        <div className={styles.screen} data-testid="requested-refunds-page">
             <RefundScreenNav {...{value, setValue}}/>
             <div className={styles.content}>
             {refunds.filter(refund => {

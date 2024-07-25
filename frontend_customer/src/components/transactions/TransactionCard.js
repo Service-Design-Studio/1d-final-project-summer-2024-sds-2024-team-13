@@ -18,7 +18,9 @@ const TransactionCard = ({
             toggleDrawer(true)(event)
             
             }}
-            style={(status === "PENDING") ? {borderLeft: "7px solid #E7B416"} : (status === "REFUNDED") ? {borderLeft: "7px solid #2DC937"} : (status === "REJECTED") ? {borderLeft: "7px solid #EB3223"} : {borderLeft: "1px solid #d3d3d3"}}>
+            style={(status === "PENDING") ? {borderLeft: "7px solid #E7B416"} : (status === "REFUNDED") ? {borderLeft: "7px solid #2DC937"} : (status === "REJECTED") ? {borderLeft: "7px solid #EB3223"} : {borderLeft: "1px solid #d3d3d3"}}
+            data-testid={`transaction-card-${transaction.transaction_id}`}
+            >
             <div className={styles.top}>
                 <p className={styles.title}>{transaction.user_name}</p>
                 <ChevronRight/>
