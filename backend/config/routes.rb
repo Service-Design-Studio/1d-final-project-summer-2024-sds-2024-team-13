@@ -1,7 +1,7 @@
 # config/routes.rb
 Rails.application.routes.draw do
   resources :users do
-    resources :transactions, module: :users do
+    resources :transactions, module: :users, param: :transaction_id do  #set default param from :id to tranasaction_id in routes
       resource :refund_request, controller: 'refund_requests' do
         member do
           patch :update_status
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :customers do
-    resources :transactions, module: :customers do
+    resources :transactions, module: :customers, param: :transaction_id do
       resource :refund_request, controller: 'refund_requests' do
         member do
           patch :update_status

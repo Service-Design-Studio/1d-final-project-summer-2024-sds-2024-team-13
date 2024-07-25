@@ -75,7 +75,7 @@ module Customers
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :request_reason, :response_reason)
     end
 
     def determine_recipient_from_params

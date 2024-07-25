@@ -61,7 +61,7 @@ module Users
       end
     end
     
-
+    
     def transaction_params
       params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
     end
