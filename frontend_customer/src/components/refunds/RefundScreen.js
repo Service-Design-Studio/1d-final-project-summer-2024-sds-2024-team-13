@@ -43,7 +43,7 @@ const RefundScreen = () => {
                             return true; // If no value matches, return all
                     }
                 }).map(refund => (
-                    <RefundCard key={refund.id} {...{ refund }} />
+                    <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`} />
                 ))}
             </div>
         </div>
