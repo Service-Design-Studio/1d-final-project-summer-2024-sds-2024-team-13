@@ -80,7 +80,7 @@ const RefundRequest = () => {
         if (user) {
             const endpoint = `/users/${user.user_id}/transactions`;
             try {
-                const response = await axiosInstance.post(endpoint, 
+                const response = await axiosInstance.post(endpoint,
                     {
                         customer_id: transaction.customer_id,
                         customer_number: transaction.customer_number,
@@ -92,17 +92,17 @@ const RefundRequest = () => {
                 );
                 if (response.status === 201) {
                     console.log('Transaction created successfully:', response.data);
-                    return response.data;  // Return the created transaction data or true to indicate success
+                    return response.data; 
                 } else {
                     console.error('Failed to create transaction:', response.status, response.data);
-                    return null;  // Return null or false to indicate failure
+                    return null;  
                 }
             } catch (error) {
                 console.error('Error creating transaction:', error);
                 return null;
             }
         }
-        return null;  // Return null if user is not defined
+        return null; 
     }, [user, expectedRefund, transaction.customer_id, transaction.customer_number, transaction.payment_method]);
 
     // SEND FROM HAWKER TO CUSTOMER
@@ -116,12 +116,13 @@ const RefundRequest = () => {
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
                         recipient_id: transaction?.customer_id ?? "",
-                        recipient_type: "Customer"
+                        recipient_type: "Customer",
+                        request_reason: String(reason)
                     }
                 };
-    
+
                 const response = await axiosInstance.post(`/users/${user.user_id}/transactions/${transaction.transaction_id}/refund_request`, requestBody);
-    
+
                 if (response.status === 201) {
                     console.log('Refund request created successfully:', response.data);
                     createTransaction();
@@ -133,21 +134,33 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error);
             }
         }
-    }, [ user, 
-        expectedPayment, 
-        expectedRefund, 
-        transaction?.transaction_id, 
-        transaction?.customer_id, 
+    }, [user,
+        expectedPayment,
+        expectedRefund,
+        transaction?.transaction_id,
+        transaction?.customer_id,
         navigate,
-    createTransaction]);
-    
+        createTransaction,
+    reason]);
+
     const handleSubmit = () => {
         setIsSubmitted(true);
         createRefundRequest();
     };
 
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
-
+    const formatTimestamp = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+    };
     return (
         <div className={styles.screen}>
             <RefundRequestNav />
@@ -176,26 +189,19 @@ const RefundRequest = () => {
                     <div className={styles.row}>
                         <span className={styles.label}>Date and Time</span>
                         <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>17 Jul 2024, 09:41:21 AM</b></span>
+                        <span><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
                     </div>
                 </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Transaction ID</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span><b>{transaction.transaction_id}</b></span>
-                    </div>
-                </div>
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
                         <div className={styles.sectionTitle}>Expected Payment from Customer</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
-                            <input 
-                                type="text" 
-                                placeholder="0.00" 
-                                className={styles.input} 
+                            <input
+                                type="text"
+                                placeholder="0.00"
+                                className={styles.input}
                                 value={expectedPayment}
                                 onChange={handleExpectedPaymentChange}
                                 onBlur={() => handleBlur("payment")}
@@ -209,10 +215,10 @@ const RefundRequest = () => {
                         <div className={styles.sectionTitle}>Amount to be Refunded</div>
                         <div className={styles.inputWrapper}>
                             <span className={styles.prefix}>S$</span>
-                            <input 
-                                type="text" 
-                                placeholder="0.00" 
-                                className={styles.input} 
+                            <input
+                                type="text"
+                                placeholder="0.00"
+                                className={styles.input}
                                 value={expectedRefund}
                                 onChange={handleExpectedRefundChange}
                                 onBlur={() => handleBlur("refund")}
@@ -224,14 +230,22 @@ const RefundRequest = () => {
                     </div>
                     <div className={styles.section}>
                         <div className={styles.sectionTitle}>Reason(s) for Refund</div>
-                        <input 
-                            type="text" 
-                            placeholder="Add comments" 
-                            className={styles.input} 
+                        <input
+                            type="text"
+                            placeholder="Add comments (optional)"
+                            className={styles.input}
                             value={reason}
                             onChange={handleReasonChange}
                         />
                         <div className={styles.charCount}>{reason.length}/250</div>
+                    </div>
+                </div>
+                <div className={styles.fullWidthTransparent}>
+                    <div className={styles.row}>
+                        <span className={styles.label}>Transaction ID</span>
+                    </div>
+                    <div className={styles.row}>
+                        <span><b>{transaction.transaction_id}</b></span>
                     </div>
                 </div>
                 {!isSubmitted ? (

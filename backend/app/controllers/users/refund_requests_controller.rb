@@ -14,7 +14,7 @@ module Users
       @refund_request = RefundRequest.new(refund_request_params)
       @refund_request.sender = @user
       @refund_request.transaction_record = @transaction
-      @refund_request.recipient = determine_recipient_from_params
+      @refund_request.recipient = determine_recipient_from_params #if param[:recipient_id] match User/Customer, set @refund_request.recipient_id, _type"User/Customer"
       @refund_request.user_id = @user.user_id 
       @refund_request.customer_id = @refund_request.recipient_id 
       @refund_request.status ||= 'pending'
@@ -31,7 +31,7 @@ module Users
     end
     def update
       if @refund_request.recipient == @user
-        if @refund_request.update(status: params[:status])
+        if @refund_request.update(status: params[:status], response_reason: params[:response_reason])
           render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
         else
           render json: { errors: @refund_request.errors.full_messages }, status: :unprocessable_entity
@@ -73,7 +73,7 @@ module Users
    end
 
     def refund_request_params
-      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id)
+      params.require(:refund_request).permit(:transaction_id, :status, :expect_amount, :refund_amount, :recipient_id, :request_reason, :response_reason)
     end
 
     def determine_recipient_from_params

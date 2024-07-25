@@ -55,13 +55,13 @@ module Users
     end
 
     def set_transaction
-      @transaction = @user.transactions.find(params[:transaction_id])
+      @transaction = @user.transactions.find(params[:id])
       unless @transaction
         render json: { error: 'Transaction not found' }, status: :not_found
       end
     end
     
-
+    
     def transaction_params
       params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
     end
