@@ -8,6 +8,7 @@ class RefundRequest < ApplicationRecord
   before_validation :set_default_status, on: :create
   validates :status, presence: true #Added by hc
 
+  self.primary_key = 'refund_request_id'
   private
 
   def set_default_status
