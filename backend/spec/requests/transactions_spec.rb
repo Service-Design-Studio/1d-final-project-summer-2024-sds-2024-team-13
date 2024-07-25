@@ -6,7 +6,7 @@ RSpec.describe "Users::TransactionsController", type: :request do
   let!(:transaction) { Transaction.create!(transaction_id: 'test_transaction', user_id: user.id, customer_id: customer.id, customer_number: '12345', payment_method: 'paylah', amount: "100.0") }
   let(:valid_attributes) { { transaction_id: 'new_transaction', customer_id: customer.id, customer_number: '12345', payment_method: 'credit', amount: "100.0", status: 'completed' } }
   let(:invalid_attributes) { { customer_id: '', customer_number: '', payment_method: '', amount: '' } }
-  let(:additional_invalid_attributes) { { transaction_id: 1234, customer_id: 726@!3234, customer_number: '12345', payment_method: 'credit', amount: "0" } }
+  let(:additional_invalid_attributes) { { transaction_id: 'new_transaction', customer_id: customer.id, customer_number: '12345', payment_method: 'credit', amount: "0" } }
   let(:missing_attributes) { { transaction_id: 'new_transaction', customer_id: '', customer_number: '12345', payment_method: 'credit', amount: "10" } }
 
   describe "GET /users/:user_id/transactions" do
