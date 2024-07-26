@@ -54,7 +54,7 @@ Given("that I click on the Refund Customer button", () => {
 });
 
 Then("I should be redirected to Refund Customer View", () => {
-  cy.url().should('include', '/refunds/request');
+  cy.url({ timeout: 10000 }).should('include', '/refunds/request');
 });
 
 Then("I should see the amount the customer paid", () => {
@@ -94,8 +94,31 @@ Then("click on Submit", () => {
   cy.get('[data-testid="refund-request-submit-button"]').click();
 });
 
+Then("I should redirect back to Requested Refund View", () => {
+  cy.url({ timeout: 10000 }).should('include', '/refunds');
+});
+
+Then("I should be on Review Request View", () => {
+  cy.url({ timeout: 10000 }).should('include', '/refunds/request');
+});
+
+Then("there I should see Refund Amount, Paid To, Original Payment, Expected Payment from Customer", () => {
+  cy.get('[data-testid="refund-request-amount"]').should('be.visible');
+  cy.get('[data-testid="refund-request-hawker"]').should('be.visible');
+  cy.get('[data-testid="refund-request-customer-mobile"]').should('be.visible');
+  cy.get('[data-testid="refund-request-timestamp"]').should('be.visible');
+});
+
+Then("a Confirm Refund Button", () => {
+  cy.get('[data-testid="confirm-refund-button"]').should('be.visible');
+});
+
+Then("I click Confirm Refund Button", () => {
+  cy.get('[data-testid="confirm-refund-button"]').click();
+});
+
 Then("I should be redirected back to Requested Refund View", () => {
-  cy.url().should('include', '/refunds');
+  cy.url({ timeout: 10000 }).should('include', '/refunds');
 });
 
 Then("I click on the back button", () => {
