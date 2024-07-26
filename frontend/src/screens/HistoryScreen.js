@@ -6,15 +6,37 @@ import axiosInstance from "../utils/axiosConfig";
 import HistoryList from "../components/history/HistoryList";
 import Insights from "../components/history/Insights";
 import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
+import { ChevronRight } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const HistoryScreen = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [displayedTransactions, setDisplayedTransactions] = useState([]);
     
     const [filterOption, setFilterOption] = useState("thismonth")
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [pendingRefundsNum, setPendingRefundsNum] = useState(0)
+    
+    const fetchRefundRequests = useCallback(async () => {
+        if (user) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
+                const pendingRefunds = response.data
+                    .filter(refund => refund.status.toLowerCase() === 'pending')  
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));  
+                setPendingRefundsNum(pendingRefunds.length);  
+            } catch (error) {
+                console.error('Failed to fetch pending refund requests:', error);
+            }
+        }
+    }, [user]);
+
+    useEffect(() => {
+        fetchRefundRequests();
+    }, [fetchRefundRequests])
 
     const fetchThisMonthsTransactions = useCallback(async () => {
         if (user) {
@@ -175,10 +197,21 @@ const HistoryScreen = () => {
     })
 
     return ( 
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="transaction-history-view">
             <Insights/>
             <div className={styles.content}>
                 <DropdownFilter {...{filterOption, setFilterOption, startDate, setStartDate, setEndDate, endDate}}/>
+                <button 
+                    onClick={()=>navigate("/refunds")}
+                    className={styles.refundRequestsButton}
+                    data-testid="requested-refunds-button"
+                    >
+                    <div className={styles.refundButtonContent}>
+                        <p>Requested Refunds</p>
+                        {(pendingRefundsNum > 0) ? <div className={styles.refundButtonBadge}><span>{pendingRefundsNum}</span></div>:<></>}
+                    </div>
+                    <ChevronRight/>
+                </button>
                 <HistoryList {...{filterOption, displayedTransactions, isOpen, toggleDrawer, setSelectedTransaction}}/>
 
             </div>

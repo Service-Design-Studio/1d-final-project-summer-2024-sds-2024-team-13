@@ -6,18 +6,42 @@ import styles from "../styles/Home/Home.module.css"
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../utils/axiosConfig";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import HourlyChart from "../components/home/HourlyChart";
 import dayjs from "dayjs";
 import TransactionDetailDrawer from "../components/TransactionDetailDrawer";
+import { ChevronRight } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 const HomeScreen = () => {
+    const navigate = useNavigate(); 
+    const handleCancel = () => { navigate('/refunds') };
     const { user } = useAuth();
     const [transactions, setTransactions] = useState([]);
     const [lastRefresh, setLastRefresh] = useState(null);
     const [todayTotal, setTodayTotal] = useState(0);
     const [hourlyData, setHourlyData] = useState([]);
     const [cutoffTime, setCutoffTime] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
+    const [pendingRefundsNum, setPendingRefundsNum] = useState(0)
+    
+    const fetchRefundRequests = useCallback(async () => {
+        if (user) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/refund_requests`);
+                const pendingRefunds = response.data
+                    .filter(refund => refund.status.toLowerCase() === 'pending')  
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));  
+                setPendingRefundsNum(pendingRefunds.length);  
+            } catch (error) {
+                console.error('Failed to fetch pending refund requests:', error);
+            }
+        }
+    }, [user]);
+
+    useEffect(() => {
+        fetchRefundRequests();
+    }, [fetchRefundRequests])
+
     const updateCutoffTime = useCallback(async (newCutoffTime) => {
         if (!user) return;
 
@@ -126,11 +150,7 @@ const HomeScreen = () => {
         fetchTransactions();
     };
 
-    const formattedCutoffTime = cutoffTime.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    });
+
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -152,7 +172,10 @@ const HomeScreen = () => {
         payment_method: "Loading...",
         id: "Loading..."
 
+
     })
+
+    console.log(hourlyData)
 
     return (
         <div className={styles.screen}>
@@ -160,12 +183,22 @@ const HomeScreen = () => {
 
             <div className={styles.content}>
                 <MainCard {...{ lastRefresh, todayTotal }} />
-                <HourlyChart {...{ hourlyData, formattedCutoffTime }} />
+
+
+                <button className={styles.refundButton} onClick={handleCancel}>
+                    <div className={styles.refundButtonContent}>
+                        <p>Requested Refunds</p>
+                        {(pendingRefundsNum > 0) ? <div className={styles.refundButtonBadge}><span>{pendingRefundsNum}</span></div>:<></>}
+                    </div>
+                    <ChevronRight />
+                </button>
+
+
                 <div className={styles.transcContainer}>
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold", marginBottom: "8px" }}>
                         LATEST TRANSACTIONS
                     </p>
-                   
+
                     {transactions.map(transaction => (
                         <HomeTransactionCard key={transaction.id} {...{ transaction, toggleDrawer, setSelectedTransaction }} />
                     ))}

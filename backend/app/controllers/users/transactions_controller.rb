@@ -10,7 +10,7 @@ module Users
       end
     end
 
-    # GET /users/:user_id/transactions/:id
+    # GET /users/:user_id/transactions/:transaction_id
     def show
       if @transaction
         render json: @transaction
@@ -19,7 +19,7 @@ module Users
 
     # POST /users/:user_id/transactions
     def create
-      required_params = [:transaction_id, :customer_id, :customer_number, :payment_method, :amount]
+      required_params = [:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status]
       missing_params = required_params.select { |param| transaction_params[param].blank? }
 
       unless missing_params.empty?
@@ -34,6 +34,7 @@ module Users
       end
 
       @transaction = @user.transactions.build(transaction_params)
+      @transaction.user_name = @user.name
 
       if @transaction.save
         render json: @transaction, status: :created, location: user_transaction_path(@user, @transaction)
@@ -41,6 +42,7 @@ module Users
         render json: { error: 'Transaction could not be saved' }, status: :unprocessable_entity
       end
     end
+
 
     private
 
@@ -53,15 +55,15 @@ module Users
     end
 
     def set_transaction
-      @transaction = @user.transactions.find_by(transaction_id: params[:id])
+      @transaction = @user.transactions.find(params[:id])
       unless @transaction
         render json: { error: 'Transaction not found' }, status: :not_found
       end
     end
     
-
+    
     def transaction_params
-      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount)
+      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
     end
   end
 end

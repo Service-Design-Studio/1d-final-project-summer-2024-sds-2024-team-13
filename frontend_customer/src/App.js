@@ -6,27 +6,31 @@ import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import LoginScreen from './screens/LoginScreen';
 import WIPScreen from './screens/WIPScreen';
 import PaymentScreen from './screens/PaymentScreen';
-import TempOldPaymentScreen from "./screens/TempOldPaymentScreen"
 import PaymentReview from './components/payment/PaymentReview';
 import PaymentSuccess from './components/payment/PaymentSuccess';
 import AuthProvider from './context/AuthContext';
 import RegisterScreen from './screens/RegisterScreen';
 import PrivateRoute from './components/PrivateRoute';
+import HistoryScreen from './screens/HistoryScreen';
+import RefundScreen from './components/refunds/RefundScreen';
+import RefundRequest from './components/refunds/RefundRequest';
+import RefundDetails from './components/refunds/RefundDetails';
+import HomeScreen from './screens/HomeScreen';
 
 function Navigation() {
   const navigate = useNavigate();
-  const [screen, setScreen] = useState("payment");
+  const [screen, setScreen] = useState("home");
 
   const handleScreen = (screen) => {
     switch (screen) {
       case "home":
-        navigate("/WIP");
+        navigate("/home");
         break;
       case "payment":
         navigate("/payment");
         break;
       case "history":
-        navigate("/WIP");
+        navigate("/history");
         break;
       case "more":
         navigate("/WIP")
@@ -55,7 +59,11 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/payment' && location.pathname !== '/payment' && location.pathname !== '/payment/review' && location.pathname !== '/payment/success') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' 
+    && location.pathname !== '/payment' && location.pathname !== '/payment' 
+    && location.pathname !== '/payment/review' && location.pathname !== '/payment/success'
+    && location.pathname !== '/refunds' && location.pathname !== '/refunds/details'
+    && location.pathname !== '/refunds/request') ? <Navigation /> : null;
 }
 
 function App() {
@@ -72,10 +80,17 @@ function App() {
             
             <Route element={<PrivateRoute />}>
               <Route path="/WIP" element={<WIPScreen />} />
+
               <Route path="/payment" element={<PaymentScreen />} />
-              <Route path="/testpayment" element={<TempOldPaymentScreen />} />
+              {/*<Route path="/testpayment" element={<TempOldPaymentScreen />} />*/}
               <Route path="/payment/review" element={<PaymentReview />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/home" element={<HomeScreen />} />
+              <Route path="/history" element={<HistoryScreen />} />
+
+              <Route path="/refunds" element={<RefundScreen />} />
+              <Route path="/refunds/request" element={<RefundRequest />} />
+              <Route path="/refunds/details" element={<RefundDetails />} />
             </Route>
 
           </Routes>

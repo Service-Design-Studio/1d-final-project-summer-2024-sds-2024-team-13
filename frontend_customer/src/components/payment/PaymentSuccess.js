@@ -4,10 +4,9 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
-import { useAuth } from '../../context/AuthContext';
+import animatedBanner from "../../assets/animatedBanner.gif";
 
 const PaymentSuccess = ({ transaction }) => {
-    const { logout } = useAuth();
     const location = useLocation();
     const { paymentInfo } = location.state || {};
     const navigate = useNavigate();
@@ -32,12 +31,17 @@ const PaymentSuccess = ({ transaction }) => {
                     src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon} 
                     alt="Payment Method Logo" 
                 />
+                <img 
+                    className={styles.animatedBanner} 
+                    src={animatedBanner} 
+                    alt="Animated Banner" 
+                />
             </div>
             <div className={styles.footer}>
                 <button className={styles.newButton} onClick={handleNewPayment}>
                     Make a new payment
                 </button>
-                <button className={styles.logoutButton} onClick={()=>logout()}>Log Out</button>
+                <button className={styles.logoutButton} onClick={()=>navigate("/home")}>Back to Home</button>
             </div>
         </div>
     );

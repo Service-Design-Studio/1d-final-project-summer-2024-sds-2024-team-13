@@ -83,6 +83,13 @@
     margin-bottom: 20px;
 }
 
+.animatedBanner {
+    width: 100%;
+    max-width: 90vw;
+    height: auto;
+    margin-bottom: 20px;
+}
+
 .newButton {
     color: #FD5A77;
     background-color: white;
@@ -92,7 +99,6 @@
     cursor: pointer;
     padding: 15px;
     width: 90vw;
-    cursor: pointer;
 }
 
 .newButton:hover {
@@ -117,6 +123,5 @@
     cursor: pointer;
     padding: 15px;
     width: 90vw;
-    cursor: pointer;
     margin: 24px 0;
 }

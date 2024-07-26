@@ -1,10 +1,46 @@
 .content {
     margin: 0 1.2rem;
     padding: 5.5rem 0;
-    
 }
 
 .transcContainer {
     text-align: left;
     margin: 1.6rem 0;
+}
+
+.refundButton {
+    width: 100%;
+    padding: 0.2rem 0;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    cursor: pointer;
+}
+
+.refundButton p {
+    font-size: 1rem;
+    font-weight: 750;
+    margin: 1rem;
+}
+
+.refundButtonContent {
+    display: flex;
+    align-items: center;
+}
+
+.refundButtonBadge {
+    width: 22px;
+    height: 22px;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
 }

@@ -12,10 +12,10 @@ const MainCard = ({
             <div className={styles.top}>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "10px"}}>
                     <p style={{ fontSize: "0.8rem", marginTop: "0", marginBottom: "2px" }}>TODAY'S EARNINGS</p>
-                    <button className={styles.toggleEarnings} onClick={() => setShowEarnings(!showEarnings)}>{(showEarnings) ? <VisibilityOutlined/> : <VisibilityOffOutlined/>}</button>
+                    <button className={styles.toggleEarnings} onClick={() => setShowEarnings(!showEarnings)} data-testid="toggle-earnings-button">{(showEarnings) ? <VisibilityOutlined/> : <VisibilityOffOutlined/>}</button>
                 </div>
                 <div className={styles.topWrapper}>
-                    <h3 className={styles.todayEarning}>SGD <span>{(showEarnings) ? todayTotal.toFixed(2) : "--.--"}</span></h3>
+                    <h3 className={styles.todayEarning}>SGD <span data-testid="today-earnings">{(showEarnings) ? todayTotal.toFixed(2) : "--.--"}</span></h3>
                     <p>Last refreshed at {lastRefresh || "Loading..."}</p>
                 </div>
             </div>

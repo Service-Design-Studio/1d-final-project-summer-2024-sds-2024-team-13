@@ -5,6 +5,10 @@ import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Home, Book, Payment, MoreHoriz } from '@mui/icons-material/';
 import HomeScreen from './screens/HomeScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import RefundScreen from './components/refunds/RefundScreen';
+import RefundReview from './components/refunds/RefundReview';
+import RefundRequest from './components/refunds/RefundRequest';
+import RefundDetails from './components/refunds/RefundDetails';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
@@ -57,7 +61,10 @@ function Navigation() {
 function ConditionalNavigation() {
   const location = useLocation();
 
-  return (location.pathname !== '/' && location.pathname !== '/register') ? <Navigation /> : null;
+  return (location.pathname !== '/' && location.pathname !== '/register' 
+    && location.pathname !== '/refunds' && location.pathname !== '/refunds/request'
+    && location.pathname !== '/refunds/details' && location.pathname !== '/refunds/review'
+  ) ? <Navigation /> : null;
 }
 
 function App() {
@@ -73,8 +80,15 @@ function App() {
             <Route path="/register" element={<RegisterScreen />} />
             
             <Route element={<PrivateRoute />}>
-              <Route path="/history" element={<HistoryScreen />} />
               <Route path="/home" element={<HomeScreen />} />
+              
+              <Route path="/history" element={<HistoryScreen />} />
+              
+              <Route path="/refunds" element={<RefundScreen />} />
+              <Route path="/refunds/review" element={<RefundReview />} />
+              <Route path="/refunds/request" element={<RefundRequest />} />
+              <Route path="/refunds/details" element={<RefundDetails />} />
+
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
 
