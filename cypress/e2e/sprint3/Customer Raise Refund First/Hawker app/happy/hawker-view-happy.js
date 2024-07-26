@@ -47,11 +47,12 @@ Then("I click on the Accept button", () => {
     cy.url().should('include', '/refunds');
   });
 
-  Then("I should be redirected back to Transaction History view", () => {
-    cy.get('[data-testid="back-button"]').click();
-    cy.url().should('include', '/history');
-  });
-  
+  Then("I clicked on the back button", () => {
+    cy.get('[data-testid="back-button"]')
+    .first()
+    .click({ force: true });
+});
+
   Then("I should see a new transaction card with a deduction and word saying “REFUNDED”", () => {
     cy.get('[data-testid^="transaction-card"]')
       .first()

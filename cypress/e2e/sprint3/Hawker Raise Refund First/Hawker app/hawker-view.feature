@@ -22,7 +22,11 @@ Feature: Hawker Raising Refund First, Hawker View
         Then I fill up accordingly
         Then I should see Submit Button
         And click on Submit
-        Then I should be redirected back to Requested Refund View
+        Then I should be on Review Request View
+        And there I should see Refund Amount, Paid To, Original Payment, Expected Payment from Customer
+        And a Confirm Refund Button
+        Then I click Confirm Refund Button       
+        Then I should redirect back to Requested Refund View
         Then I click on the back button 
         And I should see a deduction in my daily earnings and total earnings on Transaction History
 
