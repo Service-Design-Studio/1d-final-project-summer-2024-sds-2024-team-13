@@ -5,6 +5,7 @@ import styles from '../styles/payment/Payment.module.css';
 import MenuItem from '../components/payment/MenuItem';
 import defaultFood from '../assets/default_food.png';
 import takeAway from '../assets/take_away.png';
+import TopHead from '../components/TopHead';
 
 const menuItemsData = [
   { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
@@ -13,11 +14,12 @@ const menuItemsData = [
   { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
-]
+];
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('0');
+  const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
   const [menuItems] = useState(menuItemsData);
   const inputRef = useRef(null);
@@ -35,14 +37,22 @@ const PaymentScreen = () => {
   }, [amount]);
 
   const calculateTotalAmount = (items) => {
-    return items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return items.reduce((total, item) => total + (item.price * item.quantity || 0), 0);
   };
 
   const handleKeyPress = (key) => {
-    if (key === 'C') {
+    if (key === 'Clear') {
+      setAmount('0');
+      setChain('');
+    } else if (key === 'Backspace') {
       setAmount((prevAmount) => prevAmount.slice(0, -1) || '0');
-    } else if (key === 'Enter') {
-      setShowKeypad(false);
+    } else if (key === '=') {
+      handleEquals();
+    } else if (['+', '-', '*', '/'].includes(key)) {
+      if (amount !== '') {
+        setChain((prevChain) => prevChain + amount + key);
+        setAmount('');
+      }
     } else {
       if (amount === '0' && key !== '.') {
         setAmount(key);
@@ -56,13 +66,31 @@ const PaymentScreen = () => {
     }
   };
 
+  const handleEquals = () => {
+    if (chain && amount) {
+      const expression = chain + amount;
+      try {
+        let result = eval(expression);
+        if (Number.isInteger(result)) {
+          result = result.toString();
+        } else {
+          result = result.toFixed(2);
+        }
+        setAmount(result.toString());
+        setChain('');
+      } catch (error) {
+        setAmount('Err');
+        setChain('');
+      }
+    }
+  };
+
   const handleQuantityChange = (index) => {
     const newMenuItems = [...menuItems];
     const item = newMenuItems[index];
     const itemPrice = item.price;
     const currentAmount = parseFloat(amount) || 0;
     const newAmount = currentAmount + itemPrice;
-    
     setAmount(newAmount.toFixed(2));
   };
 
@@ -75,50 +103,53 @@ const PaymentScreen = () => {
     setShowKeypad(true);
   };
 
-  const disableNextButton = parseFloat(amount) === 0;
+  const disableNextButton = parseFloat(amount) <= 0 || showKeypad;
+  const disableKeypadClose = chain !== '';
 
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2>Enter Amount to Charge</h2>
-      </div>
-      <div className={styles.amountInput}>
-        <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
-          <span>S$</span>
-          <input
-            type="text"
-            value={amount}
-            readOnly
-            className={`${styles.amountField} ${parseFloat(amount) === 0 ? styles.greyText : styles.blackText}`}
-            ref={inputRef}
-            data-testid="input-field"
-          />
+        <TopHead title="Enter Amount to Charge" />
+        <div className={styles.amountInput}>
+          <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
+            <span>S$</span>
+            <input
+              type="text"
+              value={amount}
+              readOnly
+              className={`${styles.amountField} ${parseFloat(amount) <= 0 ? styles.greyText : styles.blackText}`}
+              ref={inputRef}
+              data-testid="input-field"
+            />
+          </div>
         </div>
+        <button
+          className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
+          disabled={disableNextButton}
+          onClick={handleNext}
+          data-testid="generate-button"
+        >
+          Next
+        </button>
       </div>
-      <button
-        className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
-        disabled={disableNextButton}
-        onClick={handleNext}
-        data-testid="generate-button"
-      >
-        Next
-      </button>
-      <div className={styles.menuItems}>
-        {menuItems.map((item, index) => (
-          <MenuItem
-            key={index}
-            name={item.name}
-            price={item.price}
-            imageUrl={item.imageUrl}
-            onAdd={() => handleQuantityChange(index)}
-          />
-        ))}
+      <div className={styles.footer}>
+        <div className={styles.menuItems}>
+          {menuItems.map((item, index) => (
+            <MenuItem
+              key={index}
+              name={item.name}
+              price={item.price}
+              imageUrl={item.imageUrl}
+              onAdd={() => handleQuantityChange(index)}
+            />
+          ))}
+        </div>
       </div>
       {showKeypad && (
         <CustomKeypad
+          amount={amount}
           onKeyPress={handleKeyPress}
-          onEnter={() => setShowKeypad(false)}
-          onClose={() => setShowKeypad(false)}
+          onClose={() => !disableKeypadClose && setShowKeypad(false)}
         />
       )}
     </div>

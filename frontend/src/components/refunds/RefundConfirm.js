@@ -1,5 +1,6 @@
-import styles from "../../styles/refunds/RefundConfirm.module.css"
-import { ArrowBackIosNew } from "@mui/icons-material";
+import React from 'react';
+import TopNav from '../TopNav';
+import styles from "../../styles/refunds/RefundConfirm.module.css";
 
 const RefundConfirm = ({
     showOverlay,
@@ -11,16 +12,21 @@ const RefundConfirm = ({
     createRefundRequest
 }) => {
     const handleBack = () => {
-        setShowOverlay(false)
+        setShowOverlay(false);
+    };
+
+    if (!transaction) {
+        return null; // Return null if transaction is undefined to avoid errors
     }
+
     return (
         <div className={styles.main} style={(showOverlay) ? {display: "block"} : {display: "none"}}>
-            <div className={styles.confirmHeader}>
-                <button className={styles.backButton} onClick={() => handleBack()}>
-                    <ArrowBackIosNew />
-                </button>
-                <h2 className={styles.title}>Review Request</h2>
-            </div>
+            <TopNav
+                title="Review Request"
+                pathname={-1}
+                hasBackButton="yes"
+                handleBack={handleBack} // Pass handleBack to TopNav
+            />
             <div className={styles.content}>
                 <div className={styles.card}>
                     <div className={styles.top}>
@@ -44,15 +50,15 @@ const RefundConfirm = ({
                             <p className={styles.cardValue}>SGD {parseFloat(expectedPayment).toFixed(2)}</p>
                         </div>
                         <div className={styles.subsection}>
-                            <p className={styles.cardLabel}>Resaons(s) for Refund</p>
+                            <p className={styles.cardLabel}>Reason(s) for Refund</p>
                             <p className={styles.cardValue}>{(reason === "") ? "N.A" : reason}</p>
                         </div>
                     </div>
                 </div>
-                <button onClick={()=>createRefundRequest()} className={styles.confirmButton} data-testid="confirm-refund-button">Confirm Refund</button>
+                <button onClick={() => createRefundRequest()} className={styles.confirmButton} data-testid="confirm-refund-button">Confirm Refund</button>
             </div>
         </div>
     );
-}
+};
 
 export default RefundConfirm;

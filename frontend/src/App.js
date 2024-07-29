@@ -18,6 +18,7 @@ import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
 import DailyCutoffScreen from './screens/DailyCutoffScreen';
+import TopNav from './components/TopNav';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -83,6 +84,8 @@ function App() {
               <Route path="/home" element={<HomeScreen />} />
               
               <Route path="/history" element={<HistoryScreen />} />
+
+              <Route path="/test" element={<TopNav />} />
               
               <Route path="/refunds" element={<RefundScreen />} />
               <Route path="/refunds/review" element={<RefundReview />} />
