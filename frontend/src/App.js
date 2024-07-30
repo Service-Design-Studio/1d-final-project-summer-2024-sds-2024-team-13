@@ -19,6 +19,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SettingsScreen from './screens/SettingsScreen';
 import DailyCutoffScreen from './screens/DailyCutoffScreen';
 import TopNav from './components/TopNav';
+import withSplashScreen from "./components/withSplashScreen";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -108,4 +109,4 @@ function App() {
   );
 }
 
-export default App;
+export default withSplashScreen(App);
