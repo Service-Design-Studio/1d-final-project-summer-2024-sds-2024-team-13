@@ -1,0 +1,68 @@
+.screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ECECEC; 
+    width: 100%;
+    min-height: 100vh;
+}
+
+.content {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-top: 65px; 
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.banner {
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+    align-self: flex-start; /* Align the title to the left */
+    margin-left: 1rem; /* Add margin to the left */
+    text-align: left;
+}
+
+.Button {
+    width: 95%;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e04e63;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Button:hover {
+    background-color: #ccc;
+}
+
+.Button svg {
+    font-size: 1rem; /* Adjust the size of the icon */
+    margin-right: 0.5rem; /* Add some space between the icon and text */
+}
+
+.menuItems {
+    box-sizing: border-box;
+    width: 100%;
+    flex: 1;
+}

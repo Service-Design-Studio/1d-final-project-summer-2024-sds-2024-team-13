@@ -1,12 +1,12 @@
 import { AccessTime, ChevronLeft } from "@mui/icons-material";
-import styles from "../styles/settings/DailyCutoff.module.css"
+import styles from "../../styles/settings/DailyCutoff.module.css"
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import axiosInstance from "../utils/axiosConfig";
+import { useAuth } from "../../context/AuthContext";
+import axiosInstance from "../../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const DailyCutoffScreen = () => {

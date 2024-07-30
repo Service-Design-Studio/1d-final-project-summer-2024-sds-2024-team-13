@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { evaluate } from 'mathjs';
 import CustomKeypad from '../components/payment/CustomKeypad';
 import styles from '../styles/payment/Payment.module.css';
 import MenuItem from '../components/payment/MenuItem';
@@ -8,12 +9,12 @@ import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
 
 const menuItemsData = [
-  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
-  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood },
-  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood },
-  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
+  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood, quantity: 0 },
+  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood, quantity: 0 },
+  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood, quantity: 0 },
+  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
+  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
+  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway, quantity: 0 },
 ];
 
 const PaymentScreen = () => {
@@ -21,7 +22,7 @@ const PaymentScreen = () => {
   const [amount, setAmount] = useState('0');
   const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
-  const [menuItems] = useState(menuItemsData);
+  const [menuItems, setMenuItems] = useState(menuItemsData);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const PaymentScreen = () => {
   }, [amount]);
 
   const calculateTotalAmount = (items) => {
-    return items.reduce((total, item) => total + (item.price * item.quantity || 0), 0);
+    return items.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const handleKeyPress = (key) => {
@@ -70,7 +71,7 @@ const PaymentScreen = () => {
     if (chain && amount) {
       const expression = chain + amount;
       try {
-        let result = eval(expression);
+        let result = evaluate(expression);
         if (Number.isInteger(result)) {
           result = result.toString();
         } else {
@@ -85,12 +86,12 @@ const PaymentScreen = () => {
     }
   };
 
-  const handleQuantityChange = (index) => {
+  const handleQuantityChange = (index, priceChange) => {
     const newMenuItems = [...menuItems];
-    const item = newMenuItems[index];
-    const itemPrice = item.price;
+    newMenuItems[index].quantity += 1;
+    setMenuItems(newMenuItems);
     const currentAmount = parseFloat(amount) || 0;
-    const newAmount = currentAmount + itemPrice;
+    const newAmount = currentAmount + priceChange;
     setAmount(newAmount.toFixed(2));
   };
 
@@ -123,6 +124,7 @@ const PaymentScreen = () => {
             />
           </div>
         </div>
+        <div className={styles.chainText}>{chain}</div>
         <button
           className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
           disabled={disableNextButton}
@@ -140,7 +142,9 @@ const PaymentScreen = () => {
               name={item.name}
               price={item.price}
               imageUrl={item.imageUrl}
-              onAdd={() => handleQuantityChange(index)}
+              onClick={() => handleQuantityChange(index, item.price)}
+              initialLabel="Add"
+              initialClass={styles.addButton}
             />
           ))}
         </div>

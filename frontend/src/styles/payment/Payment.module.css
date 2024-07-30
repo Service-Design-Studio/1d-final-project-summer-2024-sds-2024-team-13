@@ -19,7 +19,7 @@
   align-items: center;
   flex-direction: column;
   margin-top: 150px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .amountInputWrapper {
@@ -91,7 +91,13 @@
   width: 100%;
   flex: 1;
   margin-top: 435px;
+  margin-bottom: 57px;
   overflow-y: auto;
-  padding: 5px 20px 5px 20px;
-  margin-bottom: 56px;
+}
+
+.chainText {
+  min-height: 1.5rem; 
+  padding: 0.5rem;
+  color: #727272; 
+  font-weight: 600;
 }
