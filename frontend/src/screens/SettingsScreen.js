@@ -11,26 +11,27 @@ const SettingsScreen = () => {
             <div className={styles.header}>
                 <h2>More</h2>
             </div>
-            <div className={styles.profile}>
-                <AccountCircle className={styles.profileIcon} />
-                <div>
-                    <h3>{user.name}</h3>
-                    <p>View and Edit Profile</p>
+            <div className={styles.content}>
+                <div className={styles.profile}>
+                    <AccountCircle className={styles.profileIcon} />
+                    <div>
+                        <h3>{user.name}</h3>
+                        <p>View and Edit Profile</p>
+                    </div>
                 </div>
+                <button onClick={()=>navigate("/settings/cutoff")} className={styles.settingsButton}>
+                    <div className={styles.settingsLabel}>
+                        <WbSunny />
+                        <p>Set Daily Cutoff</p>
+                    </div>
+                    <ChevronRight/>
+
+                </button>
+                <button onClick={logout} className={styles.logoutButton}>
+                    <Logout />
+                    <p>Log Out</p>
+                </button>
             </div>
-            <button onClick={()=>navigate("/settings/cutoff")} className={styles.settingsButton}>
-                <div className={styles.settingsLabel}>
-                    <WbSunny />
-                    <p>Set Daily Cutoff</p>
-                </div>
-                <ChevronRight/>
-
-            </button>
-            <button onClick={logout} className={styles.logoutButton}>
-                <Logout />
-                <p>Log Out</p>
-            </button>
-
         </div>
     );
 }
