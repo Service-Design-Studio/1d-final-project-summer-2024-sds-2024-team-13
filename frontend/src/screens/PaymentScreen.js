@@ -26,11 +26,6 @@ const PaymentScreen = () => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const totalAmount = calculateTotalAmount(menuItems);
-    setAmount(totalAmount > 0 ? totalAmount.toFixed(2) : '0');
-  }, [menuItems]);
-
-  useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';
     if (inputRef.current) {
       inputRef.current.style.width = inputWidth;
@@ -68,7 +63,7 @@ const PaymentScreen = () => {
   };
 
   const handleEquals = () => {
-    if (chain && amount) {
+    if (chain || amount) {
       const expression = chain + amount;
       try {
         let result = evaluate(expression);
@@ -79,6 +74,7 @@ const PaymentScreen = () => {
         }
         setAmount(result.toString());
         setChain('');
+        setShowKeypad(false); // Close the keypad on successful calculation
       } catch (error) {
         setAmount('Err');
         setChain('');
