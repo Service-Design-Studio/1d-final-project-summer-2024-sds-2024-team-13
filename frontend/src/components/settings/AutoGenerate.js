@@ -25,7 +25,7 @@ const AutoGenerate = () => {
     formData.append('image_path', image);
 
     // Set the fixed prompt
-    const prompt = `Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price. If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), ensure all prices are captured and labeled as "1", "2", "3", etc., respectively. The JSON should be structured as follows:
+    const prompt = `Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price labeled as "1". If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), ensure all prices are captured and labeled as "1", "2", "3", etc., respectively. If a price is unreadable, label it as "?.??". If the food item name is unreadable, skip that item. All prices should be in 2 decimal places. The JSON should be structured as follows:
 
     {
       "items": [
@@ -56,7 +56,24 @@ const AutoGenerate = () => {
         },
         {
           "name": "Banana",
-          "price": "$0.50"
+          "price": {
+            "1": "$0.50"
+          }
+        }
+      ]
+    }
+
+    If the price is unreadable, it should be captured as:
+
+    {
+      "items": [
+        {
+          "name": "Apple",
+          "price": {
+            "1": "?.??",
+            "2": "?.??",
+            "3": "?.??"
+          }
         }
       ]
     }`;
