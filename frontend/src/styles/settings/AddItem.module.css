@@ -1,0 +1,88 @@
+.container {
+    box-sizing: border-box;
+    margin: 70px auto 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  .inputGroupRow {
+    display: flex;
+    width: 100%;
+  }
+  
+  .idGroup {
+    flex: 1; /* 1 part of the flex space */
+    margin-right: 10px;
+  }
+  
+  .nameGroup {
+    flex: 3; /* 3 parts of the flex space */
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .uploadButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f8d7da;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .fileInput {
+    display: none;
+  }
+  
+  .imagePreviewContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .imagePreview {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+  }
+  
+  .confirmButton {
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-top: 30px;
+    width: 90%;
+    padding: 0.8rem 0;
+    border: none;
+    border-radius: 6px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 1rem;
+  }
+  

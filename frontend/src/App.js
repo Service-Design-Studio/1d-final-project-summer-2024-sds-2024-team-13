@@ -68,6 +68,7 @@ function ConditionalNavigation() {
   return (location.pathname !== '/' && location.pathname !== '/register' 
     && location.pathname !== '/refunds' && location.pathname !== '/refunds/request'
     && location.pathname !== '/refunds/details' && location.pathname !== '/refunds/review'
+    && location.pathname !== '/settings/autoGenerate' 
   ) ? <Navigation /> : null;
 }
 
