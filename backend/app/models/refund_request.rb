@@ -1,7 +1,9 @@
 class RefundRequest < ApplicationRecord
   belongs_to :transaction_record, foreign_key: :transaction_id, class_name: 'Transaction'
-  belongs_to :sender, polymorphic: true   #sender pointer :sender pointer defined as polymorphic, can point to multiple models e.g customer or user
-  belongs_to :recipient, polymorphic: true  #:recipient pointer defined as polymorphic
+  belongs_to :user , foreign_key: :user_id
+  belongs_to :customer, foreign_key: :customer_id
+  # belongs_to :sender, polymorphic: true   #sender pointer :sender pointer defined as polymorphic, can point to multiple models e.g customer or user
+  # belongs_to :recipient, polymorphic: true  #:recipient pointer defined as polymorphic
   after_save :update_transaction_status
   after_destroy :clear_transaction_status
   before_create :generate_refundrequest_id

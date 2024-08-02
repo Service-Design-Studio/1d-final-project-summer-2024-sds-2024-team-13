@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_25_203330) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_02_023643) do
   create_table "customers", primary_key: "customer_id", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "phone_num"
@@ -24,9 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_203330) do
     t.datetime "updated_at", null: false
     t.string "transaction_id"
     t.string "status"
-    t.string "sender_id"
     t.string "sender_type"
-    t.string "recipient_id"
     t.string "recipient_type"
     t.decimal "expect_amount", precision: 10, scale: 2
     t.decimal "refund_amount", precision: 10, scale: 2
