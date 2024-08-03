@@ -10,7 +10,7 @@
 .content {
     width: 100%;
     margin: 0;
-    padding-top: 70px; /* Adjust padding to account for fixed header */
+    padding-top: 70px;
     padding-bottom: 50px;
 }
 
@@ -134,4 +134,15 @@
 
 .successIcon {
     margin-right: 0.5rem;
+}
+
+.fullWidthTransparent {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.2rem 1rem;
+
+}
+
+.fullWidthTransparent span {
+    font-size: 0.8rem;
 }

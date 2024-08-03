@@ -1,20 +1,57 @@
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom';
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundReview.module.css";
 import { useAuth } from '../../context/AuthContext';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
 import { v4 as uuidv4 } from 'uuid';
+import RefundRejectReason from './RefundRejectReason';
 const RefundReview = () => {
     const location = useLocation();
     const { user } = useAuth();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const { refund } = location.state || {};
+    const [reply, setReply] = useState("")
+
+
+    const [showOverlay, setShowOverlay] = useState(false)
+
+    const formatTimestamp = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
+    };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).toUpperCase();
+    };
+    const [transaction, setTransaction] = useState({})
+    const fetchTransactionDetails = useCallback(async () => {
+        if (user && refund?.transaction_id) {
+            try {
+                const response = await axiosInstance.get(`/users/${user.user_id}/transactions/${refund.transaction_id}`);
+                if (response.status === 200) {
+                    console.log('Transaction details:', response.data);
+                    setTransaction(response.data);
+                } else {
+                    console.error('Failed to fetch transaction:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching transaction:', error);
+            }
+        }
+    }, [user, refund?.transaction_id]);
+    useEffect(() => {
+        fetchTransactionDetails();
+    }, [fetchTransactionDetails]);
     const createTransaction = useCallback(async () => {
         if (user) {
             const endpoint = `/users/${user.user_id}/transactions`;
             try {
-                const response = await axiosInstance.post(endpoint, 
+                const response = await axiosInstance.post(endpoint,
                     {
                         customer_id: refund.customer_id,
                         customer_number: "12345678", //TODO: to change
@@ -50,7 +87,29 @@ const RefundReview = () => {
                 const response = await axiosInstance.patch(endpoint, requestBody);
                 if (response.status === 200) {
                     console.log('Refund request updated successfully:', response.data);
-                    navigate("/refunds"); 
+                    navigate("/refunds");
+                } else {
+                    console.error('Unexpected response status:', response.status);
+                }
+            } catch (error) {
+                console.error('Failed to update refund request:', error);
+            }
+        }
+    }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
+    const declineRefundRequest = useCallback(async (reply) => {
+        if (user && reply!=="") {
+            const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
+            const requestBody = {
+                status: "REJECTED",
+                refund_request_id: refund.refund_request_id,
+                response_reason: reply,
+            };
+
+            try {
+                const response = await axiosInstance.patch(endpoint, requestBody);
+                if (response.status === 200) {
+                    console.log('Refund request updated successfully:', response.data);
+                    navigate("/refunds");
                 } else {
                     console.error('Unexpected response status:', response.status);
                 }
@@ -61,7 +120,7 @@ const RefundReview = () => {
     }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
 
     const handleDecline = () => {
-        patchRefundRequest("REJECTED");
+        setShowOverlay(true);
 
     };
 
@@ -69,74 +128,72 @@ const RefundReview = () => {
         patchRefundRequest("APPROVED");
         createTransaction();
     };
-    
+
     return (
-        <div className={styles.screen} data-testid="refund-details-view">
+        <div className={styles.screen} data-testid="refund-review-screen">
             <RefundDetailsNav />
             <div className={styles.content}>
-                <div className={styles.title}>Refund Requested</div>
-                <div className={styles.subtitle}>The refund request is pending action <br></br>from you.</div>
+                <div className={styles.title} data-testid="refund-requested-title">Refund Requested</div>
+                <div className={styles.subtitle} data-testid="refund-requested-subtitle">The refund request is pending action <br></br>from you.</div>
                 <div className={styles.sectionTitle}>
-                    <span className={styles.paymentTitle}>Refund Details</span>
+                    <span className={styles.paymentTitle} data-testid="refund-details-title">Refund Details</span>
                 </div>
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>Customer will receive</span>
+                        <span className={styles.label} data-testid="customer-will-receive-label"> Customer will receive</span>
                     </div>
                     <div className={styles.row}>
                         <span></span>
-                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
+                        <span className={styles.amount} data-testid="customer-will-receive-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
-                
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
-                        <span className={styles.label}>To be paid to</span>
-                        <span><b>12345678</b></span>
+                        <span className={styles.label} data-testid="to-be-paid-to-label">To be paid to</span>
+                        <span data-testid="to-be-paid-to-value"><b>{transaction?.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>To be paid by</span>
-                        <span><b>{user.name}</b></span>
+                        <span className={styles.label} data-testid="to-be-paid-by-label">To be paid by</span>
+                        <span data-testid="to-be-paid-by-value"><b>{transaction?.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.label}>Last updated</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span><b>18 Jul 2024, 14:51:52 AM</b></span>
+                        <span className={styles.label} data-testid="last-updated-label">Last updated</span>
+                        <span data-testid="last-updated-value"><b>{formatDate(refund.updated_at)}, {formatTimestamp(refund.updated_at)}</b></span>
                     </div>
                 </div>
 
                 <div className={styles.fullWidthSection}>
                     <div className={styles.section}>
                         <div className={styles.row}>
-                            <span className={styles.label}>Expected Payment from Customer</span>
+                            <span className={styles.label} data-testid="expected-payment-label">Expected Payment from Customer</span>
                         </div>
                         <div className={styles.row}>
-                            <span>SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                            <span data-testid="expected-payment-amount">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
                         </div>
-                    </div> 
+                    </div>
                     <div className={styles.section}>
                         <div className={styles.row}>
-                            <span className={styles.label}>Reason(s) for Refund</span>
+                            <span className={styles.label} data-testid="refund-reason-label">Reason(s) for Refund</span>
                         </div>
                         <div className={styles.row}>
-                            <span data-testid="refund-reasons">NIL</span>
+                            <span data-testid="refund-reason-value">{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Original Payment</span>
-                        <span><b>SGD{parseFloat(parseFloat(refund.expect_amount)+parseFloat(refund.refund_amount)).toFixed(2)}</b></span>
+                    <div className={styles.row} >
+                        <span className={styles.label} data-testid="original-payment-label">Original Payment</span>
+                        <span data-testid="original-payment-amount"><b>SGD {parseFloat(transaction?.amount).toFixed(2)}</b></span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.smallLabel}>Date and Time</span>
-                        <span className={styles.smallValue} data-testid="refund-timestamp">14 Jul 2024, 02:34:19 PM</span>
+                        <span className={styles.smallLabel} data-testid="original-payment-date-label">Date and Time</span>
+                        <span className={styles.smallValue} data-testid="original-payment-date-value">{formatDate(transaction?.created_at)}, {formatTimestamp(transaction?.created_at)}</span>
                     </div>
                     <div className={styles.row}>
-                        <span className={styles.smallLabel}>Transaction ID</span>
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-                        <span className={styles.smallValue} data-testid="refund-transaction-id">{refund.transaction_id}</span>
+                        <span className={styles.smallLabel} data-testid="transaction-id-label">Transaction ID</span>
+                        <span className={styles.smallID} data-testid="transaction-id-value">{refund.transaction_id}</span>
                     </div>
                 </div>
 
@@ -158,6 +215,7 @@ const RefundReview = () => {
                 </div>
 
             </div>
+            <RefundRejectReason {...{refund, transaction, formatDate, formatTimestamp, showOverlay, setShowOverlay, declineRefundRequest, reply, setReply}}/>
         </div>
     );
 };

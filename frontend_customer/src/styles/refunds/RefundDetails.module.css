@@ -64,6 +64,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
+    align-items: center;
 }
 
 .label {
@@ -110,11 +111,19 @@
     font-weight: 500;
     color: var(--text-light);
     font-size: 0.9rem;
+    text-align: left;
 }
 
 .smallValue {
     font-size: 0.9rem;
+    text-align: right;
+
 }
+.smallID {
+    font-size: 0.7rem;
+    text-align: right;
+}
+
 
 .redRow {
     display: flex;
@@ -136,4 +145,15 @@
 .redIcon {
     color: var(--primary);
     margin-top: 0.2rem;
+}
+
+.fullWidthTransparent {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.2rem 1rem;
+
+}
+
+.fullWidthTransparent span {
+    font-size: 0.8rem;
 }
