@@ -7,6 +7,7 @@ import MenuItem from '../components/payment/MenuItem';
 import defaultFood from '../assets/default_food.png';
 import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
+import MenuHeader from '../components/payment/MenuHeader'; // Import MenuHeader
 
 const menuItemsData = [
   { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood, quantity: 0 },
@@ -23,6 +24,8 @@ const PaymentScreen = () => {
   const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
   const [menuItems, setMenuItems] = useState(menuItemsData);
+  const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
+  const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -100,6 +103,31 @@ const PaymentScreen = () => {
     setShowKeypad(true);
   };
 
+  const handleFavoriteToggle = (itemName) => {
+    setFavoriteItems((prevFavorites) =>
+      prevFavorites.includes(itemName)
+        ? prevFavorites.filter((name) => name !== itemName)
+        : [...prevFavorites, itemName]
+    );
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredItems = menuItems.filter((item) =>
+    item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+    item.id.toLowerCase().startsWith(searchQuery.toLowerCase())
+  );
+
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    const isAFavorite = favoriteItems.includes(a.name);
+    const isBFavorite = favoriteItems.includes(b.name);
+    if (isAFavorite && !isBFavorite) return -1;
+    if (!isAFavorite && isBFavorite) return 1;
+    return 0;
+  });
+
   const disableNextButton = parseFloat(amount) <= 0 || showKeypad;
   const disableKeypadClose = chain !== '';
 
@@ -129,10 +157,13 @@ const PaymentScreen = () => {
         >
           Next
         </button>
+        <div className={styles.menuHeader}>
+          <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
+        </div>
       </div>
       <div className={styles.footer}>
         <div className={styles.menuItems}>
-          {menuItems.map((item, index) => (
+          {sortedItems.map((item, index) => (
             <MenuItem
               key={index}
               name={item.name}
@@ -141,6 +172,8 @@ const PaymentScreen = () => {
               onClick={() => handleQuantityChange(index, item.price)}
               initialLabel="Add"
               initialClass={styles.addButton}
+              isFavorited={favoriteItems.includes(item.name)} // Add favorite prop
+              onFavoriteToggle={() => handleFavoriteToggle(item.name)} // Add favorite toggle handler
             />
           ))}
         </div>

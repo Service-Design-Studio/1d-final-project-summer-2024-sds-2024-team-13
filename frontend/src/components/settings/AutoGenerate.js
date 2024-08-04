@@ -48,18 +48,17 @@ const AutoGenerate = () => {
     const formData = new FormData();
     formData.append('image_path', image);
 
-    const prompt = `You are given an image with food menu items. Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price labeled as "1". If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), ensure all prices are captured and labeled as "1", "2", "3", etc., respectively. If a price is unreadable, label it as "?.??". If the food item name is unreadable, skip that item. All prices should be in 2 decimal places. The JSON should be structured as follows:
+    const prompt = `You are given an image with food menu items. Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price. If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), include the corresponding number (1), (2), (3), etc., behind the food item name. If a price is unreadable, label it as "?.??". If the food item name is unreadable, skip that item. All prices should be in 2 decimal places. The JSON should be structured as follows:
 
     {
       "items": [
         {
-          "name": "food item name",
-          "price": {
-            "1": "first price",
-            "2": "second price",
-            "3": "third price",
-            ...
-          }
+          "name": "food item name (1)",
+          "price": "first price"
+        },
+        {
+          "name": "food item name (2)",
+          "price": "second price"
         },
         ...
       ]
@@ -70,18 +69,20 @@ const AutoGenerate = () => {
     {
       "items": [
         {
-          "name": "Apple",
-          "price": {
-            "1": "$4.00",
-            "2": "$7.00",
-            "3": "$9.00"
-          }
+          "name": "Apple (1)",
+          "price": "$4.00"
+        },
+        {
+          "name": "Apple (2)",
+          "price": "$7.00"
+        },
+        {
+          "name": "Apple (3)",
+          "price": "$9.00"
         },
         {
           "name": "Banana",
-          "price": {
-            "1": "$0.50"
-          }
+          "price": "$0.50"
         }
       ]
     }
@@ -91,20 +92,24 @@ const AutoGenerate = () => {
     {
       "items": [
         {
-          "name": "Apple",
-          "price": {
-            "1": "?.??",
-            "2": "?.??",
-            "3": "?.??"
-          }
+          "name": "Apple (1)",
+          "price": "?.??"
+        },
+        {
+          "name": "Apple (2)",
+          "price": "?.??"
+        },
+        {
+          "name": "Apple (3)",
+          "price": "?.??"
         }
       ]
     }
-      
+
     If the image is not a menu, output an empty JSON object like this:
 
     {
-    "items": []
+      "items": []
     }`;
     formData.append('prompt', prompt);
 

@@ -18,23 +18,6 @@
     align-items: center;
 }
 
-.banner {
-    box-sizing: border-box;
-    width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin-top: 1rem;
-}
-
-.title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #000;
-    align-self: flex-start; /* Align the title to the left */
-    margin-left: 1rem; /* Add margin to the left */
-    text-align: left;
-}
-
 .Button {
     width: 95%;
     max-width: 400px;
@@ -65,4 +48,5 @@
     box-sizing: border-box;
     width: 100%;
     flex: 1;
+    overflow-y: auto;
 }

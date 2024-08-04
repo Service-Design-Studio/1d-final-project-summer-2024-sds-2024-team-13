@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/settings/MenuPreset.module.css';
+import MenuHeader from '../../components/payment/MenuHeader';
 import MenuItem from '../../components/payment/MenuItem';
 import defaultFood from '../../assets/default_food.png';
 import takeAway from '../../assets/take_away.png';
@@ -19,9 +20,37 @@ const menuItemsData = [
 const MenuPreset = () => {
   const navigate = useNavigate();
   const [menuItems] = useState(menuItemsData);
+  const [favoriteItems, setFavoriteItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const handleClick = (item) => {
     navigate(`/settings/editItem/${item.id}`);
   };
+
+  const handleFavoriteToggle = (itemName) => {
+    setFavoriteItems((prevFavorites) =>
+      prevFavorites.includes(itemName)
+        ? prevFavorites.filter((name) => name !== itemName)
+        : [...prevFavorites, itemName]
+    );
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredItems = menuItems.filter((item) =>
+    item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+    item.id.toLowerCase().startsWith(searchQuery.toLowerCase())
+  );
+
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    const isAFavorite = favoriteItems.includes(a.name);
+    const isBFavorite = favoriteItems.includes(b.name);
+    if (isAFavorite && !isBFavorite) return -1;
+    if (!isAFavorite && isBFavorite) return 1;
+    return 0;
+  });
 
   return (
     <div className={styles.screen}>
@@ -37,11 +66,9 @@ const MenuPreset = () => {
         <button onClick={() => navigate('/settings/addItem')} className={styles.Button}>
           <AddCircle /> Add Menu Item
         </button>
-        <div className={styles.banner}>
-          <div className={styles.title}>Current Menu Items</div>
-        </div>
+        <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
         <div className={styles.menuItems}>
-          {menuItems.map((item, index) => (
+          {sortedItems.map((item, index) => (
             <MenuItem
               key={index}
               name={item.name}
@@ -49,7 +76,8 @@ const MenuPreset = () => {
               imageUrl={item.imageUrl}
               onClick={() => handleClick(item)}
               initialLabel="Edit"
-              initialClass={styles.editButton}
+              isFavorited={favoriteItems.includes(item.name)}
+              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
             />
           ))}
         </div>

@@ -1,31 +1,5 @@
-.header {
-    background: #fff;
-    box-sizing: border-box;
-    padding: 1rem 1.2rem;
-    text-align: left;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    position:relative;
-    
-}
-
-.header h3 {
-    margin:0;
-    font-weight: 600 !important;
-    vertical-align: middle;
-    transform: translateY(-2px);
-}
-
-.header button {
-    background: none;
-    color: var(--text-light);
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+.screen {
+    margin-top: 75px;
 }
 
 .option {
