@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_02_023643) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_04_114525) do
   create_table "customers", primary_key: "customer_id", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "phone_num"
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.string "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id"
   end
 
   create_table "refund_requests", id: false, force: :cascade do |t|
@@ -60,6 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_02_023643) do
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
 
+  add_foreign_key "items", "users", primary_key: "user_id"
   add_foreign_key "refund_requests", "customers", primary_key: "customer_id"
   add_foreign_key "refund_requests", "transactions", primary_key: "transaction_id"
   add_foreign_key "refund_requests", "users", primary_key: "user_id"

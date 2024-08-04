@@ -1,6 +1,7 @@
 # config/routes.rb
 Rails.application.routes.draw do
   resources :users do
+    resources :items
     resources :transactions, module: :users do 
       resource :refund_request, controller: 'refund_requests' do
         member do

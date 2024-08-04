@@ -3,7 +3,8 @@ class User < ApplicationRecord
     validates :password, presence: true, on: :create
     validates :password, presence: true, if: -> { password.present? }
     has_many :transactions, primary_key: "user_id", foreign_key: "user_id"
-    has_many :refund_requests
+    has_many :refund_requests 
+    has_many :items
     before_create :generate_user_id
     self.primary_key = 'user_id'
     
