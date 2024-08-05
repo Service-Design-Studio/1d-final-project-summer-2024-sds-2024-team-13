@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
     @item = @user.items.build(item_params)
 
     if @item.save
-      render json: { item: @item.as_json.merge(image: @item.image.attached? ? url_for(@item.image) : nil) 
+      render json: { status: 'item updated successfully', item: @item.as_json.merge(image: @item.image.attached? ? url_for(@item.image) : nil) 
       }, status: :created
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1 or /items/1.json
   def update
     if @item.update(item_params)
-      render json: { item: @item.as_json.merge(image: @item.image.attached? ? url_for(@item.image) : nil) 
+      render json: { status: 'item updated successfully', item: @item.as_json.merge(image: @item.image.attached? ? url_for(@item.image) : nil) 
       }, status: :ok
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity 
