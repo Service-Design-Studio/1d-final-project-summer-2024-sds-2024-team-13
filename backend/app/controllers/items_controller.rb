@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
   # GET /items/1 or /items/1.json
   def show
     if @item
-      render json: { item: @item, image: url_for(@item.image) }
+      render json: { item: @item.as_json.merge(image: url_for(@item.image)) }
     end
   end
 
@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1 or /items/1.json
   def update
     if @item.update(item_params)
-      render json: { status: 'item updated successfully', item: @item }, status: :ok
+      render json: { status: 'item updated successfully', item: @item.as_json.merge(image: url_for(@item.image)) }, status: :ok
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity 
     end
