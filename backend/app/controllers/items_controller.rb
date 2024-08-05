@@ -4,15 +4,14 @@ class ItemsController < ApplicationController
 
   # GET /items or /items.json
   def index
-    if @user
-      render json: @user.items
-    end
+    @items = @user.items
+    render json: @items.map { |item| item.as_json.merge(image: url_for(item.image)) }
   end
 
   # GET /items/1 or /items/1.json
   def show
     if @item
-      render json: @item
+      render json: { item: @item, image: url_for(@item.image) }
     end
   end
 
