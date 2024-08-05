@@ -21,18 +21,7 @@ class ItemsController < ApplicationController
     @item = @user.items.build(item_params)
 
     if @item.save
-      render json: { 
-        status: 'Item created successfully', 
-        item: {
-          id: @item.id,
-          name: @item.name,
-          price: @item.price,
-          created_at: @item.created_at,
-          updated_at: @item.updated_at,
-          user_id: @item.user_id,
-          image: url_for(@item.image) # Include the image URL in the response
-        }
-      }, status: :created
+      render json: { item: @item.as_json.merge(image: url_for(@item.image)) }, status: :created
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
     end
@@ -68,6 +57,6 @@ class ItemsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def item_params
-    params.require(:item).permit(:name, :price, :image)
+    params.require(:item).permit(:name, :price, :image, :favourite)
   end
 end
