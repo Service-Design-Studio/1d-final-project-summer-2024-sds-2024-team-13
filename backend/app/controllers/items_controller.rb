@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
           created_at: @item.created_at,
           updated_at: @item.updated_at,
           user_id: @item.user_id,
-          image_url: url_for(@item.image) # Include the image URL in the response
+          image: url_for(@item.image) # Include the image URL in the response
         }
       }, status: :created
     else
