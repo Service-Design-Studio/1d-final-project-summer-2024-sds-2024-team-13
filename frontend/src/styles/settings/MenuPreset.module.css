@@ -5,6 +5,7 @@
     background-color: #F6F7F9; 
     width: 100%;
     min-height: 100vh;
+    
 }
 
 .content {
@@ -18,21 +19,41 @@
     align-items: center;
 }
 
-.Button {
+.buttonContainer {
     width: 95%;
-    max-width: 400px;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.generateButton {
+    background: var(--primary) !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+
+.Button {
+    width: 100%;
     padding: 1rem;
     background-color: #ffffff;
-    border: 1px solid #e04e63;
-    border-radius: 10px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 400;
     cursor: pointer;
-    margin-top: 10px;
-    text-align: center;
+    text-align: left;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    color: var(--text-light);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 4px;
+}
+
+.buttonContent {
+    display: flex;
+    align-items: center;
 }
 
 .Button:hover {
@@ -40,7 +61,7 @@
 }
 
 .Button svg {
-    font-size: 1rem; /* Adjust the size of the icon */
+    font-size: 1.4rem; /* Adjust the size of the icon */
     margin-right: 0.5rem; /* Add some space between the icon and text */
 }
 
@@ -50,3 +71,14 @@
     flex: 1;
     overflow-y: auto;
 }
+
+.gridLayout {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 1.6rem 1rem;
+    padding-bottom: 2rem;
+    width: 100%;
+    max-width: 100%;
+  }

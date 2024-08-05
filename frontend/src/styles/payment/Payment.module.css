@@ -19,7 +19,7 @@
   align-items: center;
   flex-direction: column;
   margin-top: 150px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .amountInputWrapper {
@@ -105,4 +105,15 @@
   padding: 0.5rem;
   color: #727272; 
   font-weight: 600;
+}
+
+.gridLayout {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 4rem 1rem;
+  padding-bottom: 2rem;
+  width: 100%;
+  max-width: 100%;
 }

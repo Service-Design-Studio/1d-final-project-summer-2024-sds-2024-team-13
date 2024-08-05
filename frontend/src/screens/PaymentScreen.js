@@ -8,6 +8,7 @@ import defaultFood from '../assets/default_food.png';
 import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
 import MenuHeader from '../components/payment/MenuHeader'; // Import MenuHeader
+import MenuGridItem from '../components/payment/MenuGridItem';
 
 const menuItemsData = [
   { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood, quantity: 0 },
@@ -26,6 +27,9 @@ const PaymentScreen = () => {
   const [menuItems, setMenuItems] = useState(menuItemsData);
   const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
   const [searchQuery, setSearchQuery] = useState('');
+  const [viewLayout, setViewLayout] = useState("row")
+  const [tabValue, setTabValue] = useState(0) // 0 is menu, 1 is favourites
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -158,12 +162,12 @@ const PaymentScreen = () => {
           Next
         </button>
         <div className={styles.menuHeader}>
-          <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
+          <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{tabValue, setTabValue, viewLayout, setViewLayout}}/>
         </div>
       </div>
       <div className={styles.footer}>
         <div className={styles.menuItems}>
-          {sortedItems.map((item, index) => (
+          {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
               key={index}
               name={item.name}
@@ -172,11 +176,27 @@ const PaymentScreen = () => {
               onClick={() => handleQuantityChange(index, item.price)}
               initialLabel="Add"
               initialClass={styles.addButton}
-              isFavorited={favoriteItems.includes(item.name)} // Add favorite prop
-              onFavoriteToggle={() => handleFavoriteToggle(item.name)} // Add favorite toggle handler
+              isFavorited={favoriteItems.includes(item.name)}
+              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
             />
-          ))}
+          )) :
+            <div className={styles.gridLayout} >
+              {sortedItems.map((item, index) => (
+                <MenuGridItem
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  imageUrl={item.imageUrl}
+                  onClick={() => handleQuantityChange(index, item.price)}
+                  initialLabel="Add"
+                  isFavorited={favoriteItems.includes(item.name)}
+                  onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+                />
+              ))}
+            </div>
+          }
         </div>
+
       </div>
       {showKeypad && (
         <CustomKeypad

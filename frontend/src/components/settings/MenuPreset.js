@@ -6,7 +6,8 @@ import MenuItem from '../../components/payment/MenuItem';
 import defaultFood from '../../assets/default_food.png';
 import takeAway from '../../assets/take_away.png';
 import TopNav from '../TopNav';
-import { AutoFixHigh, AddCircle } from '@mui/icons-material';
+import { AutoFixHigh, AddCircle, ChevronRight } from '@mui/icons-material';
+import MenuGridItem from '../payment/MenuGridItem';
 
 const menuItemsData = [
   { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
@@ -15,6 +16,7 @@ const menuItemsData = [
   { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
+
 ];
 
 const MenuPreset = () => {
@@ -22,10 +24,13 @@ const MenuPreset = () => {
   const [menuItems] = useState(menuItemsData);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [tabValue, setTabValue] = useState(0) // 0 is menu, 1 is favourites
+  const [viewLayout, setViewLayout] = useState("row")
 
   const handleClick = (item) => {
     navigate(`/settings/editItem/${item.id}`);
   };
+  
 
   const handleFavoriteToggle = (itemName) => {
     setFavoriteItems((prevFavorites) =>
@@ -60,15 +65,21 @@ const MenuPreset = () => {
         hasBackButton="yes"
       />
       <div className={styles.content}>
-        <button onClick={() => navigate('/settings/autoGenerate')} className={styles.Button}>
-          <AutoFixHigh /> Auto-Generate Menu Item(s)
-        </button>
-        <button onClick={() => navigate('/settings/addItem')} className={styles.Button}>
-          <AddCircle /> Add Menu Item
-        </button>
-        <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
+        <div className={styles.buttonContainer}>
+          <button onClick={() => navigate('/settings/autoGenerate')} className={`${styles.generateButton} ${styles.Button}`}>
+            <div className={styles.buttonContent}><AutoFixHigh /> Auto-Generate Menu Item(s)</div>
+            <ChevronRight />
+          </button>
+          <button onClick={() => navigate('/settings/addItem')} className={styles.Button}>
+            <div className={styles.buttonContent}><AddCircle /> Add Menu Item</div>
+            <ChevronRight />
+
+          </button>
+        </div>
+
+        <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{tabValue, setTabValue, viewLayout, setViewLayout}} />
         <div className={styles.menuItems}>
-          {sortedItems.map((item, index) => (
+          {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
               key={index}
               name={item.name}
@@ -79,7 +90,22 @@ const MenuPreset = () => {
               isFavorited={favoriteItems.includes(item.name)}
               onFavoriteToggle={() => handleFavoriteToggle(item.name)}
             />
-          ))}
+          )) : 
+          <div className={styles.gridLayout} >
+            {sortedItems.map((item, index) => (
+            <MenuGridItem
+              key={index}
+              name={item.name}
+              price={item.price}
+              imageUrl={item.imageUrl}
+              onClick={() => handleClick(item)}
+              initialLabel="Edit"
+              isFavorited={favoriteItems.includes(item.name)}
+              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+            />
+          )) }
+          </div>
+          }
         </div>
       </div>
     </div>
