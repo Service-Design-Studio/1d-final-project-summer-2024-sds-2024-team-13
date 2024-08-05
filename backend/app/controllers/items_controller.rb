@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
   # GET /items/1 or /items/1.json
   def show
     if @item
-      render json: { item: @item.as_json.merge(image: url_for(@item.image)) }
+      render json: { item: @item.as_json.merge(image: @item.image.attached? ? url_for(@item.image) : nil) }
     end
   end
 
