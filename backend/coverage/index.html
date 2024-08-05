@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-08-05T18:21:33+08:00">2024-08-05T18:21:33+08:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-08-05T18:26:01+08:00">2024-08-05T18:26:01+08:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -23,7 +23,7 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="yellow">
-  87.67%
+  87.87%
 </span>
 
      </span>
@@ -44,10 +44,10 @@
 
   <div class="t-line-summary">
     <b>973</b> relevant lines,
-    <span class="green"><b>853</b> lines covered</span> and
-    <span class="red"><b>120</b> lines missed. </span>
+    <span class="green"><b>855</b> lines covered</span> and
+    <span class="red"><b>118</b> lines missed. </span>
     (<span class="yellow">
-  87.67%
+  87.87%
 </span>
 )
   </div>
@@ -369,12 +369,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#c899a4d327dc71762a6558b035fe925e7f3f810a" class="src_link" title="spec/requests/items_spec.rb">spec/requests/items_spec.rb</a></td>
-            <td class="green strong cell--number t-file__coverage">94.29 %</td>
+            <td class="green strong cell--number t-file__coverage">97.14 %</td>
             <td class="cell--number">112</td>
             <td class="cell--number">70</td>
-            <td class="cell--number">66</td>
-            <td class="cell--number">4</td>
-            <td class="cell--number">1.26</td>
+            <td class="cell--number">68</td>
+            <td class="cell--number">2</td>
+            <td class="cell--number">1.29</td>
             
           </tr>
         
@@ -2719,7 +2719,7 @@
 
             
 
-            <code class="ruby">    render json: @items.map { |item| item.as_json.merge(image: url_for(item.image)) }</code>
+            <code class="ruby">    render json: @items.map { |item| item.as_json.merge(image: item.image.attached? ? url_for(item.image) : nil) } #image can be nil</code>
           </li>
         </div>
       
@@ -11687,7 +11687,7 @@
     <h3>spec/requests/items_spec.rb</h3>
     <h4>
       <span class="green">
-  94.29%
+  97.14%
 </span>
 
       lines covered
@@ -11697,8 +11697,8 @@
 
     <div class="t-line-summary">
       <b>70</b> relevant lines.
-      <span class="green"><b>66</b> lines covered</span> and
-      <span class="red"><b>4</b> lines missed.</span>
+      <span class="green"><b>68</b> lines covered</span> and
+      <span class="red"><b>2</b> lines missed.</span>
     </div>
 
     
@@ -11896,8 +11896,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="18">
-            
+          <li class="covered" data-hits="1" data-linenumber="18">
+            <span class="hits">1</span>
             
 
             
@@ -11907,8 +11907,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="19">
-            
+          <li class="covered" data-hits="1" data-linenumber="19">
+            <span class="hits">1</span>
             
 
             
