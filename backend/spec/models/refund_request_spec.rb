@@ -1,17 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe RefundRequest, type: :model do
-  let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password_digest: 'password') }
+  let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password') }
   let(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'testuser@example.com', password: 'password123', password_confirmation: 'password123') }
   let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
 
   subject {
     described_class.new(
       transaction_id: transaction.transaction_id,
-      sender_id: user.user_id,
-      sender_type: 'User',
-      recipient_id: user.user_id,
-      recipient_type: 'User',
+      user_id: user.user_id,
+      customer_id: customer.customer_id,
       expect_amount: 100.0,
       refund_amount: 50.0,
       status: 'pending'
@@ -20,28 +18,8 @@ RSpec.describe RefundRequest, type: :model do
 
   describe 'associations' do
     it { should belong_to(:transaction_record).class_name('Transaction') }
-    
-    it 'can belong to a sender (User)' do
-      subject.sender = user
-      expect(subject.sender).to eq(user)
-    end
-
-    it 'can belong to a sender (Customer)' do
-      subject.sender = customer
-      subject.sender_type = 'Customer'
-      expect(subject.sender).to eq(customer)
-    end
-
-    it 'can belong to a recipient (User)' do
-      subject.recipient = user
-      expect(subject.recipient).to eq(user)
-    end
-
-    it 'can belong to a recipient (Customer)' do
-      subject.recipient = customer
-      subject.recipient_type = 'Customer'
-      expect(subject.recipient).to eq(customer)
-    end
+    it { should belong_to(:user) }
+    it { should belong_to(:customer) }
   end
 
   describe 'validations' do
@@ -54,20 +32,40 @@ RSpec.describe RefundRequest, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'is not valid without a sender_id' do
-      subject.sender_id = nil
+    it 'is not valid without a user_id' do
+      subject.user_id = nil
       expect(subject).to_not be_valid
     end
 
-    it 'is not valid without a recipient_id' do
-      subject.recipient_id = nil
+    it 'is not valid without a customer_id' do
+      subject.customer_id = nil
       expect(subject).to_not be_valid
+    end
+
+    it 'sets default status to pending if not provided' do
+      refund_request = RefundRequest.new(
+        transaction_id: transaction.transaction_id,
+        user_id: user.user_id,
+        customer_id: customer.customer_id
+      )
+      refund_request.valid?
+      expect(refund_request.status).to eq('pending')
+    end
+
+    it 'validates presence of status' do
+      subject.status = nil
+      expect(subject).not_to be_valid
+      expect(subject.errors[:status]).to include("can't be blank")
     end
   end
 
   describe 'callbacks' do
     it 'sets default status before validation' do
-      refund_request = RefundRequest.new
+      refund_request = RefundRequest.new(
+        transaction_id: transaction.transaction_id,
+        user_id: user.user_id,
+        customer_id: customer.customer_id
+      )
       refund_request.valid?
       expect(refund_request.status).to eq('pending')
     end
@@ -75,14 +73,27 @@ RSpec.describe RefundRequest, type: :model do
     it 'generates refund_request_id before create' do
       refund_request = RefundRequest.create!(
         transaction_id: transaction.transaction_id,
-        sender_id: user.user_id,
-        sender_type: 'User',
-        recipient_id: user.user_id,
-        recipient_type: 'User',
+        user_id: user.user_id,
+        customer_id: customer.customer_id,
         expect_amount: 100.0,
         refund_amount: 50.0
       )
       expect(refund_request.refund_request_id).to be_present
+    end
+
+    it 'generates a unique refund_request_id' do
+      refund_request_ids = []
+      5.times do
+        refund_request = RefundRequest.create!(
+          transaction_id: transaction.transaction_id,
+          user_id: user.user_id,
+          customer_id: customer.customer_id,
+          expect_amount: 100.0,
+          refund_amount: 50.0
+        )
+        expect(refund_request_ids).not_to include(refund_request.refund_request_id)
+        refund_request_ids << refund_request.refund_request_id
+      end
     end
 
     it 'updates transaction status after save' do
