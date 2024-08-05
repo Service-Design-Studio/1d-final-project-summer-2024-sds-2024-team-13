@@ -97,13 +97,27 @@
   .confirmButton {
     box-sizing: border-box;
     cursor: pointer;
-    margin: 30px 0;
+    margin-top: 30px;
     width: 90%;
     padding: 0.8rem 0;
     border: none;
     border-radius: 6px;
     background: var(--primary);
     color: #fff;
+    font-size: 1rem;
+  }
+
+  .deleteButton {
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 30px;
+    width: 90%;
+    padding: 0.8rem 0;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    background: none;
+    color: var(--primary);
     font-size: 1rem;
   }
   

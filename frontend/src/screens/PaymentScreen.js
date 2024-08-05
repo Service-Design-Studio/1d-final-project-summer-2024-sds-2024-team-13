@@ -27,8 +27,8 @@ const PaymentScreen = () => {
   const [menuItems, setMenuItems] = useState(menuItemsData);
   const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewLayout, setViewLayout] = useState("row")
-  const [tabValue, setTabValue] = useState(0) // 0 is menu, 1 is favourites
+  const [viewLayout, setViewLayout] = useState("grid");
+  const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
 
   const inputRef = useRef(null);
 
@@ -119,10 +119,12 @@ const PaymentScreen = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredItems = menuItems.filter((item) =>
-    item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-    item.id.toLowerCase().startsWith(searchQuery.toLowerCase())
-  );
+  const filteredItems = menuItems.filter((item) => {
+    const matchesSearchQuery = item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().startsWith(searchQuery.toLowerCase());
+    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.name) : true;
+    return matchesSearchQuery && matchesFavorite;
+  });
 
   const sortedItems = [...filteredItems].sort((a, b) => {
     const isAFavorite = favoriteItems.includes(a.name);
@@ -136,9 +138,11 @@ const PaymentScreen = () => {
   const disableKeypadClose = chain !== '';
 
   return (
-    <div className={styles.main}>
+    <div className={styles.screen}>
+      
       <div className={styles.header}>
-        <TopHead title="Enter Amount to Charge" />
+      <TopHead title="Enter Amount to Charge" />
+
         <div className={styles.amountInput}>
           <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
             <span>S$</span>

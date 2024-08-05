@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styles from '../../styles/settings/AddItem.module.css';
+import styles from '../../styles/settings/EditItem.module.css';
 import { useNavigate } from 'react-router-dom';
 import TopNav from '../TopNav';
 import { Upload } from '@mui/icons-material';
 
-const AddItem = ({ createMenuItem }) => {
+const EditItem = ({ createMenuItem }) => {
   const [itemName, setItemName] = useState('');
   const [idNo, setIdNo] = useState('');
   const [price, setPrice] = useState('');
@@ -33,7 +33,7 @@ const AddItem = ({ createMenuItem }) => {
   return (
     <div>
       <TopNav
-        title="Add Menu Item"
+        title="Edit Menu Item"
         pathname="/settings/MenuPreset"
         hasBackButton="yes"
       />
@@ -43,7 +43,7 @@ const AddItem = ({ createMenuItem }) => {
             Enter Menu Item Details
           </h3>
           <div className={styles.inputGroup}>
-            
+
             <div className={styles.inputGroupRow}>
               <h3 className={styles.label} htmlFor="itemName">Item Name</h3>
               <input
@@ -60,7 +60,7 @@ const AddItem = ({ createMenuItem }) => {
               <input
                 type="text"
                 id="idNo"
-                placeholder='E.g. 8'
+                placeholder='E.g. 2'
                 value={idNo}
                 onChange={(e) => setIdNo(e.target.value)}
                 className={`${styles.input} ${styles.idGroup}`}
@@ -87,10 +87,10 @@ const AddItem = ({ createMenuItem }) => {
           <h3 className={styles.labelHeader}>
             Upload Image  (Optional)
           </h3>
-          
+
           <div className={styles.uploadGroup}>
             <label className={styles.uploadButton} htmlFor="uploadImage">
-              <Upload/>
+              <Upload />
               Browse images...
               <input
                 type="file"
@@ -112,10 +112,12 @@ const AddItem = ({ createMenuItem }) => {
         <button onClick={handleConfirm} className={styles.confirmButton} data-testid="confirm-item-button">
           Confirm
         </button>
-        
+        <button onClick={handleConfirm} className={styles.deleteButton} >
+          Remove Item
+        </button>
       </div>
     </div>
   );
 };
 
-export default AddItem;
+export default EditItem;

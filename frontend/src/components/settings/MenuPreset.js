@@ -16,7 +16,6 @@ const menuItemsData = [
   { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
   { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
-
 ];
 
 const MenuPreset = () => {
@@ -24,13 +23,12 @@ const MenuPreset = () => {
   const [menuItems] = useState(menuItemsData);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [tabValue, setTabValue] = useState(0) // 0 is menu, 1 is favourites
-  const [viewLayout, setViewLayout] = useState("row")
+  const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
+  const [viewLayout, setViewLayout] = useState("grid");
 
   const handleClick = (item) => {
-    navigate(`/settings/editItem/${item.id}`);
+    navigate(`/settings/edititem`);
   };
-  
 
   const handleFavoriteToggle = (itemName) => {
     setFavoriteItems((prevFavorites) =>
@@ -44,10 +42,12 @@ const MenuPreset = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredItems = menuItems.filter((item) =>
-    item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-    item.id.toLowerCase().startsWith(searchQuery.toLowerCase())
-  );
+  const filteredItems = menuItems.filter((item) => {
+    const matchesSearchQuery = item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().startsWith(searchQuery.toLowerCase());
+    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.name) : true;
+    return matchesSearchQuery && matchesFavorite;
+  });
 
   const sortedItems = [...filteredItems].sort((a, b) => {
     const isAFavorite = favoriteItems.includes(a.name);
@@ -66,18 +66,17 @@ const MenuPreset = () => {
       />
       <div className={styles.content}>
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate('/settings/autoGenerate')} className={`${styles.generateButton} ${styles.Button}`}>
+          <button onClick={() => navigate('/settings/capturemenu')} className={`${styles.generateButton} ${styles.Button}`}>
             <div className={styles.buttonContent}><AutoFixHigh /> Auto-Generate Menu Item(s)</div>
             <ChevronRight />
           </button>
-          <button onClick={() => navigate('/settings/addItem')} className={styles.Button}>
+          <button onClick={() => navigate('/settings/additem')} className={styles.Button}>
             <div className={styles.buttonContent}><AddCircle /> Add Menu Item</div>
             <ChevronRight />
-
           </button>
         </div>
 
-        <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{tabValue, setTabValue, viewLayout, setViewLayout}} />
+        <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{ tabValue, setTabValue, viewLayout, setViewLayout }} />
         <div className={styles.menuItems}>
           {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
@@ -90,21 +89,21 @@ const MenuPreset = () => {
               isFavorited={favoriteItems.includes(item.name)}
               onFavoriteToggle={() => handleFavoriteToggle(item.name)}
             />
-          )) : 
-          <div className={styles.gridLayout} >
-            {sortedItems.map((item, index) => (
-            <MenuGridItem
-              key={index}
-              name={item.name}
-              price={item.price}
-              imageUrl={item.imageUrl}
-              onClick={() => handleClick(item)}
-              initialLabel="Edit"
-              isFavorited={favoriteItems.includes(item.name)}
-              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
-            />
-          )) }
-          </div>
+          )) :
+            <div className={styles.gridLayout} >
+              {sortedItems.map((item, index) => (
+                <MenuGridItem
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  imageUrl={item.imageUrl}
+                  onClick={() => handleClick(item)}
+                  initialLabel="Edit"
+                  isFavorited={favoriteItems.includes(item.name)}
+                  onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+                />
+              ))}
+            </div>
           }
         </div>
       </div>
