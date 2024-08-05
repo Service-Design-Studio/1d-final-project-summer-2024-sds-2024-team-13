@@ -16,17 +16,29 @@ class ItemsController < ApplicationController
     end
   end
 
-
+  
   # POST /items or /items.json
   def create
     @item = @user.items.build(item_params)
 
     if @item.save
-      render json: { status: 'Refund request created successfully', item: @item }, status: :created
+      render json: { 
+        status: 'Item created successfully', 
+        item: {
+          id: @item.id,
+          name: @item.name,
+          price: @item.price,
+          created_at: @item.created_at,
+          updated_at: @item.updated_at,
+          user_id: @item.user_id,
+          image_url: url_for(@item.image) # Include the image URL in the response
+        }
+      }, status: :created
     else
-      render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity 
+      render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
 
   # PATCH/PUT /items/1 or /items/1.json
   def update
@@ -57,6 +69,6 @@ class ItemsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def item_params
-    params.require(:item).permit(:name, :price)
+    params.require(:item).permit(:name, :price, :image)
   end
 end
