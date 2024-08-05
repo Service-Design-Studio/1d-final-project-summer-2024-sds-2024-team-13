@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/settings/MenuPreset.module.css';
 import MenuHeader from '../../components/payment/MenuHeader';
@@ -8,34 +8,70 @@ import takeAway from '../../assets/take_away.png';
 import TopNav from '../TopNav';
 import { AutoFixHigh, AddCircle, ChevronRight } from '@mui/icons-material';
 import MenuGridItem from '../payment/MenuGridItem';
+import { useAuth } from '../../context/AuthContext';
+import axiosInstance from '../../utils/axiosConfig';
 
-const menuItemsData = [
-  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood },
-  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood },
-  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood },
-  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood },
-  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway },
-];
 
 const MenuPreset = () => {
   const navigate = useNavigate();
-  const [menuItems] = useState(menuItemsData);
+  const [menuItems, setMenuItems] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
   const [viewLayout, setViewLayout] = useState("grid");
+  const { user } = useAuth();
 
-  const handleClick = (item) => {
-    navigate(`/settings/edititem`);
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, []);
+
+  const fetchAllMenuItems = async () => {
+    if (user) {
+      try {
+        const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
+        if (response.status === 200) {
+          const fetchedItems = response.data.map(item => ({
+            id: item.id.toString(),
+            name: item.name,
+            price: parseFloat(item.price.replace('$', '')),
+            imageUrl: item.image || defaultFood,
+            favourite: (item.favourite === "true" || item.favourite === true) ? true : false,
+          }));
+          setMenuItems(fetchedItems);
+          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
+        } else {
+          console.error('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+      }
+    }
   };
 
-  const handleFavoriteToggle = (itemName) => {
-    setFavoriteItems((prevFavorites) =>
-      prevFavorites.includes(itemName)
-        ? prevFavorites.filter((name) => name !== itemName)
-        : [...prevFavorites, itemName]
-    );
+  const handleClick = (item) => {
+    navigate('/settings/edititem', { state: { item } });
+  };
+
+  const handleFavoriteToggle = async (item) => {
+    const isFavorite = !favoriteItems.includes(item.name);
+    const updatedFavoriteItems = isFavorite 
+      ? [...favoriteItems, item.name] 
+      : favoriteItems.filter((name) => name !== item.name);
+
+    setFavoriteItems(updatedFavoriteItems);
+
+    try {
+      const formData = new FormData();
+      formData.append('item[favourite]', isFavorite.toString());
+
+      const response = await axiosInstance.patch(`/users/${user.user_id}/items/${item.id}`, formData);
+
+      if (response.status !== 200) {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Failed to update favorite status:', error);
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -87,7 +123,7 @@ const MenuPreset = () => {
               onClick={() => handleClick(item)}
               initialLabel="Edit"
               isFavorited={favoriteItems.includes(item.name)}
-              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+              onFavoriteToggle={() => handleFavoriteToggle(item)}
             />
           )) :
             <div className={styles.gridLayout} >
@@ -100,7 +136,7 @@ const MenuPreset = () => {
                   onClick={() => handleClick(item)}
                   initialLabel="Edit"
                   isFavorited={favoriteItems.includes(item.name)}
-                  onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+                  onFavoriteToggle={() => handleFavoriteToggle(item)}
                 />
               ))}
             </div>

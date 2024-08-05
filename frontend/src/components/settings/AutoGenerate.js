@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosConfig';
 import styles from "../../styles/settings/AutoGenerate.module.css";
+import { useAuth } from '../../context/AuthContext';
+import { CircularProgress } from '@mui/material';
 
 const AutoGenerate = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
   const { image } = location.state || {}; // Get image data from state
-  const [response, setResponse] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [confirmClicked, setConfirmClicked] = useState(false);
+  const [dbLoading, setDbLoading] = useState(false);
 
   useEffect(() => {
     if (image) {
@@ -107,7 +110,6 @@ const AutoGenerate = () => {
         // Check if contentString is a valid JSON string
         try {
           const content = JSON.parse(contentString);
-          setResponse(content);
           setMenuItems(content.items);
           setConfirmClicked(true); // Set confirm click state
         } catch (parseError) {
@@ -123,13 +125,42 @@ const AutoGenerate = () => {
     }
   };
 
-  const handleContinue = () => {
-    navigate('/settings/menuPreset', { state: { extractedMenu: menuItems } });
+  const handleContinue = async () => {
+    if (user && menuItems.length > 0) {
+      setDbLoading(true);
+      try {
+        for (const item of menuItems) {
+          const formData = new FormData();
+          formData.append('item[image]', '');
+          formData.append('item[name]', item.name);
+          formData.append('item[price]', item.price);
+
+          const response = await axiosInstance.post(`/users/${user.user_id}/items`, formData);
+
+          if (response.status === 201) {
+            console.log('Menu item created successfully:', response.data);
+          } else {
+            console.error('Unexpected response status:', response.status);
+          }
+        }
+        setDbLoading(false);
+        navigate("/settings/menu-preset");
+      } catch (error) {
+        setDbLoading(false);
+        console.error('Failed to create menu items:', error);
+      }
+    }
   };
 
   return (
     <div>
       <div className={styles.screen}>
+        {dbLoading && <div className={styles.dbLoadingModal}>
+          <div className={styles.dbLoadingIconWrapper}>
+            <CircularProgress sx={{
+          color: "#fff"}}/>
+          </div>
+        </div>}
         <div className={styles.content}>
           <div className={styles.instructions}>
             <h1>Here is what we extracted from your photo</h1>
@@ -148,7 +179,7 @@ const AutoGenerate = () => {
               </button>
             </div>
           )}
-          
+
           {error && (
             <div className={styles.error}>
               <h3>Error:</h3>

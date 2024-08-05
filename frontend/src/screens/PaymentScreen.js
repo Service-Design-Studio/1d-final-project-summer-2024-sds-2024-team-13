@@ -9,28 +9,52 @@ import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
 import MenuHeader from '../components/payment/MenuHeader'; // Import MenuHeader
 import MenuGridItem from '../components/payment/MenuGridItem';
+import { useAuth } from '../context/AuthContext';
+import axiosInstance from '../utils/axiosConfig';
 
-const menuItemsData = [
-  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood, quantity: 0 },
-  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood, quantity: 0 },
-  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway, quantity: 0 },
-];
+
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('0');
   const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
-  const [menuItems, setMenuItems] = useState(menuItemsData);
+  const [menuItems, setMenuItems] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
   const [searchQuery, setSearchQuery] = useState('');
   const [viewLayout, setViewLayout] = useState("grid");
   const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
+  const { user } = useAuth();
 
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, []);
+
+  const fetchAllMenuItems = async () => {
+    if (user) {
+      try {
+        const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
+        if (response.status === 200) {
+          const fetchedItems = response.data.map(item => ({
+            id: item.id.toString(),
+            name: item.name,
+            price: parseFloat(item.price.replace('$', '')),
+            imageUrl: item.image || defaultFood,
+            favourite: (item.favourite === "true" || item.favourite === true) ? true : false,
+            quantity: 0,
+          }));
+          setMenuItems(fetchedItems);
+          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
+        } else {
+          console.error('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+      }
+    }
+  };
 
   useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';

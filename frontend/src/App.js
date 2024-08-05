@@ -98,7 +98,7 @@ function App() {
 
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
-              <Route path="/settings/menuPreset" element={<MenuPreset />} />
+              <Route path="/settings/menu-preset" element={<MenuPreset />} />
               <Route path="/settings/additem" element={<AddItem />} />
               <Route path="/settings/edititem" element={<EditItem />} />
 

@@ -27,14 +27,14 @@ const AddItem = ({ createMenuItem }) => {
   const handleConfirm = () => {
     // Assuming createMenuItem handles the creation of the menu item
     createMenuItem({ idNo, itemName, price, image });
-    navigate('/settings/MenuPreset');
+    navigate('/settings/menu-preset');
   };
 
   return (
     <div>
       <TopNav
         title="Add Menu Item"
-        pathname="/settings/MenuPreset"
+        pathname="/settings/menu-preset"
         hasBackButton="yes"
       />
       <div className={styles.screen}>

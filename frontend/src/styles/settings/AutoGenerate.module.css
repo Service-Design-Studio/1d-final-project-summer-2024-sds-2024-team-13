@@ -60,3 +60,26 @@
   width: 100%;
   margin-top: 1rem;
 }
+
+.dbLoadingModal {
+  background: rgb(0,0,0,0.3);
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dbLoadingIconWrapper {
+  height: 64px;
+  width: 64px;
+  background: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}

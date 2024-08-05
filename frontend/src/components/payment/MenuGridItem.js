@@ -16,7 +16,7 @@ const MenuGridItem = ({ name, price, imageUrl, onClick, initialLabel, isFavorite
                     <span className={styles.itemPrice}>${price.toFixed(2)}</span>
                 </div>
                 <div className={styles.labelWrapper}>
-                    {initialLabel === 'Add' ? <div className={styles.addLabel}><Add sx={{ fontSize: "1.7rem" }} /></div> : <Edit sx={{ fontSize: "1.7rem" }} />}
+                    {initialLabel === 'Add' ? <div className={styles.addLabel}><Add sx={{ fontSize: "1.7rem" }} /></div> : <Edit sx={{ fontSize: "1.4rem" }} />}
                 </div>
             </div>
 

@@ -1,17 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/settings/EditItem.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import TopNav from '../TopNav';
 import { Upload } from '@mui/icons-material';
+import { useAuth } from '../../context/AuthContext';
+import axiosInstance from '../../utils/axiosConfig';
 
 const EditItem = ({ createMenuItem }) => {
+  const location = useLocation();
+  const { item } = location.state || {};
+  const { user } = useAuth();
   const [itemName, setItemName] = useState('');
-  const [idNo, setIdNo] = useState('');
+  const [itemNo, setItemNo] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
   const placeholderImage = 'https://placehold.co/100x100';
+
+  useEffect(() => {
+    if (item) {
+      const { itemNo, itemName } = parseItemName(item.name);
+      setItemName(itemName);
+      setItemNo(itemNo);
+      setPrice(item.price.toFixed(2));
+      setImagePreview(item.imageUrl);
+    }
+  }, [item]);
+
+  const parseItemName = (name) => {
+    const regex = /^(\d+)\s*(.*)$/;
+    const match = name.match(regex);
+    if (match) {
+      return { itemNo: match[1], itemName: match[2] };
+    }
+    return { itemNo: '', itemName: name };
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -24,17 +48,50 @@ const EditItem = ({ createMenuItem }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleConfirm = () => {
-    // Assuming createMenuItem handles the creation of the menu item
-    createMenuItem({ idNo, itemName, price, image });
-    navigate('/settings/MenuPreset');
+  const handleConfirm = async () => {
+    if (user && item) {
+      try {
+        const formData = new FormData();
+        const fullName = itemNo ? `${itemNo} ${itemName}` : itemName;
+
+        formData.append('item[name]', fullName);
+        formData.append('item[price]', price);
+
+        const response = await axiosInstance.patch(`/users/${user.user_id}/items/${item.id}`, formData);
+
+        if (response.status === 200) {
+          console.log('Item updated successfully');
+          navigate('/settings/menu-preset');
+        } else {
+          console.error('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        console.error('Failed to update menu item:', error);
+      }
+    }
+  };
+
+  const handleDelete = async () => {
+    if (user && item) {
+      try {
+        const response = await axiosInstance.delete(`/users/${user.user_id}/items/${item.id}`);
+        if (response.status === 200) {
+          console.log('Item deleted successfully');
+          navigate('/settings/menu-preset');
+        } else {
+          console.error('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        console.error('Failed to delete menu item:', error);
+      }
+    }
   };
 
   return (
     <div>
       <TopNav
         title="Edit Menu Item"
-        pathname="/settings/MenuPreset"
+        pathname="/settings/menu-preset"
         hasBackButton="yes"
       />
       <div className={styles.screen}>
@@ -56,13 +113,13 @@ const EditItem = ({ createMenuItem }) => {
               />
             </div>
             <div className={styles.inputGroupRow}>
-              <h3 className={styles.label} htmlFor="idNo">Item Number (Optional)</h3>
+              <h3 className={styles.label} htmlFor="itemNo">Item Number (Optional)</h3>
               <input
                 type="text"
-                id="idNo"
+                id="itemNo"
                 placeholder='E.g. 2'
-                value={idNo}
-                onChange={(e) => setIdNo(e.target.value)}
+                value={itemNo}
+                onChange={(e) => setItemNo(e.target.value)}
                 className={`${styles.input} ${styles.idGroup}`}
               />
             </div>
@@ -112,7 +169,7 @@ const EditItem = ({ createMenuItem }) => {
         <button onClick={handleConfirm} className={styles.confirmButton} data-testid="confirm-item-button">
           Confirm
         </button>
-        <button onClick={handleConfirm} className={styles.deleteButton} >
+        <button onClick={handleDelete} className={styles.deleteButton} >
           Remove Item
         </button>
       </div>
