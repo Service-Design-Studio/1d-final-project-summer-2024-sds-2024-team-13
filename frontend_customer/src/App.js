@@ -16,6 +16,7 @@ import RefundScreen from './components/refunds/RefundScreen';
 import RefundRequest from './components/refunds/RefundRequest';
 import RefundDetails from './components/refunds/RefundDetails';
 import HomeScreen from './screens/HomeScreen';
+import withSplashScreen from "./components/withSplashScreen";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -101,4 +102,4 @@ function App() {
   );
 }
 
-export default App;
+export default withSplashScreen(App);
