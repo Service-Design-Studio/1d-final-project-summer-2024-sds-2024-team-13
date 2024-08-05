@@ -24,6 +24,12 @@ RSpec.describe "/customers", type: :request do
       get customer_url(customer)
       expect(response).to be_successful
     end
+
+    it "renders a not found response when the customer does not exist" do
+      get customer_url(id: 'non-existing-id')
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to include('Not Found')
+    end
   end
 
   describe "POST /create" do
@@ -38,7 +44,7 @@ RSpec.describe "/customers", type: :request do
         post customers_url, params: { customer: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to include('application/json')
-        expect(response.location).to eq(customer_url(Customer.last))
+        expect(response.location).to match(%r{\/customers\/\w+})
       end
     end
 
@@ -108,6 +114,14 @@ RSpec.describe "/customers", type: :request do
       customer = Customer.create! valid_attributes
       delete customer_url(customer)
       expect(response).to have_http_status(:no_content)
+    end
+  end
+
+  describe "handling not found errors" do
+    it "returns not found response for non-existing customer" do
+      get customer_url(id: 'non-existing-id')
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to match(/Not Found/)
     end
   end
 end

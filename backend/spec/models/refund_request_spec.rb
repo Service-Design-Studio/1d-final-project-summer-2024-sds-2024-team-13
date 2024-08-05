@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RefundRequest, type: :model do
   let(:customer) { Customer.create!(customer_id: 'test_customer', name: 'Test Customer', phone_num: '1234567890', password: 'password') }
   let(:user) { User.create!(user_id: 'test_user', name: 'Test User', email: 'testuser@example.com', password: 'password123', password_confirmation: 'password123') }
-  let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, payment_method: 'credit', amount: 100.0, user_id: user.user_id) }
+  let(:transaction) { Transaction.create!(transaction_id: 'test_transaction', customer_id: customer.customer_id, payment_method: 'credit', amount: 100.0, user_id: user.user_id, status: nil) }
 
   subject {
     described_class.new(
@@ -53,9 +53,18 @@ RSpec.describe RefundRequest, type: :model do
     end
 
     it 'validates presence of status' do
-      subject.status = nil
-      expect(subject).not_to be_valid
-      expect(subject.errors[:status]).to include("can't be blank")
+      refund_request = described_class.new(
+        transaction_id: transaction.transaction_id,
+        user_id: user.user_id,
+        customer_id: customer.customer_id,
+        expect_amount: 100.0,
+        refund_amount: 50.0
+      )
+      # Temporarily disable the callback
+      allow(refund_request).to receive(:set_default_status)
+      refund_request.valid? # Trigger validation
+      expect(refund_request).not_to be_valid
+      expect(refund_request.errors[:status]).to include("can't be blank")
     end
   end
 
