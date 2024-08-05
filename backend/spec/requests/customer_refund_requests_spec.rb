@@ -5,7 +5,7 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
   let!(:transaction) { customer.transactions.create(transaction_id: 'trans_123') }
   let!(:user) { User.create(user_id: 'user_123', password: 'password') }
   let!(:refund_request) { RefundRequest.create(
-    transaction_id: 'trans_123',
+    transaction_id: transaction.transaction_id,
     status: 'pending',
     expect_amount: 100.0,
     refund_amount: 50.0,
@@ -14,19 +14,18 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
     customer_id: customer.customer_id,
     user_id: user.user_id,
     sender_type: 'Customer',
-    recipient_type: 'User',
-    id: SecureRandom.uuid  # Ensure this is set properly
+    recipient_type: 'User'
   )}
 
   describe 'GET #show' do
     it 'returns the requested refund request' do
-      get :show, params: { customer_id: customer.id, id: refund_request.id }
+      get :show, params: { customer_id: customer.customer_id, transaction_id: transaction.transaction_id, id: refund_request.id }
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)['refund_request_id']).to eq(refund_request.id)
+      expect(JSON.parse(response.body)['id']).to eq(refund_request.id)
     end
 
     it 'returns not found if the refund request does not exist' do
-      get :show, params: { customer_id: customer.customer_id, id: 'nonexistent' }
+      get :show, params: { customer_id: customer.customer_id, transaction_id: transaction.transaction_id, id: 'nonexistent' }
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -35,12 +34,12 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
     it 'returns a list of refund requests for the customer' do
       get :index, params: { customer_id: customer.customer_id }
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body).first['refund_request_id']).to eq(refund_request.refund_request_id)
+      expect(JSON.parse(response.body).first['id']).to eq(refund_request.id)
     end
 
     it 'returns an empty list if the customer has no refund requests' do
-      Customer.create(customer_id: 'cust_456', password: 'password')
-      get :index, params: { customer_id: 'cust_456' }
+      new_customer = Customer.create(customer_id: 'cust_456', password: 'password')
+      get :index, params: { customer_id: new_customer.customer_id }
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to be_empty
     end
@@ -50,8 +49,9 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
     it 'creates a new refund request' do
       post :create, params: {
         customer_id: customer.customer_id,
+        transaction_id: transaction.transaction_id,
         refund_request: {
-          transaction_id: 'trans_456',
+          transaction_id: transaction.transaction_id,
           status: 'pending',
           expect_amount: 150.0,
           refund_amount: 75.0,
@@ -63,12 +63,13 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
       expect(response).to have_http_status(:created)
       body = JSON.parse(response.body)
       expect(body['status']).to eq('Refund request created successfully')
-      expect(body['refund_request']['transaction_id']).to eq('trans_456')
+      expect(body['refund_request']['transaction_id']).to eq(transaction.transaction_id)
     end
 
     it 'returns error if refund request is invalid' do
       post :create, params: {
         customer_id: customer.customer_id,
+        transaction_id: transaction.transaction_id,
         refund_request: {
           transaction_id: nil,
           status: nil,
@@ -86,9 +87,12 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
     it 'updates the refund request' do
       put :update, params: {
         customer_id: customer.customer_id,
-        id: refund_request.refund_request_id,
-        status: 'approved',
-        response_reason: 'Approved after review'
+        transaction_id: transaction.transaction_id,
+        id: refund_request.id,
+        refund_request: {
+          status: 'approved',
+          response_reason: 'Approved after review'
+        }
       }
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
@@ -99,8 +103,11 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
     it 'returns error if the update fails' do
       put :update, params: {
         customer_id: customer.customer_id,
-        id: refund_request.refund_request_id,
-        status: nil
+        transaction_id: transaction.transaction_id,
+        id: refund_request.id,
+        refund_request: {
+          status: nil
+        }
       }
       expect(response).to have_http_status(:unprocessable_entity)
       body = JSON.parse(response.body)
@@ -110,21 +117,15 @@ RSpec.describe Customers::RefundRequestsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'deletes the refund request' do
-      delete :destroy, params: { customer_id: customer.customer_id, id: refund_request.refund_request_id }
+      delete :destroy, params: { customer_id: customer.customer_id, transaction_id: transaction.transaction_id, id: refund_request.id }
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
       expect(body['status']).to eq('Refund request deleted successfully')
     end
 
     it 'returns not found if the refund request does not exist' do
-      delete :destroy, params: { customer_id: customer.customer_id, id: 'nonexistent' }
+      delete :destroy, params: { customer_id: customer.customer_id, transaction_id: transaction.transaction_id, id: 'nonexistent' }
       expect(response).to have_http_status(:not_found)
     end
-  end
-
-  # Ensure that the controller methods are called with correct parameters
-  describe 'Private methods' do
-    # You might need to test these if they are more complex,
-    # but typically, private methods are tested indirectly via public actions
   end
 end
