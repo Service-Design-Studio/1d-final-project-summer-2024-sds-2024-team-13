@@ -15,6 +15,7 @@ const RefundRequest = () => {
     const [expectedPayment, setExpectedPayment] = useState("");
     const [expectedRefund, setExpectedRefund] = useState("");
     const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const { user } = useAuth();
     const navigate = useNavigate();
     const [showOverlay, setShowOverlay] = useState(false);
@@ -128,15 +129,21 @@ const RefundRequest = () => {
                     navigate("/refunds");
                 } else {
                     console.error('Unexpected response status:', response.status);
+                    setError('Unexpected response from the server.');
                 }
             } catch (error) {
                 console.error('Failed to create refund request:', error);
+                setErrorMessage('Failed.');
             }
         }
     }, [user, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.customer_id, navigate, createTransaction, reason]);
 
     const handleSubmit = () => {
         setShowOverlay(true);
+    };
+
+    const handleBack = () => {
+        navigate('/history'); // Navigate to the history view
     };
 
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
@@ -258,9 +265,10 @@ const RefundRequest = () => {
                     >
                         SUBMIT
                     </button>
+                    {errorMessage && <div className={styles.errorMessage} data-testid="error-message">{errorMessage}</div>}
                 </div>
             ) : (
-                <div className={styles.error}>Transaction details not available</div>
+                <div className={styles.error} data-testid="no-transaction-error">Transaction details not available</div>
             )}
             <RefundConfirm {...{ showOverlay, setShowOverlay, reason, transaction, expectedPayment, expectedRefund, createRefundRequest }} />
         </div>
