@@ -17,7 +17,7 @@ Feature: Payment Happy Path
     Then I click on the continue button
     Then I should see the new menu items in the Menu View
 
-    Scenario: Add item to payment
+  Scenario: Add item to payment
     Given I am on Payment View
     When I clicked on the first item in the grid layout
     Then I should see the input field amount increase
