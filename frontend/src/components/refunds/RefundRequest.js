@@ -130,7 +130,7 @@ const RefundRequest = () => {
                 }
             } catch (error) {
                 console.error('Failed to create refund request:', error);
-                setErrorMessage('Network Error');
+                setError('Network Error');
             }
         }
     }, [user, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.customer_id, navigate, createTransaction, reason]);
@@ -258,6 +258,7 @@ const RefundRequest = () => {
                     >
                         SUBMIT
                     </button>
+                    {error && <div className={styles.error} data-testid="error-message">{error}</div>}
                 </div>
             ) : (
                 <div className={styles.error} data-testid='no-transaction-error'>Transaction details not available</div>
