@@ -5,6 +5,8 @@ import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
 import LinearProgress from '@mui/material/LinearProgress';
+import TopHead from '../TopHead';
+
 const PaymentSuccess = ({ transaction }) => {
     const navigate = useNavigate();
     const paymentAmount = localStorage.getItem('paymentAmount');
@@ -38,38 +40,40 @@ const PaymentSuccess = ({ transaction }) => {
     return (
         <div className={styles.main}>
             <div className={styles.header}>
-                <h2>Payment</h2>
-            </div>
-            <div className={styles.successContainer}>
-                <CheckCircleIcon style={{ height: "auto", maxWidth: "30vw", width: "30vw" }} className={styles.successIcon} data-testid="success-animation" />
-                <div className={styles.statusText}>Customer paid</div>
-                <div className={styles.amount}>SGD {paymentAmount}</div>
-                <div className={styles.date}>{(transaction) ? transaction.created_at.toLocaleString() : "-"}</div>
-                <img
-                    className={styles.paymentLogo}
-                    src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon}
-                    alt="Payment Method Logo"
-                />
+                <TopHead title="Payment" />
             </div>
             <div className={styles.footer}>
+                <div className={styles.successContainer}>
+                    <CheckCircleIcon style={{ height: "auto", maxWidth: "30vw", width: "30vw" }} className={styles.successIcon} data-testid="success-animation" />
+                    <div className={styles.statusText}>Customer paid</div>
+                    <div className={styles.amount}>SGD {paymentAmount}</div>
+                    <div className={styles.date}>{(transaction) ? transaction.created_at.toLocaleString() : "-"}</div>
+                    <img
+                        className={styles.paymentLogo}
+                        src={transaction && transaction.payment_method === "Paynow" ? paynowIcon : paylahIcon}
+                        alt="Payment Method Logo"
+                    />
+                </div>
                 <button className={styles.newButton} onClick={handleNewPayment}>
                     New
                 </button>
-                <p>Redirecting you back to home in {counter}s</p>
-                <LinearProgress
-                    variant="determinate"
-                    value={progress}
-                    sx={{
-                        height: '7px',
-                        width: '90vw',
-                        borderRadius: "8px",
-                        backgroundColor: '#FB7C93',
-                        '& .MuiLinearProgress-bar': {
-                            backgroundColor: '#fff',
-                        },
-                    }}
-                />            
-                </div>
+                <div className={styles.redirect}>
+                    <p>Redirecting you back to home in {counter}s</p>
+                    <LinearProgress
+                        variant="determinate"
+                        value={progress}
+                        sx={{
+                            height: '7px',
+                            width: '90vw',
+                            borderRadius: "8px",
+                            backgroundColor: '#FB7C93',
+                            '& .MuiLinearProgress-bar': {
+                                backgroundColor: '#fff',
+                            },
+                        }}
+                    />   
+                </div>         
+            </div>
         </div>
     );
 };

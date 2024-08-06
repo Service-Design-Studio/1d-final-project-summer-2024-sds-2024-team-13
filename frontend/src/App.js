@@ -9,6 +9,11 @@ import RefundScreen from './components/refunds/RefundScreen';
 import RefundReview from './components/refunds/RefundReview';
 import RefundRequest from './components/refunds/RefundRequest';
 import RefundDetails from './components/refunds/RefundDetails';
+import SettingsScreen from './screens/SettingsScreen';
+import DailyCutoffScreen from './components/settings/DailyCutoffScreen';
+import MenuPreset from './components/settings/MenuPreset';
+import AddItem from './components/settings/AddItem';
+import AutoGenerate from './components/settings/AutoGenerate';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PaymentScreen from './screens/PaymentScreen';
@@ -16,8 +21,9 @@ import QRPay from './components/payment/QRPay';
 import PaymentSuccess from './components/payment/PaymentSuccess';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
-import SettingsScreen from './screens/SettingsScreen';
-import DailyCutoffScreen from './screens/DailyCutoffScreen';
+import withSplashScreen from "./components/withSplashScreen";
+import EditItem from './components/settings/EditItem';
+import CaptureMenu from './components/settings/CaptureMenu';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -64,6 +70,7 @@ function ConditionalNavigation() {
   return (location.pathname !== '/' && location.pathname !== '/register' 
     && location.pathname !== '/refunds' && location.pathname !== '/refunds/request'
     && location.pathname !== '/refunds/details' && location.pathname !== '/refunds/review'
+    && location.pathname !== '/settings/autoGenerate' 
   ) ? <Navigation /> : null;
 }
 
@@ -91,6 +98,12 @@ function App() {
 
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
+              <Route path="/settings/menu-preset" element={<MenuPreset />} />
+              <Route path="/settings/additem" element={<AddItem />} />
+              <Route path="/settings/edititem" element={<EditItem />} />
+
+              <Route path="/settings/capturemenu" element={<CaptureMenu />} />
+              <Route path="/settings/auto-generate" element={<AutoGenerate />} />
 
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/payment/QRPay" element={<QRPay />} />
@@ -105,4 +118,4 @@ function App() {
   );
 }
 
-export default App;
+export default withSplashScreen(App);

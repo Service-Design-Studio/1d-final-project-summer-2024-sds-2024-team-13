@@ -2,11 +2,12 @@ import { Box } from "@mui/material";
 import styles from "../../styles/history/Insights.module.css"
 import WeeklyHoursChart from "./WeeklyHoursChart";
 import YearlyMonthsChart from "./YearlyMonthsChart";
+import TopHead from "../TopHead";
 
 const Insights = () => {
     return (
         <div className={styles.main}>
-            <h2 className={styles.title}>Transactions</h2>
+            <TopHead title="Transactions" />
             <Box
                 sx={{
                     display: 'flex',

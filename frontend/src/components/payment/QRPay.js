@@ -6,6 +6,7 @@ import styles from '../../styles/payment/QRPay.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import axiosInstance from '../../utils/axiosConfig';
+import TopHead from '../TopHead';
 
 const QRPay = () => {
     const { user } = useAuth();
@@ -91,32 +92,32 @@ const QRPay = () => {
     return (
         <div className={styles.main}>
             <div className={styles.header}>
-                <h2>Payment</h2>
-            </div>
-            <div className={styles.qrContainer}>
-                <div className={styles.qrCode}>
-                    {isExpired ? (
-                        <div>
-                            <div style={{ position: 'relative', filter: 'opacity(20%)' }}>
-                                <QRCode
-                                    style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
-                                    value={qrData}
-                                />
-                            </div>
-                            <HistoryIcon style={{ height: "auto", maxWidth: "60vw", width: "60vw" }} className={styles.historyIcon} />
-                        </div>
-                    ) : (
-                        <QRCode
-                            style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
-                            value={qrData}
-                        />
-                    )}
-                </div>
-                <div className={styles.amount}>
-                    {isExpired ? "QR Code expired" : `Amount: S$${paymentAmount}`}
-                </div>
+                <TopHead title="Payment" />
             </div>
             <div className={styles.footer}>
+                <div className={styles.qrContainer}>
+                    <div className={styles.qrCode}>
+                        {isExpired ? (
+                            <div>
+                                <div style={{ position: 'relative', filter: 'opacity(20%)' }}>
+                                    <QRCode
+                                        style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
+                                        value={qrData}
+                                    />
+                                </div>
+                                <HistoryIcon style={{ height: "auto", maxWidth: "60vw", width: "60vw" }} className={styles.historyIcon} />
+                            </div>
+                        ) : (
+                            <QRCode
+                                style={{ height: "auto", maxWidth: "70vw", width: "70vw" }}
+                                value={qrData}
+                            />
+                        )}
+                    </div>
+                    <div className={styles.amount}>
+                        {isExpired ? "QR Code expired" : `Amount: S$${paymentAmount}`}
+                    </div>
+                </div>
                 <button className={styles.editButton} onClick={handleEdit} data-testid={isExpired ? "regenerate-button" : "edit-button"}>
                     {isExpired ? 'Regenerate' : 'Edit'}
                 </button>
