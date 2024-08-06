@@ -15,7 +15,6 @@ const RefundRequest = () => {
     const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const { customer } = useAuth();
 
     const handleReasonChange = (e) => {
