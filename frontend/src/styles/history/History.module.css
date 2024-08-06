@@ -32,7 +32,7 @@
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 0.9rem 1rem;
+    padding: 0.4rem 1rem;
     width: 100%;
     margin: 1rem 0;
     background: #fff;
@@ -42,8 +42,23 @@
 
 }
 
-.refundRequestsButton .left p{
-    margin: 2px 0;
+.refundButtonContent p {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
+}
+.refundButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.refundButtonBadge {
+    width: 22px;
+    height: 22px;
+    background: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
 }

@@ -1,4 +1,5 @@
 # config/routes.rb
+#test
 Rails.application.routes.draw do
   resources :users do
     resources :items
@@ -29,5 +30,7 @@ Rails.application.routes.draw do
 
   post 'users/login', to: 'sessions#create'
   post 'customers/login', to: 'customer_sessions#create'
+
+  post 'generate_content', to: 'gemini#generate_content'
   
 end

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom';
 import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 import { ErrorOutline } from '@mui/icons-material';
@@ -7,7 +7,7 @@ import axiosInstance from '../../utils/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
 
 const RefundDetails = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const location = useLocation();
     const { refund } = location.state || {};
     const [transaction, setTransaction] = useState({})
@@ -40,14 +40,14 @@ const RefundDetails = () => {
             });
 
             if (response.status === 200) {
-                navigate('/refunds'); 
+                navigate('/refunds');
                 return response.data;
             } else {
                 return null;
             }
         }
         return null;
-    }, [refund?.refund_request_id,refund?.transaction_id,customer, navigate]);
+    }, [refund?.refund_request_id, refund?.transaction_id, customer, navigate]);
 
     const handleCancel = () => {
         deleteRefundRequest();
@@ -67,21 +67,21 @@ const RefundDetails = () => {
 
     const status = refund?.status
     return (
-        <div className={styles.screen} data-testid="refund-details-view"> 
+        <div className={styles.screen} data-testid="refund-details-view">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {status}</div>
-                
+
                 {(status === "pending") ? <div className={styles.subtitle}>
                     The refund request is pending action from <br></br>the merchant.
+                </div> :
+                    (status === "APPROVED") ? <div className={styles.subtitle}>
+                        The refund has been approved and processed <br></br>to you.
                     </div> :
-                (status === "APPROVED") ? <div className={styles.subtitle}>
-                    The refund has been approved and processed <br></br>to you.
-                    </div> :
-                (status === "REJECTED") ? <div className={styles.subtitle}>
-                    The refund request has been rejected by <br></br>the merchant.
-                    </div> :<></>}
-                
+                        (status === "REJECTED") ? <div className={styles.subtitle}>
+                            The refund request has been rejected by <br></br>the merchant.
+                        </div> : <></>}
+
                 <div className={styles.sectionTitle}>
                     <span className={styles.paymentTitle}>Refund Details</span>
                 </div>
@@ -90,34 +90,34 @@ const RefundDetails = () => {
                     <div className={styles.row}>
                         {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             You will receive
-                            </span> :
-                        (status === "APPROVED") ? <span className={styles.label}>
-                            You received
-                            </span> :<></>}
+                        </span> :
+                            (status === "APPROVED") ? <span className={styles.label}>
+                                You received
+                            </span> : <></>}
                     </div>
                     <div className={styles.row}>
                         <span></span>
                         <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(refund.refund_amount).toFixed(2)}</span>
                     </div>
                 </div>
-                
+
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid to
-                            </span> :
-                        (status === "APPROVED") ? <span className={styles.label}>
-                            Paid to
-                            </span> :<></>}
+                        </span> :
+                            (status === "APPROVED") ? <span className={styles.label}>
+                                Paid to
+                            </span> : <></>}
                         <span data-testid="refund-customer-mobile"><b>{transaction?.customer_number}</b></span>
                     </div>
                     <div className={styles.row}>
                         {(status === "pending" || status === "REJECTED") ? <span className={styles.label}>
                             To be paid by
-                            </span> :
-                        (status === "APPROVED") ? <span className={styles.label}>
-                            Paid by
-                            </span> :<></>}
+                        </span> :
+                            (status === "APPROVED") ? <span className={styles.label}>
+                                Paid by
+                            </span> : <></>}
                         <span data-testid="refund-hawker"><b>{transaction?.user_name}</b></span>
                     </div>
                     <div className={styles.row}>
@@ -128,24 +128,32 @@ const RefundDetails = () => {
 
 
                 {(status === "pending" || status === "APPROVED") ? <div className={styles.fullWidthSection}>
-                        <div className={styles.section}>
-                            <div className={styles.row}>
-                                <span className={styles.label}>Expected Payment from You</span>
-                            </div>
-                            <div className={styles.row}>
-                                <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
-                            </div>
-                        </div> 
-                        <div className={styles.section}>
-                            <div className={styles.row}>
-                                <span className={styles.label}>Reason(s) for Refund</span>
-                            </div>
-                            <div className={styles.row}>
-                                <span data-testid="refund-reasons">{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
-                            </div>
+                    <div className={styles.section}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Expected Payment from You</span>
                         </div>
+                        <div className={styles.row}>
+                            <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <div className={styles.section}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Reason(s) for Refund</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span data-testid="refund-reasons">{(refund.request_reason !== "" && refund.request_reason) ? refund.request_reason : "N.A"}</span>
+                        </div>
+                    </div>
                 </div> : null}
-
+                {(status === "REJECTED") ?
+                    <div className={styles.fullWidthSection}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Merchant's response</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span>{refund.response_reason}</span>
+                        </div>
+                    </div> : null}
                 <div className={styles.fullWidthSection}>
                     <div className={styles.row}>
                         <span className={styles.label}>Original Payment</span>
@@ -168,14 +176,15 @@ const RefundDetails = () => {
                             Please make an attempt to contact the merchant to verify transaction details.
                         </span>
                     </div>
-                ) :<></>}
+                ) : <></>}
 
-                {(status==="pending") ? <button
+                {(status === "pending") ? <button
                     className={styles.Button}
                     onClick={handleCancel}
+                    data-testid="cancel-request-button"
                 >
                     CANCEL REQUEST
-                </button> :<></>}
+                </button> : <></>}
 
             </div>
         </div>

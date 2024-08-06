@@ -5,7 +5,6 @@ import { useAuth } from "../../context/AuthContext";
 import axiosInstance from '../../utils/axiosConfig';
 import RefundCard from './RefundCard';
 
-
 const RefundScreen = () => {
     const [value, setValue] = useState(0);
     const { customer } = useAuth();
@@ -26,25 +25,25 @@ const RefundScreen = () => {
         fetchRefundRequests();
     }, [fetchRefundRequests]);
 
+    const getFilteredRefunds = (status) => {
+        return refunds.filter(refund => refund.status === status);
+    };
+
+    const renderRefundCards = () => {
+        const filteredRefunds = getFilteredRefunds(value === 0 ? "pending" : (value === 1 ? "APPROVED" : "REJECTED"));
+        if (filteredRefunds.length === 0) {
+            return <p>{`No ${value === 0 ? "Pending" : (value === 1 ? "Approved" : "Rejected")} Requests`}</p>;
+        }
+        return filteredRefunds.map((refund, index) => (
+            <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`} />
+        ));
+    };
 
     return (
         <div className={styles.screen} data-testid="requested-refunds-page">
             <RefundScreenNav {...{value, setValue}}/>
             <div className={styles.content}>
-            {refunds.filter(refund => {
-                    switch (value) {
-                        case 0: // Pending refunds
-                            return refund.status === "pending";
-                        case 1: // Approved refunds
-                            return refund.status === "APPROVED";
-                        case 2: // Rejected refunds
-                            return refund.status === "REJECTED";
-                        default:
-                            return true; // If no value matches, return all
-                    }
-                }).map((refund, index) => (
-                    <RefundCard key={refund.id} {...{ refund }} data-testid={`refund-card-${index}`} />
-                ))}
+                {renderRefundCards()}
             </div>
         </div>
     );

@@ -91,8 +91,6 @@ const RefundRequest = () => {
                         status: "pending",
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
-                        recipient_id: transaction?.user_id ?? "",
-                        recipient_type: "User",
                         request_reason: reason
                     }
                 };
@@ -106,7 +104,7 @@ const RefundRequest = () => {
                     console.error('Unexpected response status:', response.status);
                 }
             } catch (error) {
-                console.error('Failed to create refund request:', error);
+                console.error('Failed to create refund request:', error.response);
             }
         }
     }, [customer,

@@ -1,0 +1,121 @@
+.menuItem {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.favouriteButton {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    height: 32px;
+    width: 32px;
+    background: #fff;
+    color: var(--text-light);
+    border: 1px solid #ccc;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.favouriteButtonSelected {
+    color: #fff !important;
+    background: #eed231 !important;
+    border-color: #eed231;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+}
+
+.itemImage {
+    width: 100%;
+    height: 80px;
+    border: none;
+    margin-bottom: 8px;
+    background: #555555;
+    object-fit: cover;
+}
+
+.itemDetails {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0 1rem;
+    padding-bottom: 1rem;
+
+}
+
+.itemName {
+    font-weight: bold;
+    text-align: left;
+    font-size: 0.9rem;
+
+}
+
+.itemPrice {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: var(--text-light);
+    text-align: left;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.favoriteButton {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    padding-top: 5px;
+    text-align: center;
+    font-size: 24px;
+    color: #eed231;
+    background-color: #F6F7F9;
+    margin-right: 5px;
+}
+
+.addButton,
+.editButton {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+
+.labelWrapper {
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    color: var(--primary);
+}
+
+.addLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
