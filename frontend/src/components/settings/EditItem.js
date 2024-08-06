@@ -6,7 +6,7 @@ import { Upload } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
 
-const EditItem = ({ createMenuItem }) => {
+const EditItem = () => {
   const location = useLocation();
   const { item } = location.state || {};
   const { user } = useAuth();
@@ -53,12 +53,21 @@ const EditItem = ({ createMenuItem }) => {
       try {
         const formData = new FormData();
         const fullName = itemNo ? `${itemNo} ${itemName}` : itemName;
-
+  
         formData.append('item[name]', fullName);
         formData.append('item[price]', price);
-
-        const response = await axiosInstance.patch(`/users/${user.user_id}/items/${item.id}`, formData);
-
+        if (image) {
+          formData.append('item[image]', image);
+        }
+  
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+  
+        const response = await axiosInstance.patch(`/users/${user.user_id}/items/${item.id}`, formData, config);
+  
         if (response.status === 200) {
           console.log('Item updated successfully');
           navigate('/settings/menu-preset');

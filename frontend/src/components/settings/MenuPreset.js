@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/settings/MenuPreset.module.css';
 import MenuHeader from '../../components/payment/MenuHeader';
 import MenuItem from '../../components/payment/MenuItem';
 import defaultFood from '../../assets/default_food.png';
-import takeAway from '../../assets/take_away.png';
 import TopNav from '../TopNav';
 import { AutoFixHigh, AddCircle, ChevronRight } from '@mui/icons-material';
 import MenuGridItem from '../payment/MenuGridItem';
@@ -21,36 +20,39 @@ const MenuPreset = () => {
   const [viewLayout, setViewLayout] = useState("grid");
   const { user } = useAuth();
 
-  useEffect(() => {
-    fetchAllMenuItems();
-  }, []);
-
-  const fetchAllMenuItems = async () => {
+  
+  const fetchAllMenuItems = useCallback(async () => {
     if (user) {
-      try {
-        const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
-        if (response.status === 200) {
-          const fetchedItems = response.data.map(item => ({
-            id: item.id.toString(),
-            name: item.name,
-            price: parseFloat(item.price.replace('$', '')),
-            imageUrl: item.image || defaultFood,
-            favourite: (item.favourite === "true" || item.favourite === true) ? true : false,
-          }));
-          setMenuItems(fetchedItems);
-          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
-        } else {
-          console.error('Unexpected response status:', response.status);
+        try {
+            const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
+            if (response.status === 200) {
+                const fetchedItems = response.data.map(item => ({
+                    id: item.id.toString(),
+                    name: item.name,
+                    price: parseFloat(item.price.replace('$', '')),
+                    imageUrl: item.image || defaultFood, 
+                    favourite: item.favourite === "true" || item.favourite === true,
+                    created_at: new Date(item.created_at)
+                }));
+                setMenuItems(fetchedItems);
+                setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
+            } else {
+                console.error('Unexpected response status:', response.status);
+            }
+        } catch (error) {
+            console.error('Failed to fetch menu items:', error);
         }
-      } catch (error) {
-        console.error('Failed to fetch menu items:', error);
-      }
     }
-  };
+}, [user]);
 
   const handleClick = (item) => {
     navigate('/settings/edititem', { state: { item } });
   };
+
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, [fetchAllMenuItems]);
+
 
   const handleFavoriteToggle = async (item) => {
     const isFavorite = !favoriteItems.includes(item.name);
@@ -90,7 +92,7 @@ const MenuPreset = () => {
     const isBFavorite = favoriteItems.includes(b.name);
     if (isAFavorite && !isBFavorite) return -1;
     if (!isAFavorite && isBFavorite) return 1;
-    return 0;
+    return b.created_at - a.created_at;
   });
 
   return (

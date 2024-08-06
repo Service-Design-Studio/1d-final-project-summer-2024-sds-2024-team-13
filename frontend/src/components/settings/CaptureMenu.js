@@ -47,10 +47,14 @@ const CaptureMenu = () => {
         navigate('/settings/auto-generate', { state: { image: imageData } });
     };
 
+    const handleBack = () => {
+        navigate('/settings/menu-preset')
+    }
+
     return (
         <div className={styles.screen}>
             <div className={styles.backWrapper}>
-                <button className={styles.backButton}><ChevronLeft sx={{ fontSize: "2.8rem" }} /></button>
+                <button onClick={() => handleBack()} className={styles.backButton}><ChevronLeft sx={{ fontSize: "2.8rem" }} /></button>
             </div>
             <div className={styles.content}>
                 <div className={styles.instructions}>

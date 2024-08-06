@@ -1,18 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { evaluate } from 'mathjs';
 import CustomKeypad from '../components/payment/CustomKeypad';
 import styles from '../styles/payment/Payment.module.css';
 import MenuItem from '../components/payment/MenuItem';
 import defaultFood from '../assets/default_food.png';
-import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
 import MenuHeader from '../components/payment/MenuHeader'; // Import MenuHeader
 import MenuGridItem from '../components/payment/MenuGridItem';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../utils/axiosConfig';
-
-
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
@@ -28,11 +25,7 @@ const PaymentScreen = () => {
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    fetchAllMenuItems();
-  }, []);
-
-  const fetchAllMenuItems = async () => {
+  const fetchAllMenuItems = useCallback(async () => {
     if (user) {
       try {
         const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
@@ -42,8 +35,9 @@ const PaymentScreen = () => {
             name: item.name,
             price: parseFloat(item.price.replace('$', '')),
             imageUrl: item.image || defaultFood,
-            favourite: (item.favourite === "true" || item.favourite === true) ? true : false,
+            favourite: (item.favourite === "true" || item.favourite === true),
             quantity: 0,
+            created_at: new Date(item.created_at)
           }));
           setMenuItems(fetchedItems);
           setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
@@ -54,7 +48,13 @@ const PaymentScreen = () => {
         console.error('Failed to fetch menu items:', error);
       }
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, [fetchAllMenuItems]);
+
+  
 
   useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';
@@ -63,9 +63,9 @@ const PaymentScreen = () => {
     }
   }, [amount]);
 
-  const calculateTotalAmount = (items) => {
+  /*const calculateTotalAmount = (items) => {
     return items.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  };*/
 
   const handleKeyPress = (key) => {
     if (key === 'Clear') {

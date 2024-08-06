@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosConfig';
 import styles from "../../styles/settings/AutoGenerate.module.css";
@@ -15,13 +15,7 @@ const AutoGenerate = () => {
   const [confirmClicked, setConfirmClicked] = useState(false);
   const [dbLoading, setDbLoading] = useState(false);
 
-  useEffect(() => {
-    if (image) {
-      handleConfirm();
-    }
-  }, [image]);
-
-  const handleConfirm = async () => {
+  const handleConfirm = useCallback(async () => {
     const formData = new FormData();
     formData.append('image_path', image);
 
@@ -123,7 +117,7 @@ const AutoGenerate = () => {
       console.error('Error:', err.response ? err.response.data : err.message);
       setError(err.response ? err.response.data.error : err.message);
     }
-  };
+  }, [image]);
 
   const handleContinue = async () => {
     if (user && menuItems.length > 0) {
@@ -152,6 +146,11 @@ const AutoGenerate = () => {
     }
   };
 
+  useEffect(() => {
+    if (image) {
+      handleConfirm();
+    }
+  }, [image, handleConfirm]);
   return (
     <div>
       <div className={styles.screen}>
