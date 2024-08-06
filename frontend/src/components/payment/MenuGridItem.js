@@ -5,7 +5,7 @@ import { StarBorder, Star, Edit, Add } from '@mui/icons-material';
 const MenuGridItem = ({ name, price, imageUrl, onClick, initialLabel, isFavorited, onFavoriteToggle }) => {
 
     return (
-        <div className={styles.menuItem} >
+        <div className={styles.menuItem} data-testid={`menu-grid-item-${id}`}>
             <button className={`${styles.favouriteButton} ${(isFavorited) ? styles.favouriteButtonSelected : ""}`} onClick={onFavoriteToggle}>
                 {isFavorited ? <Star sx={{ fontSize: "1.2rem" }} /> : <StarBorder sx={{ fontSize: "1.2rem" }} />}
             </button>

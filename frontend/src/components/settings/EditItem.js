@@ -119,6 +119,7 @@ const EditItem = () => {
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
                 className={`${styles.input} ${styles.nameGroup}`}
+                data-testid="item-name-input"
               />
             </div>
             <div className={styles.inputGroupRow}>
@@ -130,6 +131,7 @@ const EditItem = () => {
                 value={itemNo}
                 onChange={(e) => setItemNo(e.target.value)}
                 className={`${styles.input} ${styles.idGroup}`}
+                data-testid="item-no-input"
               />
             </div>
           </div>
@@ -147,6 +149,7 @@ const EditItem = () => {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 className={styles.input}
+                data-testid="item-price-input"
               />
             </div>
           </div>
@@ -164,6 +167,7 @@ const EditItem = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className={styles.fileInput}
+                data-testid="item-image-input"
               />
             </label>
           </div>
@@ -172,13 +176,14 @@ const EditItem = () => {
               src={imagePreview || placeholderImage}
               alt="Preview"
               className={styles.imagePreview}
+              data-testid="item-image-preview"
             />
           </div>
         </form>
         <button onClick={handleConfirm} className={styles.confirmButton} data-testid="confirm-item-button">
           Confirm
         </button>
-        <button onClick={handleDelete} className={styles.deleteButton} >
+        <button onClick={handleDelete} className={styles.deleteButton} data-testid="delete-item-button">
           Remove Item
         </button>
       </div>

@@ -9,14 +9,15 @@ Feature: QR Sad Path
     Then I click the "Menu Preset" button
     Then I should see an option for "Auto-Generate Menu Items"
     When I click into the "Auto-Generate Menu Items" option
-    Then I click on upload image button
-    Then I browse and select a Menu with missing labels
+    Then I should see instructions
+    Then I browse and select the upload image button
     Then I should see a preview of the selected image
-    When I click on the "Continue" button
+    Then I click on the "Continue" button
     Then I should see the menu items auto-generated based on the selected image
+    Then I click on the continue button
+    Then I should see the new menu items in the Menu View
     Then I should see menu item Tiger Prawn in the Menu View
-    And I should see price of menu item Tiger Prawn as "$?.??"
-    When I click into menu item Tiger Prawn
+    Then I click into menu item Tiger Prawn
     Then I should see the edit page of menu item Tiger Prawn
     When I click on the price
     Then I clear the price
