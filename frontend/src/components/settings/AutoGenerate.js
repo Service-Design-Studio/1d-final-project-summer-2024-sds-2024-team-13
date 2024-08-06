@@ -7,7 +7,7 @@ import { CircularProgress } from '@mui/material';
 
 const AutoGenerate = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
   const { user } = useAuth();
   const { image } = location.state || {}; // Get image data from state
   const [menuItems, setMenuItems] = useState([]);
@@ -128,7 +128,7 @@ const AutoGenerate = () => {
     } finally {
       setLoading(false);
     }
-  }, [image]);
+  }, [image, setConfirmClicked]);
 
   const handleContinue = async () => {
     if (user && menuItems.length > 0) {
