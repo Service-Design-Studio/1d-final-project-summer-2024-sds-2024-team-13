@@ -40,11 +40,15 @@ When('I click into the "Auto-Generate Menu Items" option', () => {
 });
 
 Then('I should see instructions', () => {
-  cy.get('[data-testid="instructions"]').should('be.visible');
+  cy.contains("Please upload a photo of your stall's menu").should('be.visible');
 });
 
-When("I browse and select the file {string}", (fileName) => {
-  cy.get('[data-testid="file-browser-input"]').attachFile(`path/to/${fileName}`);
+Then('I should click instructions', () => {
+  cy.contains("Please upload a photo of your stall's menu").should('be.visible');
+});
+
+Then("I browse and select the upload image button", (menu_example) => {
+  cy.get('[data-testid="file-browser-input"]').attachFile(`../images/menu_example.jpg`);
 });
 
 Then("I should see a preview of the selected image", () => {
@@ -56,12 +60,18 @@ When("I click on the {string} button", (buttonText) => {
 });
 
 Then("I should see the menu items auto-generated based on the selected image", () => {
-  cy.get('[data-testid="auto-generated-menu-items"]').should('be.visible');
+  cy.get('[data-testid^="menu-item-"]', { timeout: 20000 }).should('be.visible');
+});
+
+Then("I click on the continue button", () => {
+  cy.get('[data-testid="auto-continue"]', { timeout: 20000 }).click()
 });
 
 Then("I should see the new menu items in the Menu View", () => {
-  cy.get('[data-testid="menu-view"]').find('[data-testid="menu-item"]').should('have.length.greaterThan', 0);
+  cy.url({ timeout: 20000 }).should('include', '/settings/menu-preset');
+  cy.get('[data-testid="menu-items"]', { timeout: 20000 }).should('be.visible');
 });
+
 
 
 //Scenario: Clicking On Menu
@@ -70,30 +80,27 @@ Given("I am on Payment View", () => {
   cy.url().should('include', '/payment');
 });
 
-// Step definition for "The input field is 0"
-Then("The input field is 0", () => {
-  cy.get('[data-testid="input-field"]', { timeout: 10000 }).should('have.value', '0');
+When("I clicked on the first item in the grid layout", () => {
+  // Capture the initial value
+  cy.get('[data-testid="input-field"]').invoke('val').as('initialValue');
+
+  // Perform the action that should increase the value
+  cy.get('[data-testid^="menu-grid-item-"]').first().click();
 });
 
-// Step definition for "I clicked on the add button for the Chicken Cutlet Noodle item"
-When("I clicked on the add button for the Chicken Cutlet Noodle item", () => {
-  cy.get('[data-testid="add-chicken-cutlet-noodle"]').click(); // Assuming the button has this data-testid
-});
-
-// Step definition for "I should see the input field amount increase by 6.00"
-Then("I should see the input field amount increase by 6.00", () => {
-  cy.get('[data-testid="input-field"]').should('have.value', '6.00');
-});
-
-// Step definition for "I should see the next button turn red"
-Then("I should see the next button turn red", () => {
-    cy.get('[data-testid="generate-button"]').should('have.css', 'background-color', 'rgb(253, 90, 119)'); // Matching the actual color
+Then("I should see the input field amount increase", () => {
+  // Capture the new value
+  cy.get('@initialValue').then(initialValue => {
+    cy.get('[data-testid="input-field"]').invoke('val').then(newValue => {
+      // Convert the values to numbers and compare
+      expect(parseFloat(newValue)).to.be.greaterThan(parseFloat(initialValue));
+    });
   });
-  
-  // Additionally, check if the button is enabled
-  Then("I should see the next button is enabled", () => {
+});
+  // check if the button is enabled
+Then("I should see the next button is enabled", () => {
     cy.get('[data-testid="generate-button"]').should('not.be.disabled');
-  });
+});
 
 //Using Custom Keypad
 When("I click into the Payment View", () => {

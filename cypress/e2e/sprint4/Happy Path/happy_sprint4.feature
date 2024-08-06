@@ -14,14 +14,14 @@ Feature: Payment Happy Path
     Then I should see a preview of the selected image
     When I click on the "Continue" button
     Then I should see the menu items auto-generated based on the selected image
+    Then I click on the continue button
     Then I should see the new menu items in the Menu View
 
-    Scenario: Add Chicken Cutlet Noodle to payment
+    Scenario: Add item to payment
     Given I am on Payment View
-    And The input field is 0
-    When I clicked on the add button for the Chicken Cutlet Noodle item
-    Then I should see the input field amount increase by 6.00
-    And I should see the next button turn red
+    When I clicked on the first item in the grid layout
+    Then I should see the input field amount increase
+    Then I should see the next button is enabled
 
   Scenario: Successful payment process
     When I click into the Payment View

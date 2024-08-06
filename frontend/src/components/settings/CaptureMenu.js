@@ -57,14 +57,14 @@ const CaptureMenu = () => {
                 <button onClick={() => handleBack()} className={styles.backButton}><ChevronLeft sx={{ fontSize: "2.8rem" }} /></button>
             </div>
             <div className={styles.content}>
-                <div className={styles.instructions}>
+                <div className={styles.instructions} data-testid="instructions"> 
                     <h1>Please upload a photo of your stall's menu</h1>
                     <p>Please ensure the names and prices of the menu items are easy to read in your photo.</p>
                 </div>
                 {imagePreview ? (
                     <>
                         <div className={styles.image_preview}>
-                            <img src={imagePreview} alt="Menu Preview" />
+                            <img src={imagePreview} alt="Menu Preview" data-testid="image-preview"/>
                         </div>
                         <div className={styles.buttonContainer}>
                             <button className={styles.camera_button} onClick={handleChooseAnotherFile} data-testid="choose-another-file-button">

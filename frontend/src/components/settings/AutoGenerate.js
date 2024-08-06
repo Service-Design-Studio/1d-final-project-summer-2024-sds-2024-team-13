@@ -166,21 +166,21 @@ const AutoGenerate = () => {
             <p>You will be able to review, edit, and add pictures to the menu items after adding them to your Menu Preset.</p>
           </div>
           {confirmClicked && (
-            <div className={styles.cardsContainer}>
+            <div className={styles.cardsContainer} data-testid="cards-container">
               {menuItems.map((item, index) => (
-                <div key={index} className={styles.card}>
+                <div key={index} className={styles.card} data-testid={`menu-item-${index}`}>
                   <h4>{item.name}</h4>
                   <p>{item.price}</p>
                 </div>
               ))}
-              <button className={styles.continue_button} onClick={handleContinue}>
+              <button className={styles.continue_button} onClick={handleContinue} data-testid='auto-continue'>
                 Continue
               </button>
             </div>
           )}
 
           {error && (
-            <div className={styles.error}>
+            <div className={styles.error} data-testid="error">
               <h3>Error:</h3>
               <pre>{error}</pre>
             </div>

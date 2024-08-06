@@ -104,18 +104,18 @@ const MenuPreset = () => {
       />
       <div className={styles.content}>
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate('/settings/capturemenu')} className={`${styles.generateButton} ${styles.Button}`}>
+          <button onClick={() => navigate('/settings/capturemenu')} className={`${styles.generateButton} ${styles.Button}`} data-testid="auto-generate-button">
             <div className={styles.buttonContent}><AutoFixHigh /> Auto-Generate Menu Item(s)</div>
             <ChevronRight />
           </button>
-          <button onClick={() => navigate('/settings/additem')} className={styles.Button}>
+          <button onClick={() => navigate('/settings/additem')} className={styles.Button} data-testid="add-item-button">
             <div className={styles.buttonContent}><AddCircle /> Add Menu Item</div>
             <ChevronRight />
           </button>
         </div>
 
         <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{ tabValue, setTabValue, viewLayout, setViewLayout }} />
-        <div className={styles.menuItems}>
+        <div className={styles.menuItems} data-testid="menu-items">
           {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
               key={index}
@@ -126,9 +126,10 @@ const MenuPreset = () => {
               initialLabel="Edit"
               isFavorited={favoriteItems.includes(item.name)}
               onFavoriteToggle={() => handleFavoriteToggle(item)}
+              data-testid={`menu-item-${item.id}`}
             />
           )) :
-            <div className={styles.gridLayout} >
+            <div className={styles.gridLayout} data-testid="grid-layout">
               {sortedItems.map((item, index) => (
                 <MenuGridItem
                   key={index}
@@ -139,6 +140,7 @@ const MenuPreset = () => {
                   initialLabel="Edit"
                   isFavorited={favoriteItems.includes(item.name)}
                   onFavoriteToggle={() => handleFavoriteToggle(item)}
+                  data-testid={`menu-grid-item-${item.id}`}
                 />
               ))}
             </div>

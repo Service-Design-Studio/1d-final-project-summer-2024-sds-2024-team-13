@@ -2,7 +2,7 @@ Feature: QR Sad
   Background:
     Given I am on Home View
 
-  Scenario: Manually input amount using keypad and verify update
+  Scenario: Manually input amount using keypad and Error
     When I click into the Payment View
     Then I should see an input field with 0
     When I click on input field
