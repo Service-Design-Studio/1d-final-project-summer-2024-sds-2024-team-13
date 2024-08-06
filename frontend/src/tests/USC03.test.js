@@ -111,7 +111,7 @@ test('Negative Case: Requesting a refund when the system is down (e.g., Network 
   fireEvent.click(screen.getByTestId('refund-request-submit-button'));
 
   await waitFor(() => {
-    expect(screen.getByTestId('error-message')).toHaveTextContent('Failed.');
+    expect(screen.getByTestId('error-message')).toHaveTextContent('Network Error');
   });
 });
 

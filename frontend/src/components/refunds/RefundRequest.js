@@ -130,7 +130,7 @@ const RefundRequest = () => {
                 }
             } catch (error) {
                 console.error('Failed to create refund request:', error);
-                setErrorMessage('Network Error');
+                setError('Network Error');
             }
         }
     }, [user, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.customer_id, navigate, createTransaction, reason]);
