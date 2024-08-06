@@ -1,0 +1,93 @@
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensure items are spaced properly */
+    position: fixed;
+    z-index: 99;
+    padding: 1rem;
+    top: 0;
+    left: 0;
+    min-width: 300px;
+    background: #fff;
+    z-index: 99;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: left;
+    flex-grow: 1;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.content {
+    margin-top: 70px;
+}
+
+.profile {
+    margin-top: 60px;
+    margin: 1.2rem;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 14px;
+}
+
+.profileIcon {
+    font-size: 3.6rem !important;
+}
+
+.profile p {
+    margin: 2px 0;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.profile h3 {
+    margin: 2px 0;
+}
+
+.logoutButton {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 1rem;
+    gap: 16px;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    margin: 2rem 0;
+}
+
+.main button p {
+    margin: 0;
+}
+
+.settingsButton {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 1rem;
+    gap: 16px;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.settingsLabel {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+

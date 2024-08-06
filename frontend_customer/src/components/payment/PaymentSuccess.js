@@ -5,6 +5,7 @@ import styles from '../../styles/payment/PaymentSuccess.module.css';
 import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
 import animatedBanner from "../../assets/animatedBanner.gif";
+import TopHead from '../TopHead';
 
 const PaymentSuccess = ({ transaction }) => {
     const location = useLocation();
@@ -18,7 +19,7 @@ const PaymentSuccess = ({ transaction }) => {
     return (
         <div className={styles.main}>
             <div className={styles.header}>
-                <h2>Payment</h2>
+                <TopHead title="Payment" />
             </div>
             <div className={styles.successContainer}>
                 <CheckCircleIcon style={{ height: "auto", maxWidth: "30vw", width: "30vw" }} className={styles.successIcon} />

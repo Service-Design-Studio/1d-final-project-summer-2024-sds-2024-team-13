@@ -6,6 +6,7 @@ import paynowIcon from "../../assets/paynowIcon.svg";
 import paylahIcon from "../../assets/paylahIcon.svg";
 import { useAuth } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axiosConfig';
+import TopHead from '../TopHead';
 
 const PaymentReview = ({ transaction }) => {
     const { customer } = useAuth();
@@ -61,7 +62,7 @@ const PaymentReview = ({ transaction }) => {
         <div className={styles.main}>
             <div className={styles.header}>
                 <ArrowBackIosNewIcon className={styles.backIcon} onClick={handleBack} />
-                <h2 className={styles.headerText}>Review</h2>
+                <TopHead title="Payment" />
             </div>
             <div className={styles.reviewContainer}>
                 <div className={styles.statusText}>Merchant gets</div>
