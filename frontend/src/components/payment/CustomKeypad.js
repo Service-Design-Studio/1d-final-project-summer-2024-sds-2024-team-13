@@ -37,6 +37,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                         className={styles.button}
                         style={{ fontSize: '1.3rem', backgroundColor: '#F9DAD8' }}
                         disabled={disableStartButton}
+                        data-testid="slash"
                     >
                         /
                     </button>
@@ -45,6 +46,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                         className={styles.button}
                         style={{ fontSize: '1.3rem', backgroundColor: '#F9DAD8' }}
                         disabled={disableStartButton}
+                        data-testid="asterisk"
                     >
                         *
                     </button>
@@ -53,6 +55,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                         className={styles.button}
                         style={{ fontSize: '1.3rem', backgroundColor: '#F9DAD8' }}
                         disabled={disableStartButton}
+                        data-testid="dash"
                     >
                         -
                     </button>
@@ -66,6 +69,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                         className={styles.button}
                         style={{ fontSize: '1.3rem', backgroundColor: '#F9DAD8' }}
                         disabled={disableStartButton}
+                        data-testid="plus"
                     >
                         +
                     </button>
@@ -78,6 +82,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                         onClick={() => onKeyPress('Backspace')}
                         className={styles.button}
                         style={{ fontSize: '1.3rem', backgroundColor: '#F9DAD8' }}
+                        data-testid="backspace"
                     >
                         <Backspace />
                     </button>
@@ -100,6 +105,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
                                     onClick={() => onKeyPress('.')}
                                     className={`${styles.button} ${disableDotButton ? styles.disabledButton : ''}`}
                                     disabled={disableDotButton}
+                                    data-testid="dot"
                                 >
                                     .
                                 </button>
