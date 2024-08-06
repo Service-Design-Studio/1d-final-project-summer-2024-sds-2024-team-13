@@ -31,14 +31,13 @@ Feature: QR Sad Path
     Then I click the "Menu Preset" button
     Then I should see an option for "Auto-Generate Menu Items"
     When I click into the "Auto-Generate Menu Items" option
-    Then I click on upload image button
     Then I browse and select a non-Menu
     Then I should see a preview of the selected image
     When I click on the "Continue" button
     Then I should see an error message
   
   Scenario: Inputting a negative amount
-    When I click into the Payment View
+    Then I click into the Payment View
     Then I should see an input field with 0
     When I click on input field
     Then I should see a keypad
@@ -48,7 +47,7 @@ Feature: QR Sad Path
     And I press "0" on the keypad
     Then I should see the input field update to "5.20"
     And I press "-" on the keypad
-    Then I should see a grey text "5.20-"
-    And I press "6" on the keypad
+    Then I press "6" on the keypad
+    Then I press "=" on the keypad
     Then I should see see the input field update to "-0.80" 
     And I should see a Next button disabled

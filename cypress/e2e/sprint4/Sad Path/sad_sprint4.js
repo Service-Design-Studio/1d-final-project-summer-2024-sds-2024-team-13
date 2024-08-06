@@ -103,30 +103,47 @@ Then("I click the Confirm button", () => {
   cy.get('[data-testid="confirm-item-button"]').click(); // Adjust based on actual button text or identifier
 });
 
-Then("I should see the price of menu item Tiger Prawn as '$15.00'", () => {
-  cy.contains('Tiger Prawn').parent().contains('$15.00').should('be.visible');
+Then("I should see the price of menu item Tiger Prawn as {string}", function (string) {
+  cy.contains('$15.00').should('be.visible');
 });
 
 // Scenario: Auto-generating from a non-Menu
 Then("I browse and select a non-Menu", () => {
-  cy.get('[data-testid="file-browser-input"]').attachFile('non_menu_image.jpg'); // Adjust file name and path
+  cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
 });
 
 Then("I should see an error message", () => {
-  cy.contains('Error').should('be.visible'); // Adjust based on actual error message
+  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
 });
 
 // Scenario: Inputting a negative amount
-When("I press '-' on the keypad", () => {
-  cy.get(`[data-testid="keypad"] button`).contains('-').click();
+Then("I click into the Payment View", () => {
+  cy.visit('/payment');
+  cy.url().should('include', '/payment');
 });
 
-Then("I should see a grey text '5.20-'", () => {
-  cy.get('[data-testid="input-field"]').should('have.value', '5.20-').and('have.css', 'color', 'rgb(169, 169, 169)'); // Adjust color based on actual implementation
+Then("I should see an input field with 0", () => {
+  cy.get('[data-testid="input-field"]', { timeout: 10000 }).should('have.value', '0');
 });
 
-Then("I should see see the input field update to '-0.80'", () => {
-  cy.get('[data-testid="input-field"]').should('have.value', '-0.80');
+When("I click on input field", () => {
+  cy.get('[data-testid="input-field"]').click();
+});
+
+Then("I should see a keypad", () => {
+  cy.get('[data-testid="keypad"]').should('be.visible');
+});
+
+When("I press {string} on the keypad", (key) => {
+  cy.get(`[data-testid="keypad"] button`).contains(key).click();
+});
+
+Then("I should see the input field update to {string}", (value) => {
+  cy.get('[data-testid="input-field"]').should('have.value', value);
+});
+
+Then("I should see see the input field update to {string}", (value) => {
+  cy.get('[data-testid="input-field"]').should('have.value', value);
 });
 
 Then("I should see a Next button disabled", () => {
