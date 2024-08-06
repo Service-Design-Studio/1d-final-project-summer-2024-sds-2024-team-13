@@ -13,11 +13,9 @@ const AutoGenerate = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [confirmClicked, setConfirmClicked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [dbLoading, setDbLoading] = useState(false);
 
   const handleConfirm = useCallback(async () => {
-    setLoading(true);
     const formData = new FormData();
     formData.append('image_path', image);
 
@@ -115,18 +113,13 @@ const AutoGenerate = () => {
         } catch (parseError) {
           console.error('JSON Parsing Error:', parseError);
           setError('Please try again with a clearer photo.');
-          setConfirmClicked(true); // Set confirm click state
         }
       } else {
         setError('Unexpected response structure');
-        setConfirmClicked(true); // Set confirm click state
       }
     } catch (err) {
       console.error('Error:', err.response ? err.response.data : err.message);
       setError('Failed to generate menu items. Please try again with a clearer photo.');
-      setConfirmClicked(true); // Set confirm click state
-    } finally {
-      setLoading(false);
     }
   }, [image]);
 
@@ -179,27 +172,27 @@ const AutoGenerate = () => {
             <p>You will be able to review, edit, and add pictures to the menu items after adding them to your Menu Preset.</p>
             {error && <h3 className={styles.error}>{error}</h3>}
           </div>
-          <div className={styles.cardsContainer} data-testid="cards-container">
-            {loading ? (
-              <CircularProgress sx={{ color: "#000" }} />
-            ) : (error || menuItems.length === 0) ? (
-              <button className={styles.continue_button} onClick={() => navigate("/settings/menu-preset")} data-testid='auto-retry'>
-                Retry
-              </button>
-            ) : (
-              <>
-                {menuItems.map((item, index) => (
-                  <div key={index} className={styles.card} data-testid={`menu-item-${index}`}>
-                    <h4>{item.name}</h4>
-                    <p>{item.price}</p>
-                  </div>
-                ))}
-                <button className={styles.continue_button} onClick={handleContinue} data-testid='auto-continue'>
-                  Continue
+          {confirmClicked && (
+            <div className={styles.cardsContainer} data-testid="cards-container">
+              {menuItems.length === 0 ? (
+                <button className={styles.continue_button} onClick={() => navigate("/settings/menu-preset")} data-testid='auto-retry'>
+                  Retry
                 </button>
-              </>
-            )}
-          </div>
+              ) : (
+                <>
+                  {menuItems.map((item, index) => (
+                    <div key={index} className={styles.card} data-testid={`menu-item-${index}`}>
+                      <h4>{item.name}</h4>
+                      <p>{item.price}</p>
+                    </div>
+                  ))}
+                  <button className={styles.continue_button} onClick={handleContinue} data-testid='auto-continue'>
+                    Continue
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
