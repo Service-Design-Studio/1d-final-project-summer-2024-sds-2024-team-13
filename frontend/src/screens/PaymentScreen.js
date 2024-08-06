@@ -21,6 +21,7 @@ const PaymentScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewLayout, setViewLayout] = useState("grid");
   const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
+  const [error, setError] = useState(''); // Add error state
   const { user } = useAuth();
 
   const inputRef = useRef(null);
@@ -68,6 +69,7 @@ const PaymentScreen = () => {
   };*/
 
   const handleKeyPress = (key) => {
+    setError(''); // Clear any existing error when a key is pressed
     if (key === 'Clear') {
       setAmount('0');
       setChain('');
@@ -122,10 +124,33 @@ const PaymentScreen = () => {
     setAmount(newAmount.toFixed(2));
   };
 
-  const handleNext = () => {
+
+  const handleNext = async () => {
+    if (amount === 'Err' || parseFloat(amount) <= 0) {
+      setError('Please enter a valid amount.');
+      return;
+    }
+  
+    // Save the amount to localStorage
     localStorage.setItem('paymentAmount', amount);
-    navigate('/payment/QRPay');
+  
+    try {
+      const response = await axiosInstance.post('/generate-qr', { amount });
+      if (response.status === 201) {
+        // Navigate with the QR code from the response
+        navigate('/payment/QRPay', { state: { qrCode: response.data.qrCode } });
+      } else {
+        // Navigate without QR code but still with the amount in localStorage
+        setError('Unexpected response from the server.');
+        navigate('/payment/QRPay');
+      }
+    } catch (error) {
+      setError('Failed to generate QR code. Please try again later.');
+      // Navigate without QR code but still with the amount in localStorage
+      navigate('/payment/QRPay');
+    }
   };
+
 
   const handleAmountClick = () => {
     setShowKeypad(true);
@@ -162,12 +187,12 @@ const PaymentScreen = () => {
   const disableKeypadClose = chain !== '';
 
   return (
-    <div className={styles.screen}>
+    <div className={styles.screen} data-testid="payment-screen">
       
       <div className={styles.header}>
       <TopHead title="Enter Amount to Charge" />
 
-        <div className={styles.amountInput}>
+        <div className={styles.amountInput} data-testid="amount-input">
           <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
             <span>S$</span>
             <input
@@ -181,6 +206,7 @@ const PaymentScreen = () => {
           </div>
         </div>
         <div className={styles.chainText}>{chain}</div>
+        {error && <div className={styles.error} data-testid="error-message">{error}</div>}
         <button
           className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
           disabled={disableNextButton}
@@ -194,7 +220,7 @@ const PaymentScreen = () => {
         </div>
       </div>
       <div className={styles.footer}>
-        <div className={styles.menuItems}>
+        <div className={styles.menuItems} data-testid="menu-items">
           {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
               key={index}
@@ -206,9 +232,10 @@ const PaymentScreen = () => {
               initialClass={styles.addButton}
               isFavorited={favoriteItems.includes(item.name)}
               onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+              data-testid={`menu-item-${index}`}
             />
           )) :
-            <div className={styles.gridLayout} >
+            <div className={styles.gridLayout} data-testid="grid-layout">
               {sortedItems.map((item, index) => (
                 <MenuGridItem
                   key={index}
@@ -219,6 +246,7 @@ const PaymentScreen = () => {
                   initialLabel="Add"
                   isFavorited={favoriteItems.includes(item.name)}
                   onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+                  data-testid={`grid-item-${index}`}
                 />
               ))}
             </div>

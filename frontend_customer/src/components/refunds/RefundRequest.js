@@ -82,6 +82,7 @@ const RefundRequest = () => {
     };
 
     const isButtonDisabled = expectedPayment === "" || expectedRefund === "" || expectedPayment === "0.00" || expectedRefund === "0.00" || hasError;
+
     const createRefundRequest = useCallback(async () => {
         if (customer) {
             try {
@@ -99,7 +100,7 @@ const RefundRequest = () => {
 
                 if (response.status === 201) {
                     console.log('Refund request created successfully:', response.data);
-                    navigate("/refunds")
+                    navigate("/refunds");
                 } else {
                     console.error('Unexpected response status:', response.status);
                 }
@@ -107,13 +108,7 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error.response);
             }
         }
-    }, [customer,
-        expectedPayment,
-        expectedRefund,
-        transaction?.transaction_id,
-        transaction?.user_id,
-        navigate,
-        reason]);
+    }, [customer, expectedPayment, expectedRefund, transaction?.transaction_id, navigate, reason]);
 
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
@@ -127,6 +122,7 @@ const RefundRequest = () => {
             year: 'numeric'
         }).toUpperCase();
     };
+
     return (
         <div className={styles.screen} data-testid="refund-request-view">
             <RefundRequestNav />

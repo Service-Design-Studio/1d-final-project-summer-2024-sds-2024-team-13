@@ -67,13 +67,13 @@ const CaptureMenu = () => {
                             <img src={imagePreview} alt="Menu Preview" />
                         </div>
                         <div className={styles.buttonContainer}>
-                            <button className={styles.camera_button} onClick={handleChooseAnotherFile}>
+                            <button className={styles.camera_button} onClick={handleChooseAnotherFile} data-testid="choose-another-file-button">
                                 <Image /> Choose Another File
                             </button>
-                            <button className={styles.camera_button} onClick={handleOpenCamera}>
+                            <button className={styles.camera_button} onClick={handleOpenCamera} data-testid="open-camera-button">
                                 <CameraAlt /> Open Camera
                             </button>
-                            <button className={styles.continue_button} onClick={handleContinue}>
+                            <button className={styles.continue_button} onClick={handleContinue} data-testid="continue-button">
                                 Continue
                             </button>
                         </div>
@@ -83,12 +83,13 @@ const CaptureMenu = () => {
                             ref={fileInputRef}
                             style={{ display: 'none' }}
                             onChange={handleUploadImage}
+                            data-testid="file-browser-input"
                         />
                     </>
                 ) : (
                     <>
-                        <div className={styles.browseFileButton}>
-                            <label className={styles.upload_button}>
+                        <div className={styles.browseFileButton} data-testid="browse-file-button">
+                            <label className={styles.upload_button} data-testid="upload-button">
                                 <Image />
                                 Browse Files
                                 <input
@@ -97,12 +98,13 @@ const CaptureMenu = () => {
                                     onChange={handleUploadImage}
                                     style={{ display: 'none' }}
                                     ref={fileInputRef}
+                                    data-testid="file-browser-input"
                                 />
                             </label>
                         </div>
                         <p className={styles.label}>or</p>
-                        <div className={styles.cameraButton}>
-                            <button className={styles.camera_button} onClick={handleOpenCamera}>
+                        <div className={styles.cameraButton} data-testid="camera-button">
+                            <button className={styles.camera_button} onClick={handleOpenCamera} data-testid="open-camera-button">
                                 <CameraAlt /> Open Camera
                             </button>
                         </div>
@@ -111,10 +113,10 @@ const CaptureMenu = () => {
                 {showCamera && (
                     <div className={styles.fullScreenCamera}>
                         <Camera ref={camera} aspectRatio={9 / 16} />
-                        <button className={styles.capture_button} onClick={handleTakePhoto}>
+                        <button className={styles.capture_button} onClick={handleTakePhoto} data-testid="capture-button">
                             <CameraIcon sx={{ fontSize: "3.4rem" }} />
                         </button>
-                        <button className={styles.close_button} onClick={handleCloseCamera}>
+                        <button className={styles.close_button} onClick={handleCloseCamera} data-testid="close-camera-button">
                             <ChevronLeft sx={{ fontSize: "2rem" }} />
                         </button>
                     </div>

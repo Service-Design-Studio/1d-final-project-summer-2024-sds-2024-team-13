@@ -14,7 +14,7 @@ const RefundRequestNav = () => {
             <button className={styles.backButton} onClick={handleBack} data-testid="back-button">
                 <ArrowBackIosNew />
             </button>
-            <h2 className={styles.title}>Refund Customer</h2>
+            <h2 className={styles.title} data-testid="refund-request-title">Refund Customer</h2>
         </div>
     );
 };

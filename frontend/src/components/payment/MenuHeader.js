@@ -21,19 +21,20 @@ const MenuHeader = ({ searchQuery, onSearchChange, tabValue, setTabValue, viewLa
             value={searchQuery}
             onChange={onSearchChange}
             aria-label="search"
+            data-testid="search-input"
           />
         </div>
         <div className={styles.viewButtonContainer}>
-          <button onClick={() => setViewLayout("grid")} className={`${styles.viewButton} ${(viewLayout === "grid") ? styles.viewButtonSelected : ""}`}><GridView /></button>
-          <button onClick={() => setViewLayout("row")} className={`${styles.viewButton} ${(viewLayout === "row") ? styles.viewButtonSelected : ""}`}><Menu /></button>
+          <button onClick={() => setViewLayout("grid")} className={`${styles.viewButton} ${(viewLayout === "grid") ? styles.viewButtonSelected : ""}`} data-testid="grid-view-button"><GridView /></button>
+          <button onClick={() => setViewLayout("row")} className={`${styles.viewButton} ${(viewLayout === "row") ? styles.viewButtonSelected : ""}`} data-testid="row-view-button"><Menu /></button>
 
         </div>
         
 
       </div>
       <Tabs value={tabValue} onChange={handleChange} className={styles.tabs}>
-          <Tab label="Menu" className={styles.tabItem}/>
-          <Tab label="Favourites" className={styles.tabItem}/>
+          <Tab label="Menu" className={styles.tabItem} data-testid="menu-tab"/>
+          <Tab label="Favourites" className={styles.tabItem} data-testid="favourites-tab"/>
         </Tabs>
 
     </div>

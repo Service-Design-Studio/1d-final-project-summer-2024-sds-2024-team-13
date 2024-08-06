@@ -20,12 +20,12 @@ const RefundScreenNav = ({
     };
 
     return (
-        <div className={styles.main}>
+        <div className={styles.main} data-testid="refund-screen-nav">
             <div className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack} data-testid="back-button">
                     <ArrowBackIosNew />
                 </button>
-                <h2 className={styles.title}>Requested Refunds</h2>
+                <h2 className={styles.title} data-testid="requested-refunds-title">Requested Refunds</h2>
             </div>
             <Tabs value={value} onChange={handleChange} centered className={styles.tabs}>
                 <Tab  label="Requests" data-testid="pending-tab" />
