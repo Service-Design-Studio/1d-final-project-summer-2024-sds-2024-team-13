@@ -21,6 +21,7 @@ const PaymentScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewLayout, setViewLayout] = useState("grid");
   const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
+  const [error, setError] = useState(''); // Add error state
   const { user } = useAuth();
 
   const inputRef = useRef(null);
@@ -68,6 +69,7 @@ const PaymentScreen = () => {
   };*/
 
   const handleKeyPress = (key) => {
+    setError(''); // Clear any existing error when a key is pressed
     if (key === 'Clear') {
       setAmount('0');
       setChain('');
@@ -122,10 +124,24 @@ const PaymentScreen = () => {
     setAmount(newAmount.toFixed(2));
   };
 
-  const handleNext = () => {
-    localStorage.setItem('paymentAmount', amount);
-    navigate('/payment/QRPay');
+
+  const handleNext = async () => {
+    if (amount === 'Err' || parseFloat(amount) <= 0) {
+      setError('Please enter a valid amount.');
+      return;
+    }
+    try {
+      const response = await axiosInstance.post('/generate-qr', { amount });
+      if (response.status === 201) {
+        navigate('/payment/QRPay', { state: { qrCode: response.data.qrCode } });
+      } else {
+        setError('Unexpected response from the server.');
+      }
+    } catch (error) {
+      setError('Failed to generate QR code. Please try again later.');
+    }
   };
+
 
   const handleAmountClick = () => {
     setShowKeypad(true);
@@ -181,6 +197,7 @@ const PaymentScreen = () => {
           </div>
         </div>
         <div className={styles.chainText}>{chain}</div>
+        {error && <div className={styles.error} data-testid="error-message">{error}</div>}
         <button
           className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
           disabled={disableNextButton}
