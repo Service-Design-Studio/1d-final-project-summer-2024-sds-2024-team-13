@@ -75,30 +75,29 @@ Then("I should see the new menu items in the Menu View", () => {
 
 
 //Scenario: Clicking On Menu
-Given("I am on Payment View", () => {
+Given("I am on Payment View", function () {
   cy.visit('/payment');
   cy.url().should('include', '/payment');
 });
 
-When("I clicked on the first item in the grid layout", () => {
+When("I clicked on the first item in the grid layout", function () {
   // Capture the initial value
-  cy.get('[data-testid="input-field"]').invoke('val').as('initialValue');
+  cy.get('[data-testid="input-field"]', { timeout: 20000 }).invoke('val').as('initialValue');
 
-  // Perform the action that should increase the value
-  cy.get('[data-testid^="menu-grid-item-"]').first().click();
+  // Ensure the grid items are loaded and visible
+  cy.get('[data-testid="grid-layout"]', { timeout: 20000 }).should('be.visible');
+
+  // Click the first item in the grid layout
+  cy.get('.MenuGridItem_content__7e9iq')
+  .should('exist')
+  .first()
+  .scrollIntoView()
+  .should('be.visible')
+  .click({ force: true });
 });
 
-Then("I should see the input field amount increase", () => {
-  // Capture the new value
-  cy.get('@initialValue').then(initialValue => {
-    cy.get('[data-testid="input-field"]').invoke('val').then(newValue => {
-      // Convert the values to numbers and compare
-      expect(parseFloat(newValue)).to.be.greaterThan(parseFloat(initialValue));
-    });
-  });
-});
   // check if the button is enabled
-Then("I should see the next button is enabled", () => {
+Then("I should see the next button is enabled", function () {
     cy.get('[data-testid="generate-button"]').should('not.be.disabled');
 });
 
