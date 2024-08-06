@@ -15,7 +15,6 @@ const RefundRequest = () => {
     const [expectedPayment, setExpectedPayment] = useState("");
     const [expectedRefund, setExpectedRefund] = useState("");
     const [hasError, setHasError] = useState(false);
-    const [error, setError] = useState(''); // Add error state
     const { user } = useAuth();
     const navigate = useNavigate();
     const [showOverlay, setShowOverlay] = useState(false);
@@ -129,8 +128,7 @@ const RefundRequest = () => {
                     console.error('Unexpected response status:', response.status);
                 }
             } catch (error) {
-                console.error('Failed to create refund request:', error);
-                setErrorMessage('Network Error');
+                console.error('Failed to create refund request aaa:', error.response);
             }
         }
     }, [user, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.customer_id, navigate, createTransaction, reason]);
@@ -260,7 +258,7 @@ const RefundRequest = () => {
                     </button>
                 </div>
             ) : (
-                <div className={styles.error} data-testid='no-transaction-error'>Transaction details not available</div>
+                <div className={styles.error}>Transaction details not available</div>
             )}
             <RefundConfirm {...{ showOverlay, setShowOverlay, reason, transaction, expectedPayment, expectedRefund, createRefundRequest }} />
         </div>
