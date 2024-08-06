@@ -1,37 +1,60 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { evaluate } from 'mathjs';
 import CustomKeypad from '../components/payment/CustomKeypad';
 import styles from '../styles/payment/Payment.module.css';
 import MenuItem from '../components/payment/MenuItem';
 import defaultFood from '../assets/default_food.png';
-import takeAway from '../assets/take_away.png';
 import TopHead from '../components/TopHead';
 import MenuHeader from '../components/payment/MenuHeader'; // Import MenuHeader
 import MenuGridItem from '../components/payment/MenuGridItem';
-
-const menuItemsData = [
-  { id: 'chicken-cutlet-noodle', name: 'Chicken Cutlet Noodle', price: 6.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'signature-wanton-mee', name: 'Signature Wanton Mee (Dry/Wet)', price: 8.60, imageUrl: defaultFood, quantity: 0 },
-  { id: 'dumpling-noodle', name: 'Dumpling Noodle (Dry/Soup)', price: 6.60, imageUrl: defaultFood, quantity: 0 },
-  { id: 'wanton-soup', name: 'Wanton Soup (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'fried-wanton', name: 'Fried Wanton (6pcs)', price: 4.00, imageUrl: defaultFood, quantity: 0 },
-  { id: 'takeaway-box', name: 'Takeaway Box', price: 0.30, imageUrl: takeAway, quantity: 0 },
-];
+import { useAuth } from '../context/AuthContext';
+import axiosInstance from '../utils/axiosConfig';
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('0');
   const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
-  const [menuItems, setMenuItems] = useState(menuItemsData);
+  const [menuItems, setMenuItems] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewLayout, setViewLayout] = useState("row")
-  const [tabValue, setTabValue] = useState(0) // 0 is menu, 1 is favourites
-  const [error, setError] = useState(''); // Add error state
+  const [viewLayout, setViewLayout] = useState("grid");
+  const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
+  const { user } = useAuth();
 
   const inputRef = useRef(null);
+
+  const fetchAllMenuItems = useCallback(async () => {
+    if (user) {
+      try {
+        const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
+        if (response.status === 200) {
+          const fetchedItems = response.data.map(item => ({
+            id: item.id.toString(),
+            name: item.name,
+            price: parseFloat(item.price.replace('$', '')),
+            imageUrl: item.image || defaultFood,
+            favourite: (item.favourite === "true" || item.favourite === true),
+            quantity: 0,
+            created_at: new Date(item.created_at)
+          }));
+          setMenuItems(fetchedItems);
+          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
+        } else {
+          console.error('Unexpected response status:', response.status);
+        }
+      } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchAllMenuItems();
+  }, [fetchAllMenuItems]);
+
+  
 
   useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';
@@ -40,12 +63,11 @@ const PaymentScreen = () => {
     }
   }, [amount]);
 
-  const calculateTotalAmount = (items) => {
+  /*const calculateTotalAmount = (items) => {
     return items.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  };*/
 
   const handleKeyPress = (key) => {
-    setError(''); // Clear any existing error when a key is pressed
     if (key === 'Clear') {
       setAmount('0');
       setChain('');
@@ -100,21 +122,9 @@ const PaymentScreen = () => {
     setAmount(newAmount.toFixed(2));
   };
 
-  const handleNext = async () => {
-    if (amount === 'Err' || parseFloat(amount) <= 0) {
-      setError('Please enter a valid amount.');
-      return;
-    }
-    try {
-      const response = await axiosInstance.post('/generate-qr', { amount });
-      if (response.status === 201) {
-        navigate('/payment/QRPay', { state: { qrCode: response.data.qrCode } });
-      } else {
-        setError('Unexpected response from the server.');
-      }
-    } catch (error) {
-      setError('Failed to generate QR code. Please try again later.');
-    }
+  const handleNext = () => {
+    localStorage.setItem('paymentAmount', amount);
+    navigate('/payment/QRPay');
   };
 
   const handleAmountClick = () => {
@@ -133,10 +143,12 @@ const PaymentScreen = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredItems = menuItems.filter((item) =>
-    item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
-    item.id.toLowerCase().startsWith(searchQuery.toLowerCase())
-  );
+  const filteredItems = menuItems.filter((item) => {
+    const matchesSearchQuery = item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().startsWith(searchQuery.toLowerCase());
+    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.name) : true;
+    return matchesSearchQuery && matchesFavorite;
+  });
 
   const sortedItems = [...filteredItems].sort((a, b) => {
     const isAFavorite = favoriteItems.includes(a.name);
@@ -150,9 +162,11 @@ const PaymentScreen = () => {
   const disableKeypadClose = chain !== '';
 
   return (
-    <div className={styles.main}>
+    <div className={styles.screen}>
+      
       <div className={styles.header}>
-        <TopHead title="Enter Amount to Charge" />
+      <TopHead title="Enter Amount to Charge" />
+
         <div className={styles.amountInput}>
           <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
             <span>S$</span>
@@ -167,7 +181,6 @@ const PaymentScreen = () => {
           </div>
         </div>
         <div className={styles.chainText}>{chain}</div>
-        {error && <div className={styles.error} data-testid="error-message">{error}</div>}
         <button
           className={disableNextButton ? styles.nextButtonDisabled : styles.nextButton}
           disabled={disableNextButton}

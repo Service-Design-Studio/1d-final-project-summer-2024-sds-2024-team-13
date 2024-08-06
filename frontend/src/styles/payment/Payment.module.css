@@ -1,11 +1,11 @@
-.main {
+.screen {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  max-height: 100vh;
 }
 
+
 .header {
-  position: fixed;
   top: 0;
   box-sizing: border-box;
   width: 100%;
@@ -18,7 +18,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 150px;
+  margin-top: 85px;
   margin-bottom: 25px;
 }
 
@@ -95,7 +95,6 @@
   box-sizing: border-box;
   width: 100%;
   flex: 1;
-  margin-top: 495px;
   margin-bottom: 57px;
   overflow-y: auto;
 }
@@ -112,7 +111,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-  padding: 4rem 1rem;
+  padding: 1rem;
   padding-bottom: 2rem;
   width: 100%;
   max-width: 100%;

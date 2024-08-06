@@ -24,8 +24,9 @@ const MenuHeader = ({ searchQuery, onSearchChange, tabValue, setTabValue, viewLa
           />
         </div>
         <div className={styles.viewButtonContainer}>
-          <button onClick={() => setViewLayout("row")} className={`${styles.viewButton} ${(viewLayout === "row") ? styles.viewButtonSelected : ""}`}><Menu /></button>
           <button onClick={() => setViewLayout("grid")} className={`${styles.viewButton} ${(viewLayout === "grid") ? styles.viewButtonSelected : ""}`}><GridView /></button>
+          <button onClick={() => setViewLayout("row")} className={`${styles.viewButton} ${(viewLayout === "row") ? styles.viewButtonSelected : ""}`}><Menu /></button>
+
         </div>
         
 
