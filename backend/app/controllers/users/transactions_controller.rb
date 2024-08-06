@@ -60,7 +60,7 @@ module Users
 
 
     def transaction_params
-      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
+      params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status, :items)
     end
   end
 end
