@@ -6,7 +6,8 @@ import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import { Notifications } from "@mui/icons-material";
-import dbsIcon from "../assets/dbsIcon.png"; // Correctly import the image
+import dbsIcon from "../assets/dbsIcon.png";
+import dbsBanner from "../assets/dbsBanner.png";
 
 const HomeScreen = () => {
     const navigate = useNavigate();
@@ -37,6 +38,11 @@ const HomeScreen = () => {
                 <img src={dbsIcon} alt="DBS Logo" className={styles.headIcon} />
             </div>
             <div className={styles.content}>
+                <div className={styles.banner}>
+                    <a href="https://dbsbiz.as.r.appspot.com/" target="_blank" rel="noopener noreferrer">
+                        <img src={dbsBanner} alt="DBS Banner" className={styles.bannerImage} />
+                    </a>
+                </div>
                 <div className={styles.card}>
                     <div className={styles.top}>
                         <div>

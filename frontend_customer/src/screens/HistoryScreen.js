@@ -6,6 +6,7 @@ import axiosInstance from "../utils/axiosConfig";
 import { useAuth } from "../context/AuthContext";
 import { ChevronRight } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import TopNav from '../components/TopNav';
 
 const HistoryScreen = () => {
     const [transactions, setTransactions] = useState({});
@@ -69,7 +70,10 @@ const HistoryScreen = () => {
     return (
         <div className={styles.screen}>
             <div className={styles.header}>
-                <h1>History</h1>
+                <TopNav
+                    title="History"
+                    hasBackButton="no"
+                />
             </div>
             <button className={styles.refundListButton} onClick={()=>navigate("/refunds")} data-testid="refund-button">
                 <div className="">
