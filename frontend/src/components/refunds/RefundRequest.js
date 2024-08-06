@@ -110,12 +110,10 @@ const RefundRequest = () => {
             try {
                 const requestBody = {
                     refund_request: {
-                        transaction_id: transaction?.transaction_id ?? "",
+                        customer_id: transaction?.customer_id ?? "",
                         status: "APPROVED",
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
-                        recipient_id: transaction?.customer_id ?? "",
-                        recipient_type: "Customer",
                         request_reason: String(reason)
                     }
                 };
@@ -130,7 +128,7 @@ const RefundRequest = () => {
                     console.error('Unexpected response status:', response.status);
                 }
             } catch (error) {
-                console.error('Failed to create refund request:', error);
+                console.error('Failed to create refund request aaa:', error.response);
             }
         }
     }, [user, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.customer_id, navigate, createTransaction, reason]);
