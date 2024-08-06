@@ -3,21 +3,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between; /* Ensure items are spaced properly */
-    position: fixed;
     z-index: 99;
-    padding: 1rem;
-    top: 0;
-    left: 0;
-    min-width: 300px;
 }
 
 .title {
-    margin: 0;
+    margin: 0 !important;
     font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
     flex-grow: 1;
-    margin-right: 2rem;
     box-sizing: border-box;
     width: 100%;
 }

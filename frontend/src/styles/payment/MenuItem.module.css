@@ -6,6 +6,7 @@
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
     background-color: white;
+    cursor: pointer;
 }
 
 .menuItem:last-child {
@@ -54,9 +55,16 @@
     padding-top: 5px;
     text-align: center;
     font-size: 24px;
-    color: #eed231;
-    background-color: #F6F7F9;
+    color: var(--text-light);
+    background-color: #fff;
+    border: 1px solid #ccc;
     margin-right: 5px;
+}
+
+.favouriteButtonSelected {
+    color: #fff;
+    background: #eed231;
+    border-color: #eed231;
 }
 
 .addButton,
@@ -79,7 +87,7 @@
 
 
 .editButton {
-    background-color: #4A88DA;
+    background-color: var(--primary);
     color: white;
 }
 

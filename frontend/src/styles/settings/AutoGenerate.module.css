@@ -1,80 +1,85 @@
-.main {
-    box-sizing: border-box;
-    height: 65vh;
-    margin: 55px auto 0 auto;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .camera_container {
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-  
-  .camera_container video,
-  .camera_container .image_preview img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 65vh;
-    width: 100%;
-    object-fit: contain;
-  }
-  
-  .button_container {
-    position: absolute;
-    bottom: 10%;
-    display: flex;
-    flex-direction: column; /* Ensures buttons are stacked vertically */
-    justify-content: center;
-    align-items: center; /* Center align buttons */
-    width: 100%;
-    z-index: 2; /* Ensures the buttons are above the image preview */
-  }
-  
-  .capture_button, .upload_button { /* Combine styles for both buttons */
-    background-color: #007bff;
-    border: none;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-bottom: 10px; /* Add margin-bottom to create space between buttons */
-    text-align: center; /* Center-align text */
-  }
-  
-  .footer {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    background: #fff;
-    z-index: 99999;
-    width: 100%;
-    padding: 1rem 2rem;
-    box-sizing: border-box;
-    height: 30vh;
-  }
-  
-  .footer h3 {
-    margin-top: 2rem;
-  }
-  
-  .footer p {
-    color: var(--text-light);
-  }
-  
-  .footer a {
-    font-weight: 600;
-    color: var(--primary);
-    text-decoration: none;
-  }
-
-  .redirect {
-    color: #fff
+.screen {
+  width: 100%;
+  padding-bottom: 6rem;
 }
-  
+
+.content {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 1.8rem;
+  padding-top: 4rem;
+  text-align: left;
+
+}
+
+.instructions {
+  text-align: left;
+}
+
+.instructions h1 {
+  font-size: 1.6rem;
+}
+
+.instructions p {
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #ff4d4d;
+  margin-top: 1rem;
+}
+
+.card {
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 1rem 0.8rem;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.card h4 {
+  margin: 0;
+}
+
+.card p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.continue_button {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.dbLoadingModal {
+  background: rgb(0,0,0,0.3);
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 88;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dbLoadingIconWrapper {
+  height: 64px;
+  width: 64px;
+  background: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
