@@ -117,7 +117,7 @@ Then ("I fill up item name", () => {
 });
 
 Then ("I fill up item number", () => {
-  cy.get('[data-testid="item-no-input"]').type('1');
+  cy.get('[data-testid="input_num-add"]').type('1');
 });
 
 Then ("I fill up item price", () => {
