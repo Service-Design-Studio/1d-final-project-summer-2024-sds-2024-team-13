@@ -107,7 +107,41 @@ Then("I should see the price of menu item Tiger Prawn as {string}", function (st
   cy.contains('$15.00').should('be.visible');
 });
 
-// Scenario: Auto-generating from a non-Menu
+// Scenario: Missing a menu item
+Then ("I click on Add Menu button", () => {
+  cy.get('[data-testid="add-item-button"]', { timeout: 20000 }).click();
+});
+
+Then ("I fill up item name", () => {
+  cy.get('[data-testid="input_name-add"]').type('Ban Mian');
+});
+
+Then ("I fill up item number", () => {
+  cy.get('[data-testid="item-no-input"]').type('1');
+});
+
+Then ("I fill up item price", () => {
+  cy.get('[data-testid="input_money-add"]').type('4.50');
+});
+
+Then ("I click on Confirm button", () => {
+  cy.get('[data-testid="confirm-item-button"]').click();
+});
+
+Then ("I can see the newly created item", () => {
+  cy.contains('Ban Mian', {timeout: 20000}).should('be.visible');
+});
+
+// Scenario: Auto-generating from a non-menu with words
+Then("I browse and select a non-Menu", () => {
+  cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
+});
+
+Then("I should see an error message", () => {
+  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
+});
+
+// Scenario: Auto-generating from an image with no menu or words
 Then("I browse and select a non-Menu", () => {
   cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
 });

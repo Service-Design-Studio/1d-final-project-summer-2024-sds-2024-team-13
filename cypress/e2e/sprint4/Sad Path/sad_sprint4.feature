@@ -25,7 +25,30 @@ Feature: QR Sad Path
     Then I click the Confirm button
     Then I should see the price of menu item Tiger Prawn as "$15.00"
 
-  Scenario: Auto-generating from a non-Menu
+  Scenario: Missing a menu item
+    When I click into the More View
+    Then I should see a "Menu Preset" button
+    Then I click the "Menu Preset" button
+    Then I click on Add Menu button
+    Then I fill up item name
+    Then I fill up item number
+    Then I fill up item price
+    Then I click on Confirm button
+    Then I can see the newly created item
+
+
+  Scenario: Auto-generating from a non menu
+    When I click into the More View
+    Then I should see a "Menu Preset" button
+    Then I click the "Menu Preset" button
+    Then I should see an option for "Auto-Generate Menu Items"
+    When I click into the "Auto-Generate Menu Items" option
+    Then I browse and select a non-Menu
+    Then I should see a preview of the selected image
+    When I click on the "Continue" button
+    Then I should see an error message
+  
+  Scenario: Auto-generating from an image with no menu or words
     When I click into the More View
     Then I should see a "Menu Preset" button
     Then I click the "Menu Preset" button
