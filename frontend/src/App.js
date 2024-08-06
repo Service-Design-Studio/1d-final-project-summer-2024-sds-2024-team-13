@@ -22,8 +22,6 @@ import PaymentSuccess from './components/payment/PaymentSuccess';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import withSplashScreen from "./components/withSplashScreen";
-import EditItem from './components/settings/EditItem';
-import CaptureMenu from './components/settings/CaptureMenu';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -98,12 +96,9 @@ function App() {
 
               <Route path="/settings" element={<SettingsScreen />} />
               <Route path="/settings/cutoff" element={<DailyCutoffScreen />} />
-              <Route path="/settings/menu-preset" element={<MenuPreset />} />
-              <Route path="/settings/additem" element={<AddItem />} />
-              <Route path="/settings/edititem" element={<EditItem />} />
-
-              <Route path="/settings/capturemenu" element={<CaptureMenu />} />
-              <Route path="/settings/auto-generate" element={<AutoGenerate />} />
+              <Route path="/settings/menuPreset" element={<MenuPreset />} />
+              <Route path="/settings/addItem" element={<AddItem />} />
+              <Route path="/settings/autoGenerate" element={<AutoGenerate />} />
 
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/payment/QRPay" element={<QRPay />} />

@@ -23,11 +23,9 @@ module Users
       missing_params = required_params.select { |param| transaction_params[param].blank? }
 
       unless missing_params.empty?
-        render json: { error: "Transaction could not be saved", details:  'Missing or blank parameters' , missing_params: missing_params }, status: :unprocessable_entity
+        render json: { error: 'Missing or blank parameters', missing_params: missing_params }, status: :unprocessable_entity
         return
       end
-
-
 
       @customer = Customer.find_by(customer_id: transaction_params[:customer_id])
       unless @customer
@@ -40,6 +38,8 @@ module Users
 
       if @transaction.save
         render json: @transaction, status: :created, location: user_transaction_path(@user, @transaction)
+      else
+        render json: { error: 'Transaction could not be saved' }, status: :unprocessable_entity
       end
     end
 
@@ -56,9 +56,12 @@ module Users
 
     def set_transaction
       @transaction = @user.transactions.find(params[:id])
+      unless @transaction
+        render json: { error: 'Transaction not found' }, status: :not_found
+      end
     end
-
-
+    
+    
     def transaction_params
       params.require(:transaction).permit(:transaction_id, :customer_id, :customer_number, :payment_method, :amount, :status)
     end

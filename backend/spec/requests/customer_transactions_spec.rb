@@ -16,7 +16,7 @@ RSpec.describe "CustomerTransactions", type: :request do
 
   describe "GET /customers/:customer_id/transactions/:id" do
     it "returns a single transaction for a customer" do
-      get "/customers/#{customer.customer_id}/transactions/#{transaction.transaction_id}?transaction_id=#{transaction.transaction_id}"
+      get customer_transaction_path(customer_id: customer.customer_id, id: transaction.id)
       expect(response).to be_successful
       json_response = JSON.parse(response.body)
       expect(json_response["transaction_id"]).to eq(transaction.transaction_id)

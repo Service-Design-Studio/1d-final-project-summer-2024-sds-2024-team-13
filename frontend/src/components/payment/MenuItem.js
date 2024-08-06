@@ -6,7 +6,7 @@ const MenuItem = ({ name, price, imageUrl, onClick, initialLabel, isFavorited, o
     const buttonClass = initialLabel === 'Add' ? styles.addButton : styles.editButton;
 
     return (
-        <div className={styles.menuItem} >
+        <div className={styles.menuItem}>
             <img src={imageUrl} alt={name} className={styles.itemImage} />
             <div className={styles.itemDetails}>
                 <span className={styles.itemName}>{name}</span>
@@ -14,7 +14,7 @@ const MenuItem = ({ name, price, imageUrl, onClick, initialLabel, isFavorited, o
             </div>
             <div className={styles.actions}>
                 <button
-                    className={`${styles.favoriteButton} ${(isFavorited)  ? styles.favouriteButtonSelected : ""}`}
+                    className={styles.favoriteButton}
                     onClick={onFavoriteToggle}
                     data-testid={`favorite-button-${name.toLowerCase().replace(/\s/g, '-')}`}
                 >

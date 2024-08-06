@@ -1,87 +1,116 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosConfig';
 import styles from "../../styles/settings/AutoGenerate.module.css";
-import { useAuth } from '../../context/AuthContext';
-import { CircularProgress } from '@mui/material';
+import { Camera } from "react-camera-pro";
+import TopNav from '../TopNav';
+import CameraIcon from '@mui/icons-material/Camera';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const AutoGenerate = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user } = useAuth();
-  const { image } = location.state || {}; // Get image data from state
-  const [menuItems, setMenuItems] = useState([]);
+  const camera = useRef(null);
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [counter, setCounter] = useState(10);
+  const [progress, setProgress] = useState(0);
   const [confirmClicked, setConfirmClicked] = useState(false);
-  const [dbLoading, setDbLoading] = useState(false);
 
-  const handleConfirm = useCallback(async () => {
+  const handleTakePhoto = () => {
+    const capturedImage = camera.current.takePhoto();
+    setImage(capturedImage);
+    setImagePreview(capturedImage); // Set image preview for taken photo
+  };
+
+  const handleRetakePhoto = () => {
+    setImage(null);
+    setImagePreview(null); // Clear image preview
+    setConfirmClicked(false); // Reset confirm click state
+    setCounter(10); // Reset counter
+    setProgress(0); // Reset progress
+  };
+
+  const handleUploadImage = (event) => {
+    const file = event.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleConfirm = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append('image_path', image);
 
-    const prompt = `You are given an image with food menu items. Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price. If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), include the corresponding number (1), (2), (3), etc., behind the food item name. DO NOT FORGET THE CORRESPONDING NUMBER. If a price is unreadable, label it as "?.??". If the food item name is unreadable, skip that item. All prices should be in 2 decimal places. The JSON should be structured as follows:
+    const prompt = `You are given an image with food menu items. Please output all the food items along with their respective prices in English, formatted as a JSON object. Each food item should have a name and a price. If the price includes multiple values (e.g., "$4.00/$7.00/$9.00"), include the corresponding number (1), (2), (3), etc., behind the food item name. If a price is unreadable, label it as "?.??". If the food item name is unreadable, skip that item. All prices should be in 2 decimal places. The JSON should be structured as follows:
 
+    {
+      "items": [
         {
-            "items": [
-                {
-                    "name": "food item name (1)",
-                    "price": "first price"
-                },
-                {
-                    "name": "food item name (2)",
-                    "price": "second price"
-                },
-                ...
-            ]
+          "name": "food item name (1)",
+          "price": "first price"
+        },
+        {
+          "name": "food item name (2)",
+          "price": "second price"
+        },
+        ...
+      ]
+    }
+
+    For example, if the price is "$4.00/$7.00/$9.00", it should be captured as:
+
+    {
+      "items": [
+        {
+          "name": "Apple (1)",
+          "price": "$4.00"
+        },
+        {
+          "name": "Apple (2)",
+          "price": "$7.00"
+        },
+        {
+          "name": "Apple (3)",
+          "price": "$9.00"
+        },
+        {
+          "name": "Banana",
+          "price": "$0.50"
         }
+      ]
+    }
 
-        For example, if the price is "$4.00/$7.00/$9.00", it should be captured as:
+    If the price is unreadable, it should be captured as:
 
+    {
+      "items": [
         {
-            "items": [
-                {
-                    "name": "Apple (1)",
-                    "price": "$4.00"
-                },
-                {
-                    "name": "Apple (2)",
-                    "price": "$7.00"
-                },
-                {
-                    "name": "Apple (3)",
-                    "price": "$9.00"
-                },
-                {
-                    "name": "Banana",
-                    "price": "$0.50"
-                }
-            ]
+          "name": "Apple (1)",
+          "price": "?.??"
+        },
+        {
+          "name": "Apple (2)",
+          "price": "?.??"
+        },
+        {
+          "name": "Apple (3)",
+          "price": "?.??"
         }
+      ]
+    }
 
-        Do not forget the numbers in the brackets and follow the format strictly. If the price is unreadable, it should be captured as:
+    If the image is not a menu, output an empty JSON object like this:
 
-        {
-            "items": [
-                {
-                    "name": "Apple (1)",
-                    "price": "?.??"
-                },
-                {
-                    "name": "Apple (2)",
-                    "price": "?.??"
-                },
-                {
-                    "name": "Apple (3)",
-                    "price": "?.??"
-                }
-            ]
-        }
-
-        If the image is not a menu, output an empty JSON object like this:
-
-        {
-            "items": []
-        }`;
+    {
+      "items": []
+    }`;
     formData.append('prompt', prompt);
 
     try {
@@ -94,22 +123,9 @@ const AutoGenerate = () => {
       console.log('Response:', res.data);
 
       if (res.data && res.data.candidates) {
-        let contentString = res.data.candidates[0].content.parts[0].text.trim();
-        console.log('Content String:', contentString);
-
-        // Remove 'json' prefix and backticks if they exist
-        contentString = contentString.replace(/json/, '').replace(/```/g, '').trim();
-        console.log('Cleaned Content String:', contentString);
-
-        // Check if contentString is a valid JSON string
-        try {
-          const content = JSON.parse(contentString);
-          setMenuItems(content.items);
-          setConfirmClicked(true); // Set confirm click state
-        } catch (parseError) {
-          console.error('JSON Parsing Error:', parseError);
-          setError('Failed to parse JSON response.');
-        }
+        const content = res.data.candidates[0].content.parts[0].text;
+        setResponse(content);
+        setConfirmClicked(true); // Set confirm click state
       } else {
         setError('Unexpected response structure');
       }
@@ -117,75 +133,97 @@ const AutoGenerate = () => {
       console.error('Error:', err.response ? err.response.data : err.message);
       setError(err.response ? err.response.data.error : err.message);
     }
-  }, [image]);
-
-  const handleContinue = async () => {
-    if (user && menuItems.length > 0) {
-      setDbLoading(true);
-      try {
-        for (const item of menuItems) {
-          const formData = new FormData();
-          formData.append('item[image]', '');
-          formData.append('item[name]', item.name);
-          formData.append('item[price]', item.price);
-
-          const response = await axiosInstance.post(`/users/${user.user_id}/items`, formData);
-
-          if (response.status === 201) {
-            console.log('Menu item created successfully:', response.data);
-          } else {
-            console.error('Unexpected response status:', response.status);
-          }
-        }
-        setDbLoading(false);
-        navigate("/settings/menu-preset");
-      } catch (error) {
-        setDbLoading(false);
-        console.error('Failed to create menu items:', error);
-      }
-    }
   };
 
+  // Effect for redirect and progress bar
   useEffect(() => {
-    if (image) {
-      handleConfirm();
+    if (confirmClicked) {
+      if (counter > 0) {
+        const interval = setInterval(() => {
+          setCounter((prev) => prev - 1);
+          setProgress((prev) => prev + 10);
+        }, 1000);
+
+        return () => clearInterval(interval);
+      } else {
+        navigate('/settings/MenuPreset'); // Redirect to menu preset page after 10 seconds
+      }
     }
-  }, [image, handleConfirm]);
+  }, [confirmClicked, counter, navigate]);
+
   return (
     <div>
-      <div className={styles.screen}>
-        {dbLoading && <div className={styles.dbLoadingModal}>
-          <div className={styles.dbLoadingIconWrapper}>
-            <CircularProgress sx={{
-          color: "#fff"}}/>
-          </div>
-        </div>}
-        <div className={styles.content}>
-          <div className={styles.instructions}>
-            <h1>Here is what we extracted from your photo</h1>
-            <p>You will be able to review, edit, and add pictures to the menu items after adding them to your Menu Preset.</p>
-          </div>
-          {confirmClicked && (
-            <div className={styles.cardsContainer}>
-              {menuItems.map((item, index) => (
-                <div key={index} className={styles.card}>
-                  <h4>{item.name}</h4>
-                  <p>{item.price}</p>
-                </div>
-              ))}
-              <button className={styles.continue_button} onClick={handleContinue}>
-                Continue
-              </button>
-            </div>
-          )}
-
-          {error && (
-            <div className={styles.error}>
-              <h3>Error:</h3>
-              <pre>{error}</pre>
+      <TopNav
+        title="Capture Menu"
+        pathname="/settings/MenuPreset"
+        hasBackButton="yes"
+      />
+      <div className={styles.main}>
+        <div className={styles.camera_container}>
+          {!image ? (
+            <Camera ref={camera} aspectRatio={16 / 9} />
+          ) : (
+            <div className={styles.image_preview}>
+              <img src={imagePreview} alt="Preview" />
             </div>
           )}
         </div>
+        <div className={styles.button_container}>
+          {!image ? (
+            <>
+              <button className={styles.capture_button} onClick={handleTakePhoto}>
+                <CameraIcon />
+              </button>
+              <label className={styles.upload_button}>
+                Upload an image
+                <input type="file" accept="image/*" onChange={handleUploadImage} style={{ display: 'none' }} />
+              </label>
+            </>
+          ) : (
+            <>
+              <button className={styles.capture_button} onClick={handleConfirm}>
+                Confirm
+              </button>
+              <button className={styles.capture_button} onClick={handleRetakePhoto}>
+                Retake photo
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+      <div className={styles.footer}>
+        <h3>Capture Menu</h3>
+        <p>Align camera with Merchant Menu to generate Menu Items.</p>
+        {confirmClicked && (
+          <div className={styles.redirect}>
+            <p>Redirecting you back to menu preset in {counter}s</p>
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              sx={{
+                height: '7px',
+                width: '90vw',
+                borderRadius: "8px",
+                backgroundColor: '#FB7C93',
+                '& .MuiLinearProgress-bar': {
+                  backgroundColor: '#fff',
+                },
+              }}
+            />
+          </div>
+        )}
+        {response && (
+          <div>
+            <h3>Response:</h3>
+            <pre>{response}</pre>
+          </div>
+        )}
+        {error && (
+          <div>
+            <h3>Error:</h3>
+            <pre>{error}</pre>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,5 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe RefundRequestsHelper, type: :helper do
-  # pending "add some examples to (or delete) #{__FILE__}"
-  # never implement
+  pending "add some examples to (or delete) #{__FILE__}"
 end

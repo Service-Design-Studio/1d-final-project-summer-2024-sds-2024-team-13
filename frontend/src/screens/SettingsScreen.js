@@ -35,7 +35,7 @@ const SettingsScreen = () => {
                     </div>
                     <ChevronRight/>
                 </button>
-                <button onClick={()=>navigate("/settings/menu-preset")} className={styles.settingsButton}>
+                <button onClick={()=>navigate("/settings/menuPreset")} className={styles.settingsButton}>
                     <div className={styles.settingsLabel}>
                         <RestaurantMenu />
                         <p>Menu Preset</p>
