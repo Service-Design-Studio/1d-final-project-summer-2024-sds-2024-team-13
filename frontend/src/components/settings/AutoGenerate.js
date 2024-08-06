@@ -12,6 +12,7 @@ const AutoGenerate = () => {
   const { image } = location.state || {}; // Get image data from state
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
+  const [confirmClicked, setConfirmClicked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dbLoading, setDbLoading] = useState(false);
 
