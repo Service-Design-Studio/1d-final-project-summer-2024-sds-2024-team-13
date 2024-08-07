@@ -93,7 +93,7 @@ const CaptureMenu = () => {
                             <img src={imagePreview} alt="Menu Preview" data-testid="image-preview"/>
                         </div>
                         <div className={styles.buttonContainer}>
-                            <button className={styles.camera_button} onClick={handleChooseAnotherFile} data-testid="choose-another-file-button">
+                            <button className={styles.chooseAnother_button} onClick={handleChooseAnotherFile} data-testid="choose-another-file-button">
                                 <Image /> Choose Another File
                             </button>
                             <button className={styles.camera_button} onClick={handleOpenCamera} data-testid="open-camera-button">
@@ -128,7 +128,7 @@ const CaptureMenu = () => {
                                 />
                             </label>
                         </div>
-                        <p className={styles.label}>or</p>
+                        <p className={styles.label}>or</p>*
                         <div className={styles.cameraButton} data-testid="camera-button">
                             <button className={styles.camera_button} onClick={handleOpenCamera} data-testid="open-camera-button">
                                 <CameraAlt /> Open Camera
@@ -138,7 +138,7 @@ const CaptureMenu = () => {
                 )}
                 {showCamera && (
                     <div className={styles.fullScreenCamera}>
-                        <Camera ref={camera} aspectRatio={9 / 16} facingMode={facingMode}/>
+                        <Camera ref={camera}  facingMode={facingMode}/>
                         <button className={styles.capture_button} onClick={handleTakePhoto} data-testid="capture-button">
                             <CameraIcon sx={{ fontSize: "3.4rem" }} />
                         </button>
