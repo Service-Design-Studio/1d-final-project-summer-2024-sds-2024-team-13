@@ -183,9 +183,6 @@ Then("I should see the input field update to {string}", (value) => {
   cy.get('[data-testid="input-field"]').should('have.value', value);
 });
 
-Then("I should see the input field update to {string}", (value) => {
-  cy.get('[data-testid="input-field"]').should('have.value', value);
-});
 
 Then("I should see a Next button disabled", () => {
   cy.get('[data-testid="generate-button"]').should('be.disabled');
