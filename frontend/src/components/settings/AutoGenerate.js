@@ -156,8 +156,6 @@ const AutoGenerate = () => {
       }
     } else {
       setError('Failed to generate menu items. Please try again with a clearer photo.');
-    } else {
-      setError('Failed to generate menu items. Please try again with a clearer photo.');
     }
   };
 
@@ -167,13 +165,11 @@ const AutoGenerate = () => {
     }
   }, [image, handleConfirm]);
 
-
   return (
     <div>
       <div className={styles.screen}>
         {dbLoading && <div className={styles.dbLoadingModal}>
           <div className={styles.dbLoadingIconWrapper}>
-            <CircularProgress sx={{ color: "#fff" }} />
             <CircularProgress sx={{ color: "#fff" }} />
           </div>
         </div>}

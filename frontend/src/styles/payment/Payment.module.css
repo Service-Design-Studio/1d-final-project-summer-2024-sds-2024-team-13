@@ -18,8 +18,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 85px;
-  margin-bottom: 25px;
+  height: 18vh;
+
 }
 
 .amountInputWrapper {
@@ -37,7 +37,7 @@
 }
 
 .amountInput input {
-  font-size: 5rem;
+  font-size: 4.5rem;
   text-align: right; /* Ensure text is right-aligned */
   border: none;
   outline: none;

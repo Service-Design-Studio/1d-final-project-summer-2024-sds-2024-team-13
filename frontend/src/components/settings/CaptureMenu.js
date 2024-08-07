@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CameraAlt, ChevronLeft, Image } from '@mui/icons-material';
 import CameraIcon from '@mui/icons-material/Camera';
@@ -7,19 +7,45 @@ import styles from "../../styles/settings/CaptureMenu.module.css";
 
 const CaptureMenu = () => {
     const [imagePreview, setImagePreview] = useState(null);
-    const [imageData, setImageData] = useState(null); // To store the image data
-    const [showCamera, setShowCamera] = useState(false);
+    const [imageData, setImageData] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [facingMode, setFacingMode] = useState('user'); // Default to 'user'
+    const [showCamera, setShowCamera] = useState(false); // State to toggle camera visibility
     const camera = useRef(null);
     const fileInputRef = useRef(null);
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const userAgent = navigator.userAgent;
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+            setIsMobile(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMobile) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    const videoTrack = stream.getTracks().find(track => track.kind === 'video');
+                    if (videoTrack && videoTrack.getCapabilities) {
+                        const capabilities = videoTrack.getCapabilities();
+                        if (capabilities.facingMode && capabilities.facingMode.length) {
+                            setFacingMode('environment'); // Set to 'environment' if available
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error accessing media devices.', error);
+                });
+        }
+    }, [isMobile]);
 
     const handleUploadImage = (event) => {
         const file = event.target.files[0];
-
         const reader = new FileReader();
         reader.onloadend = () => {
             setImagePreview(reader.result);
-            setImageData(file); // Store the image file data
+            setImageData(file);
         };
         reader.readAsDataURL(file);
     };
@@ -27,8 +53,8 @@ const CaptureMenu = () => {
     const handleTakePhoto = () => {
         const capturedImage = camera.current.takePhoto();
         setImagePreview(capturedImage);
-        setImageData(capturedImage); // Store the captured image data
-        setShowCamera(false); // Hide the camera after taking a photo
+        setImageData(capturedImage);
+        setShowCamera(false);
     };
 
     const handleOpenCamera = () => {
@@ -54,10 +80,10 @@ const CaptureMenu = () => {
     return (
         <div className={styles.screen}>
             <div className={styles.backWrapper}>
-                <button onClick={() => handleBack()} className={styles.backButton}><ChevronLeft sx={{ fontSize: "2.8rem" }} /></button>
+                <button onClick={handleBack} className={styles.backButton}><ChevronLeft sx={{ fontSize: "2.8rem" }} /></button>
             </div>
             <div className={styles.content}>
-                <div className={styles.instructions} data-testid="instructions"> 
+                <div className={styles.instructions} data-testid="instructions">
                     <h1>Please upload a photo of your stall's menu</h1>
                     <p>Please ensure the names and prices of the menu items are easy to read in your photo.</p>
                 </div>
@@ -112,7 +138,7 @@ const CaptureMenu = () => {
                 )}
                 {showCamera && (
                     <div className={styles.fullScreenCamera}>
-                        <Camera ref={camera} aspectRatio={9 / 16} />
+                        <Camera ref={camera} aspectRatio={9 / 16} facingMode={facingMode}/>
                         <button className={styles.capture_button} onClick={handleTakePhoto} data-testid="capture-button">
                             <CameraIcon sx={{ fontSize: "3.4rem" }} />
                         </button>

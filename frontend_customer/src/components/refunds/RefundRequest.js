@@ -87,7 +87,7 @@ const RefundRequest = () => {
             try {
                 const requestBody = {
                     refund_request: {
-                        transaction_id: transaction?.transaction_id ?? "",
+                        user_id: transaction?.user_id ?? "",
                         status: "pending",
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
@@ -107,7 +107,7 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error.response);
             }
         }
-    }, [customer, expectedPayment, expectedRefund, transaction?.transaction_id, navigate, reason]);
+    }, [customer, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.user_id, navigate, reason]);
 
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
