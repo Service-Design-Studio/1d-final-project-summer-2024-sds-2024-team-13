@@ -22,6 +22,7 @@ Feature: QR Sad Path
     When I click on the price
     Then I clear the price
     Then I input 15.00
+    Then I upload an image of Tiger Prawn
     Then I click the Confirm button
     Then I should see the price of menu item Tiger Prawn as "$15.00"
 
@@ -64,5 +65,5 @@ Feature: QR Sad Path
     And I press "-" on the keypad
     Then I press "6" on the keypad
     Then I press "=" on the keypad
-    Then I should see see the input field update to "-0.80" 
+    Then I should see the input field update to "-0.80" 
     And I should see a Next button disabled

@@ -17,6 +17,7 @@
         "cypress:run:hawker:local": "set BASE_URL=http://localhost:3000&&npx cypress run",
         "cypress:run:customer:local": "set BASE_URL=http://localhost:3001&&npx cypress run",
         "cypress:run:hawker:deployed": "set BASE_URL=https://dbsbiz.as.r.appspot.com/&&npx cypress run",
-        "cypress:run:customer:deployed": "set BASE_URL=https://dbsbiz-customer-dot-dbsbiz.as.r.appspot.com/&&npx cypress run"
+        "cypress:run:customer:deployed": "set BASE_URL=https://dbsbiz-customer-dot-dbsbiz.as.r.appspot.com/&&npx cypress run",
+        "cypress:run:sprint4:deployed": "set BASE_URL=https://dbsbiz.as.r.appspot.com&&npx cypress run --spec 'cypress/e2e/sprint4/**/*'"
     }
 }
