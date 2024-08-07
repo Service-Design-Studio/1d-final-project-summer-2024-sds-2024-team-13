@@ -17,6 +17,7 @@ import RefundRequest from './components/refunds/RefundRequest';
 import RefundDetails from './components/refunds/RefundDetails';
 import HomeScreen from './screens/HomeScreen';
 import withSplashScreen from "./components/withSplashScreen";
+import SettingsScreen from './screens/SettingsScreen';
 
 function Navigation() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Navigation() {
         navigate("/history");
         break;
       case "more":
-        navigate("/WIP")
+        navigate("/settings")
         break;
       default:
         navigate("/");
@@ -92,6 +93,8 @@ function App() {
               <Route path="/refunds" element={<RefundScreen />} />
               <Route path="/refunds/request" element={<RefundRequest />} />
               <Route path="/refunds/details" element={<RefundDetails />} />
+
+              <Route path="/settings" element={<SettingsScreen />} />
             </Route>
 
           </Routes>

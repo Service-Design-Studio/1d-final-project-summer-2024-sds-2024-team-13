@@ -41,7 +41,7 @@ const PaymentScreen = () => {
             created_at: new Date(item.created_at)
           }));
           setMenuItems(fetchedItems);
-          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
+          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.id));
         } else {
           console.error('Unexpected response status:', response.status);
         }
@@ -55,7 +55,7 @@ const PaymentScreen = () => {
     fetchAllMenuItems();
   }, [fetchAllMenuItems]);
 
-  
+
 
   useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';
@@ -130,10 +130,10 @@ const PaymentScreen = () => {
       setError('Please enter a valid amount.');
       return;
     }
-  
+
     // Save the amount to localStorage
     localStorage.setItem('paymentAmount', amount);
-  
+
     try {
       const response = await axiosInstance.post('/generate-qr', { amount });
       if (response.status === 201) {
@@ -156,12 +156,26 @@ const PaymentScreen = () => {
     setShowKeypad(true);
   };
 
-  const handleFavoriteToggle = (itemName) => {
-    setFavoriteItems((prevFavorites) =>
-      prevFavorites.includes(itemName)
-        ? prevFavorites.filter((name) => name !== itemName)
-        : [...prevFavorites, itemName]
-    );
+  const handleFavoriteToggle = async (item) => {
+    const isFavorite = !favoriteItems.includes(item.id); // Check by ID
+    const updatedFavoriteItems = isFavorite 
+      ? [...favoriteItems, item.id] // Add ID
+      : favoriteItems.filter(id => id !== item.id); // Remove ID
+  
+    setFavoriteItems(updatedFavoriteItems);
+  
+    try {
+      const formData = new FormData();
+      formData.append('item[favourite]', isFavorite.toString());
+  
+      const response = await axiosInstance.patch(`/users/${user.user_id}/items/${item.id}`, formData);
+  
+      if (response.status !== 200) {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Failed to update favorite status:', error);
+    }
   };
 
   const handleSearchChange = (event) => {
@@ -171,13 +185,13 @@ const PaymentScreen = () => {
   const filteredItems = menuItems.filter((item) => {
     const matchesSearchQuery = item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
       item.id.toLowerCase().startsWith(searchQuery.toLowerCase());
-    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.name) : true;
+    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.id) : true;
     return matchesSearchQuery && matchesFavorite;
   });
 
   const sortedItems = [...filteredItems].sort((a, b) => {
-    const isAFavorite = favoriteItems.includes(a.name);
-    const isBFavorite = favoriteItems.includes(b.name);
+    const isAFavorite = favoriteItems.includes(a.id);
+    const isBFavorite = favoriteItems.includes(b.id);
     if (isAFavorite && !isBFavorite) return -1;
     if (!isAFavorite && isBFavorite) return 1;
     return 0;
@@ -188,9 +202,9 @@ const PaymentScreen = () => {
 
   return (
     <div className={styles.screen} data-testid="payment-screen">
-      
+
       <div className={styles.header}>
-      <TopHead title="Enter Amount to Charge" />
+        <TopHead title="Enter Amount to Charge" />
 
         <div className={styles.amountInput} data-testid="amount-input">
           <div className={styles.amountInputWrapper} onClick={handleAmountClick}>
@@ -216,7 +230,7 @@ const PaymentScreen = () => {
           Next
         </button>
         <div className={styles.menuHeader}>
-          <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{tabValue, setTabValue, viewLayout, setViewLayout}}/>
+          <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{ tabValue, setTabValue, viewLayout, setViewLayout }} />
         </div>
       </div>
       <div className={styles.footer}>
@@ -230,8 +244,8 @@ const PaymentScreen = () => {
               onClick={() => handleQuantityChange(index, item.price)}
               initialLabel="Add"
               initialClass={styles.addButton}
-              isFavorited={favoriteItems.includes(item.name)}
-              onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+              isFavorited={favoriteItems.includes(item.id)}
+              onFavoriteToggle={() => handleFavoriteToggle(item)}
               data-testid={`menu-item-${index}`}
             />
           )) :
@@ -244,8 +258,8 @@ const PaymentScreen = () => {
                   imageUrl={item.imageUrl}
                   onClick={() => handleQuantityChange(index, item.price)}
                   initialLabel="Add"
-                  isFavorited={favoriteItems.includes(item.name)}
-                  onFavoriteToggle={() => handleFavoriteToggle(item.name)}
+                  isFavorited={favoriteItems.includes(item.id)}
+                  onFavoriteToggle={() => handleFavoriteToggle(item)}
                   data-testid={`grid-item-${index}`}
                 />
               ))}

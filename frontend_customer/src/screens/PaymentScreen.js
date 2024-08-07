@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../styles/payment/Payment.module.css"
 import QrScanner from "qr-scanner";
 import QrFrame from "../assets/qr-frame.svg";
-import { ArrowBackIosNew } from "@mui/icons-material";
+import TopNav from '../components/TopNav';
 
 const PaymentScreen = () => {
   const navigate = useNavigate();
@@ -62,13 +62,11 @@ const PaymentScreen = () => {
   }, [qrOn]);
   return (
     <div className={styles.qr_reader}>
-      <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => navigate("/home")}>
-        <ArrowBackIosNew />
-
-        </button>
-          <h1 className={styles.scan_to_pay}>Scan to Pay</h1>
-      </div>
+      <TopNav
+        title="Scan to Pay"
+        pathname="/home"
+        hasBackButton="yes"
+      />
       <video ref={videoEl} className={styles.video_element}></video>
       <div ref={qrBoxEl} className={styles.qr_box}>
         <img

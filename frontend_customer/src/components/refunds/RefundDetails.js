@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import RefundDetailsNav from './RefundDetailsNav';
 import styles from "../../styles/refunds/RefundDetails.module.css";
 import { ErrorOutline } from '@mui/icons-material';
 import { useCallback, useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosConfig';
 import { useAuth } from '../../context/AuthContext';
+import TopNav from '../TopNav';
 
 const RefundDetails = () => {
     const navigate = useNavigate();
@@ -68,7 +68,11 @@ const RefundDetails = () => {
     const status = refund?.status
     return (
         <div className={styles.screen} data-testid="refund-details-view">
-            <RefundDetailsNav />
+            <TopNav
+                title="Refund Details"
+                pathname={-1}
+                hasBackButton="yes"
+            />
             <div className={styles.content}>
                 <div className={styles.title}>Refund {status}</div>
 
