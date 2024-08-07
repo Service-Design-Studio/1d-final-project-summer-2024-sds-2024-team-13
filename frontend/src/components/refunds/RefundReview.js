@@ -80,7 +80,9 @@ const RefundReview = () => {
             const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
             const requestBody = {
                 status: newStatus,
-                refund_request_id: refund.refund_request_id,
+                id: refund.refund_request_id,
+                response_reason: "",
+
             };
 
             try {
@@ -101,7 +103,7 @@ const RefundReview = () => {
             const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
             const requestBody = {
                 status: "REJECTED",
-                refund_request_id: refund.refund_request_id,
+                id: refund.refund_request_id,
                 response_reason: reply,
             };
 
