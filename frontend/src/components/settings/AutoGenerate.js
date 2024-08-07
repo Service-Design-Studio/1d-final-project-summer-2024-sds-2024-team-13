@@ -182,7 +182,8 @@ const AutoGenerate = () => {
           </div>
           <div className={styles.cardsContainer} data-testid="cards-container">
             {loading ? (
-              <CircularProgress sx={{ color: "#000" }} />
+              <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "2rem"}}><CircularProgress sx={{ color: "#000" }} />
+              </div>
             ) : (error || menuItems.length === 0) ? (
               <button className={styles.continue_button} onClick={() => navigate("/settings/menu-preset")} data-testid='auto-retry'>
                 Retry
