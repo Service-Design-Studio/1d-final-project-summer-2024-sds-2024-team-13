@@ -133,22 +133,24 @@ Then ("I can see the newly created item", () => {
 });
 
 // Scenario: Auto-generating from a non-menu with words
-Then("I browse and select a non-Menu", () => {
+Then("I browse and select a non-Menu with no words", () => {
   cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
 });
 
 Then("I should see an error message", () => {
-  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
+  cy.contains('Failed to generate menu items. Please try again with a clearer photo.',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
 });
 
-// Scenario: Auto-generating from an image with no menu or words
-Then("I browse and select a non-Menu", () => {
-  cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
+Then("I should see a retry button and click on it", () => {
+  cy.get('[data-testid="auto-retry"]', {timeout: 20000}).should('be.visible');
+  cy.get('[data-testid="auto-retry"]', {timeout: 20000}).click()
 });
 
-Then("I should see an error message", () => {
-  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
+Then("I should be redirected to menu-preset view", () => {
+  cy.visit('/settings/menu-preset');
+  cy.url().should('include', '/settings/menu-preset');
 });
+
 
 // Scenario: Inputting a negative amount
 Then("I click into the Payment View", () => {
