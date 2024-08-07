@@ -164,6 +164,7 @@ const AutoGenerate = () => {
       handleConfirm();
     }
   }, [image, handleConfirm]);
+  console.log(confirmClicked)
 
   return (
     <div>
