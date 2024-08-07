@@ -16,6 +16,7 @@ Feature: Payment Happy Path
     Then I should see the menu items auto-generated based on the selected image
     Then I click on the continue button
     Then I should see the new menu items in the Menu View
+  
 
   Scenario: Add item to payment
     Given I am on Payment View
