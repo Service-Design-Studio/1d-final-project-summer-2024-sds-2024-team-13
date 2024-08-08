@@ -133,7 +133,7 @@ const PaymentScreen = () => {
     }
 
     // Generate receipt
-    generateReceipt();
+    const receiptData = generateReceipt();
 
     // Save the amount to localStorage
     localStorage.setItem('paymentAmount', amount);
@@ -142,16 +142,16 @@ const PaymentScreen = () => {
       const response = await axiosInstance.post('/generate-qr', { amount });
       if (response.status === 201) {
         // Navigate with the QR code from the response
-        navigate('/payment/QRPay', { state: { qrCode: response.data.qrCode } });
+        navigate('/payment/QRPay', { state: { qrCode: response.data.qrCode, receipt: receiptData } });
       } else {
         // Navigate without QR code but still with the amount in localStorage
         setError('Unexpected response from the server.');
-        navigate('/payment/QRPay');
+        navigate('/payment/QRPay', { state: { receipt: receiptData } });
       }
     } catch (error) {
       setError('Failed to generate QR code. Please try again later.');
       // Navigate without QR code but still with the amount in localStorage
-      navigate('/payment/QRPay');
+      navigate('/payment/QRPay', { state: { receipt: receiptData } });
     }
   };
 
@@ -185,6 +185,8 @@ const PaymentScreen = () => {
     receipt += "--------------------------\n";
 
     console.log(receipt);
+
+    return receipt;
   };
 
   const handleAmountClick = () => {
