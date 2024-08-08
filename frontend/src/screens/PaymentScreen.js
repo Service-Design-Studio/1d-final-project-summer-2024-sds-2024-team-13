@@ -17,11 +17,11 @@ const PaymentScreen = () => {
   const [chain, setChain] = useState('');
   const [showKeypad, setShowKeypad] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-  const [favoriteItems, setFavoriteItems] = useState([]); // Add state for favorite items
+  const [favoriteItems, setFavoriteItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [viewLayout, setViewLayout] = useState("grid");
-  const [tabValue, setTabValue] = useState(0); // 0 is menu, 1 is favourites
-  const [error, setError] = useState(''); // Add error state
+  const [tabValue, setTabValue] = useState(0);
+  const [error, setError] = useState('');
   const { user } = useAuth();
 
   const inputRef = useRef(null);
@@ -55,8 +55,6 @@ const PaymentScreen = () => {
     fetchAllMenuItems();
   }, [fetchAllMenuItems]);
 
-
-
   useEffect(() => {
     const inputWidth = amount.length > 0 ? `${amount.length + 1}ch` : '50px';
     if (inputRef.current) {
@@ -64,12 +62,9 @@ const PaymentScreen = () => {
     }
   }, [amount]);
 
-  /*const calculateTotalAmount = (items) => {
-    return items.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };*/
-
   const handleKeyPress = (key) => {
     setError(''); // Clear any existing error when a key is pressed
+    console.log(`Manual input using keypad: ${key}`);
     if (key === 'Clear') {
       setAmount('0');
       setChain('');
@@ -115,21 +110,30 @@ const PaymentScreen = () => {
     }
   };
 
-  const handleQuantityChange = (index, priceChange) => {
-    const newMenuItems = [...menuItems];
-    newMenuItems[index].quantity += 1;
+  const handleQuantityChange = (item) => {
+    const newMenuItems = menuItems.map(menuItem => {
+      if (menuItem.id === item.id) {
+        menuItem.quantity += 1;
+      }
+      return menuItem;
+    });
     setMenuItems(newMenuItems);
-    const currentAmount = parseFloat(amount) || 0;
-    const newAmount = currentAmount + priceChange;
-    setAmount(newAmount.toFixed(2));
-  };
 
+    const currentAmount = parseFloat(amount) || 0;
+    const newAmount = currentAmount + item.price;
+    setAmount(newAmount.toFixed(2));
+
+    console.log(`Added menu item: ${item.name}, Price: ${item.price}`);
+  };
 
   const handleNext = async () => {
     if (amount === 'Err' || parseFloat(amount) <= 0) {
       setError('Please enter a valid amount.');
       return;
     }
+
+    // Generate receipt
+    generateReceipt();
 
     // Save the amount to localStorage
     localStorage.setItem('paymentAmount', amount);
@@ -151,6 +155,37 @@ const PaymentScreen = () => {
     }
   };
 
+  const generateReceipt = () => {
+    let receipt = "Receipt\n";
+    receipt += "--------------------------\n";
+    receipt += "Item Name\tQuantity\tPrice\n";
+    receipt += "--------------------------\n";
+
+    let totalMenuPrice = 0;
+    let hasMenuItems = false;
+    menuItems.forEach(item => {
+      if (item.quantity > 0) {
+        const itemTotalPrice = item.price * item.quantity;
+        totalMenuPrice += itemTotalPrice;
+        receipt += `${item.name}\t${item.quantity}\t${itemTotalPrice.toFixed(2)}\n`;
+        hasMenuItems = true;
+      }
+    });
+
+    const finalAmount = parseFloat(amount);
+    const manualAdjustment = finalAmount - totalMenuPrice;
+
+    if (manualAdjustment !== 0) {
+      const adjustmentLabel = hasMenuItems ? "Manual Adjustment" : "Manual Input";
+      receipt += `${adjustmentLabel}\t\t${manualAdjustment.toFixed(2)}\n`;
+    }
+
+    receipt += "--------------------------\n";
+    receipt += `Total Amount: S$${finalAmount.toFixed(2)}\n`;
+    receipt += "--------------------------\n";
+
+    console.log(receipt);
+  };
 
   const handleAmountClick = () => {
     setShowKeypad(true);
@@ -202,7 +237,6 @@ const PaymentScreen = () => {
 
   return (
     <div className={styles.screen} data-testid="payment-screen">
-
       <div className={styles.header}>
         <TopHead title="Enter Amount to Charge" />
 
@@ -241,7 +275,7 @@ const PaymentScreen = () => {
               name={item.name}
               price={item.price}
               imageUrl={item.imageUrl}
-              onClick={() => handleQuantityChange(index, item.price)}
+              onClick={() => handleQuantityChange(item)}
               initialLabel="Add"
               initialClass={styles.addButton}
               isFavorited={favoriteItems.includes(item.id)}
@@ -256,7 +290,7 @@ const PaymentScreen = () => {
                   name={item.name}
                   price={item.price}
                   imageUrl={item.imageUrl}
-                  onClick={() => handleQuantityChange(index, item.price)}
+                  onClick={() => handleQuantityChange(item)}
                   initialLabel="Add"
                   isFavorited={favoriteItems.includes(item.id)}
                   onFavoriteToggle={() => handleFavoriteToggle(item)}
