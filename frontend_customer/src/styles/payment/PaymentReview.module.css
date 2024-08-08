@@ -119,4 +119,9 @@
     border-radius: 8px;
     max-width: 80vw;
     font-size: 0.7rem;
+
+}
+
+.receipt {
+    width: 100%;
 }
