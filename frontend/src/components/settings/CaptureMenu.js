@@ -125,7 +125,6 @@ const CaptureMenu = () => {
                                     style={{ display: 'none' }}
                                     ref={fileInputRef}
                                     data-testid="file-browser-input"
-                                    capture="environment"
                                 />
                             </label>
                         </div>

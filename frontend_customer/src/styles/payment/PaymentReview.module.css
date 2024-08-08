@@ -110,3 +110,11 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+.receiptContainer {
+    background: #ddd;
+    box-sizing: border-box;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+}

@@ -79,3 +79,11 @@
     margin: 1.4rem 0;
     cursor: pointer;
 }
+
+.receiptContainer {
+    background: #ddd;
+    box-sizing: border-box;
+    padding: 0.2rem 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
