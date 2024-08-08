@@ -45,6 +45,16 @@ const RefundDetails = () => {
         }).toUpperCase();
     };
 
+    const addDays = (dateString, days) => {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() + days);
+        return date;
+    };
+
+    const autoRejectionDate = refund ? addDays(refund.created_at, 7) : null;
+    const formattedAutoRejectionDate = autoRejectionDate ? `${formatDate(autoRejectionDate)}, ${formatTimestamp(autoRejectionDate)}` : '';
+
+
     return (
         <div className={styles.screen} data-testid="refund-details-view">
             <TopNav
@@ -59,7 +69,8 @@ const RefundDetails = () => {
 
                         {refund.status === "pending" ? (
                             <div className={styles.subtitle}>
-                                The refund request is pending action from you.
+                                The refund request is pending action from you.<br/>
+                    <p className={styles.warning}>This request will be automatically rejected on {formattedAutoRejectionDate} if no action is taken by you.</p>
                             </div>
                         ) : refund.status === "APPROVED" ? (
                             <div className={styles.subtitle}>

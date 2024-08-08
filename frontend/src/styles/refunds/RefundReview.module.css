@@ -152,3 +152,8 @@
 .accept:last-child, .decline:last-child {
     margin-right: 0; /* Remove the margin from the last button */
 }
+
+.warning {
+    font-size: 0.8rem;
+    color: var(--primary);
+}

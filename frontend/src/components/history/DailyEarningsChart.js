@@ -4,23 +4,32 @@ import styles from "../../styles/history/InsightsGraph.module.css"
 import axiosInstance from "../../utils/axiosConfig";
 import { Bar } from 'react-chartjs-2';
 
-const YearlyMonthsChart = () => {
+const DailyEarningsChart = () => {
     const { user } = useAuth();
-    const [monthlyTotals, setMonthlyTotals] = useState(Array(12).fill(0));
+    const [dailyTotals, setDailyTotals] = useState(Array(7).fill(0));
 
-    const fetchMonthlyTotals = useCallback(async () => {
+    const fetchDailyTotals = useCallback(async () => {
         if (user) {
             try {
                 const response = await axiosInstance.get(`/users/${user.user_id}/transactions`);
-                const monthlySums = Array(12).fill(0);
-    
+                const dailySums = Array(7).fill(0);
+
+                const currentDate = new Date();
+                const currentWeekDay = currentDate.getDay(); // Get current weekday (0-6)
+                const startOfWeek = new Date(currentDate);
+                startOfWeek.setDate(currentDate.getDate() - currentWeekDay); // Set to start of the week (Sunday)
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to end of the week (Saturday)
+
                 response.data.forEach(transaction => {
                     const transactionDate = new Date(transaction.created_at);
-                    const month = transactionDate.getMonth(); // month index (0-11)
-                    monthlySums[month] += parseFloat(transaction.amount);
+                    if (transactionDate >= startOfWeek && transactionDate <= endOfWeek) {
+                        const dayOfWeek = transactionDate.getDay(); // Get day of the week (0-6)
+                        dailySums[dayOfWeek] += parseFloat(transaction.amount);
+                    }
                 });
-    
-                setMonthlyTotals(monthlySums);
+
+                setDailyTotals(dailySums);
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -28,15 +37,15 @@ const YearlyMonthsChart = () => {
     }, [user]);
 
     useEffect(() => {
-        fetchMonthlyTotals();
-    }, [fetchMonthlyTotals]);
+        fetchDailyTotals();
+    }, [fetchDailyTotals]);
 
     const data = {
-        labels: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+        labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         datasets: [
             {
-                label: 'Monthly Earnings',
-                data: monthlyTotals,
+                label: 'Daily Earnings',
+                data: dailyTotals,
                 backgroundColor: '#fff',
                 borderColor: '#fff',
                 borderWidth: 1,
@@ -65,7 +74,6 @@ const YearlyMonthsChart = () => {
                 },
                 grid: {
                     display: false,
-
                 },
             },
         },
@@ -80,10 +88,10 @@ const YearlyMonthsChart = () => {
 
     return (
         <div className={styles.main}>
-            <p className={styles.label}>Monthly Earnings</p>
+            <p className={styles.label}>Daily Earnings for This Week</p>
             <Bar data={data} options={options} />
         </div>
     );
 }
 
-export default YearlyMonthsChart;
+export default DailyEarningsChart;

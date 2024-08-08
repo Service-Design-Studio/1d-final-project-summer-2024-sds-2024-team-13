@@ -23,7 +23,7 @@ const HomeTransactionCard = ({
             <div className={styles.top}>
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <img src={(transaction.payment_method === "Paynow") ? paynowIcon : paylahIcon} style={{ marginRight: "0.8rem" }} alt="" />
-                    <p style={{ margin: 0, fontWeight: 600, fontSize: "0.8rem" }}>TRANSFER FROM {transaction.payment_method.toUpperCase()}: <br />{transaction.customer_number[0]}XXX XXX</p>
+                    <p style={{ margin: 0, fontWeight: 600, fontSize: "0.8rem" }}>TRANSFER FROM {transaction.payment_method.toUpperCase()}: <br />{transaction.customer_number}</p>
                 </div>
                 <ChevronRightOutlined />
             </div>
