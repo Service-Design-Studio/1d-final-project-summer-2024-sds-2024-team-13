@@ -1,31 +1,33 @@
-import { Box } from "@mui/material";
 import styles from "../../styles/history/Insights.module.css"
 import WeeklyHoursChart from "./WeeklyHoursChart";
 import YearlyMonthsChart from "./YearlyMonthsChart";
 import TopHead from "../TopHead";
-
+import Carousel from 'react-material-ui-carousel'
+import DailyEarningsChart from "./DailyEarningsChart";
 const Insights = () => {
     return (
         <div className={styles.main}>
             <TopHead title="Transactions" />
-            <Box
-                sx={{
-                    display: 'flex',
-                    gap: 1,
-                    py: 1,
-                    height: "100%",
-                    overflow: "auto",
-                    scrollSnapType: 'x mandatory',
-                    '& > *': {
-                        scrollSnapAlign: 'center',
-                    },
-                    '::-webkit-scrollbar': { display: 'none' },
-                    scrollbarWidth: "none" 
+            <Carousel autoPlay={false} height={200} animation="slide" navButtonsAlwaysVisible swipe
+                navButtonsProps={{
+                    style: {
+                        background: "none",
+                        paddingInline: "2px"
+                    }
+                }}
+                indicatorIconButtonProps={{
+                    style: {
+                        scale: "0.8"
+                    }
                 }}
             >
-            <WeeklyHoursChart />
-            <YearlyMonthsChart />
-            </Box>
+                
+                <DailyEarningsChart />
+                <WeeklyHoursChart />
+                <YearlyMonthsChart />
+            </Carousel>
+
+
         </div>
     );
 }

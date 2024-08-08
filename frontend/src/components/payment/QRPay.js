@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import HistoryIcon from '@mui/icons-material/History';
 import styles from '../../styles/payment/QRPay.module.css';
@@ -11,7 +11,9 @@ import TopHead from '../TopHead';
 const QRPay = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const paymentAmount = localStorage.getItem('paymentAmount');
+    const receiptData = location.state?.receipt || ''; // Retrieve the receipt data
     const [isExpired, setIsExpired] = useState(false);
     const [qrData, setQRData] = useState('');
     const [polling, setPolling] = useState(false);
@@ -40,12 +42,13 @@ const QRPay = () => {
                     amount: paymentAmount,
                     merchant_name: user.name,
                     merchant_id: user.user_id,
-                    transaction_id: transactionId
+                    transaction_id: transactionId,
+                    receipt: receiptData // Include the receipt data
                 })
             );
             setPolling(true);
         }
-    }, [user, paymentAmount]);
+    }, [user, paymentAmount, receiptData]);
 
     const fetchTransactions = useCallback(async () => {
         if (user && transactionId) {

@@ -128,7 +128,7 @@ const CaptureMenu = () => {
                                 />
                             </label>
                         </div>
-                        <p className={styles.label}>or</p>*
+                        <p className={styles.label}>or</p>
                         <div className={styles.cameraButton} data-testid="camera-button">
                             <button className={styles.camera_button} onClick={handleOpenCamera} data-testid="open-camera-button">
                                 <CameraAlt /> Open Camera
