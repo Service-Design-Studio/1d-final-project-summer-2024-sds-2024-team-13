@@ -20,7 +20,7 @@
 ---
 
 ## DBSBiz
-**DBSBiz** is the Ultimate Everyday Haeker App designed to ease hawkers' end-to-end operations!
+**DBSBiz** is the Ultimate Everyday Haeker App designed to help with hawkers' end-to-end operations!
 
 Try out our app now to **Live More, Err Less** *with e-payment that’s non-disruptive, easy-to-use and just the way you ordered*.
 
