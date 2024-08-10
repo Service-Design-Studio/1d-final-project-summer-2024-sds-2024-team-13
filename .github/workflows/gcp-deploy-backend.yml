@@ -32,13 +32,7 @@ jobs:
     - name: Start Cloud Build
       run: gcloud builds submit --config cloudbuild.yaml --substitutions _SERVICE_NAME=dbsbizapp,_INSTANCE_NAME=dbsbiz-pg-instance,_REGION=asia-southeast1,_SECRET_NAME=rails_secret --timeout=20m
       working-directory: backend
-      env:
-        PRODUCTION_DB_NAME: ${{ secrets.PRODUCTION_DB_NAME }}
-        PRODUCTION_DB_USERNAME: ${{ secrets.PRODUCTION_DB_USERNAME }}
-        CLOUD_SQL_CONNECTION_NAME: ${{ secrets.CLOUD_SQL_CONNECTION_NAME }}
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
-        STORAGE_BUCKET_NAME: ${{ secrets.STORAGE_BUCKET_NAME }}
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
 
     - name: Fetch the latest image tag
       id: get-latest-tag
