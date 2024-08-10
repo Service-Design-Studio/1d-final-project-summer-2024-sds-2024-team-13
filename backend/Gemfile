@@ -72,7 +72,6 @@ group :test do
   gem 'simplecov', require: false
 end
 
-gem 'google-cloud-secret_manager'
 
 gem "google-cloud-storage", "~> 1.44", require: false
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

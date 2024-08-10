@@ -7,7 +7,7 @@ class GeminiController < ApplicationController
   require 'dotenv/load' # Ensure dotenv is loaded
 
   def generate_content
-    api_key = ENV['GEMINI_API_KEY']
+    api_key = Rails.application.credentials.gemini[:api_key]
     uri_string = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=' + api_key
     puts uri_string
 
