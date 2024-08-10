@@ -15,6 +15,14 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      PRODUCTION_DB_NAME: ${{ secrets.PRODUCTION_DB_NAME }}
+      PRODUCTION_DB_USERNAME: ${{ secrets.PRODUCTION_DB_USERNAME }}
+      CLOUD_SQL_CONNECTION_NAME: ${{ secrets.CLOUD_SQL_CONNECTION_NAME }}
+      GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+      STORAGE_BUCKET_NAME: ${{ secrets.STORAGE_BUCKET_NAME }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
 
     steps:
     - name: Checkout code
