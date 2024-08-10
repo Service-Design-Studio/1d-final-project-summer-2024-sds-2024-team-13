@@ -19,6 +19,7 @@
     background-color: #FD5A77; /* Ensure the background matches the main background */
     z-index: 1;
     min-height: 58px;
+    margin-top: 1.4rem;
 }
 
 .qrContainer {

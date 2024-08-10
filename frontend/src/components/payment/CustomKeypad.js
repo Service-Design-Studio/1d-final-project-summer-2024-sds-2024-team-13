@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styles from '../../styles/payment/CustomKeypad.module.css';
-import { Backspace } from '@mui/icons-material';
+import { Backspace, Close } from '@mui/icons-material';
 
 const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
     const keypadRef = useRef(null);
@@ -23,6 +23,12 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
 
     return (
         <div className={styles.keypadContainer} ref={keypadRef} data-testid="keypad">
+            <div className={styles.toolbar}>
+                <button onClick={()=>onClose()} className={styles.toolbarButton}>
+                    <Close />
+
+                </button>
+            </div>
             <div className={`${styles.keypadColumn} ${styles.flex3Element}`}>
                 <div className={styles.keypadRow}>
                     <button
@@ -90,7 +96,7 @@ const CustomKeypad = ({ amount, onKeyPress, onClose }) => {
             </div>
             <div className={`${styles.keypadColumn} ${styles.flex2Element}`}>
                 <div className={styles.keypadRow}>
-                    <div className={`${styles.keypadColumn} ${styles.flex3Element}`}>  
+                    <div className={`${styles.keypadColumn} ${styles.flex3Element}`}>
                         <div className={styles.keypadRow}>
                             <button onClick={() => onKeyPress('1')} className={styles.button}>1</button>
                             <button onClick={() => onKeyPress('2')} className={styles.button}>2</button>

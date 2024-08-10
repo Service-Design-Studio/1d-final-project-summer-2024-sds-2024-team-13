@@ -24,7 +24,7 @@
 }
 
 .refundButton p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 750;
     margin: 1rem;
 }
@@ -43,4 +43,13 @@
     align-items: center;
     color: #fff;
     border-radius: 50%;
+}
+
+.noTransactions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    color: var(--text-light);
+    margin: 4rem 0;
 }

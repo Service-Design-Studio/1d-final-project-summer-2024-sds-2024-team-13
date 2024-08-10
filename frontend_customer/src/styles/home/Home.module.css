@@ -8,22 +8,43 @@
 }
 
 .header {
-    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
     padding: 0.8rem 1rem;
+    box-sizing: border-box;
 }
 
 .title {
-    margin: 4px 0;
+    margin: 0 1rem;
     font-size: 1.2rem;
+    flex-grow: 1;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.title span {
+    font-weight: bold;
 }
 
 .content {
     padding: 1rem;
     box-sizing: border-box;
     width: 100%;
+}
+
+.banner {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.bannerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: none;
+    border-radius: 5px;
 }
 
 .card {
@@ -34,6 +55,7 @@
     box-sizing: border-box;
     padding: 1rem 1.2rem;
 }
+
 .top {
     text-align: left;
     display: flex;
@@ -48,6 +70,7 @@
 .autoDebit {
     font-size: 0.8rem;
 }
+
 .amount {
     font-size: 1.4rem;
     font-weight: 600;
@@ -60,12 +83,13 @@
     padding: 0.4rem 1.2rem;
     color: #fff;
     height: 85%;
-
+    cursor: pointer;
 }
 
 .bottom {
     margin-top: 1.2rem;
 }
+
 .iconContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -77,9 +101,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.iconItem p {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .icon {
     width: 40px;
     height: 40px;
+    color: #fff;
+}
+
+.headIcon {
+    width: 25px;
+    height: 25px;
+    color: var(--text-light);
 }

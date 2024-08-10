@@ -1,11 +1,5 @@
 .header {
-    background: #FFF;
-    padding: 1rem 0
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 1.4rem
+    margin-bottom: 70px;
 }
 
 .screen {

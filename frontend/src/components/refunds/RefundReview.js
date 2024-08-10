@@ -80,7 +80,9 @@ const RefundReview = () => {
             const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
             const requestBody = {
                 status: newStatus,
-                refund_request_id: refund.refund_request_id,
+                id: refund.refund_request_id,
+                response_reason: "",
+
             };
 
             try {
@@ -97,11 +99,11 @@ const RefundReview = () => {
         }
     }, [user, navigate, refund.refund_request_id, refund.transaction_id]);
     const declineRefundRequest = useCallback(async (reply) => {
-        if (user && reply!=="") {
+        if (user && reply !== "") {
             const endpoint = `/users/${user.user_id}/transactions/${refund.transaction_id}/refund_request`;
             const requestBody = {
                 status: "REJECTED",
-                refund_request_id: refund.refund_request_id,
+                id: refund.refund_request_id,
                 response_reason: reply,
             };
 
@@ -129,12 +131,22 @@ const RefundReview = () => {
         createTransaction();
     };
 
+    const addDays = (dateString, days) => {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() + days);
+        return date;
+    };
+
+    const autoRejectionDate = refund ? addDays(refund.created_at, 7) : null;
+    const formattedAutoRejectionDate = autoRejectionDate ? `${formatDate(autoRejectionDate)}, ${formatTimestamp(autoRejectionDate)}` : '';
+
     return (
         <div className={styles.screen} data-testid="refund-review-screen">
             <RefundDetailsNav />
             <div className={styles.content}>
                 <div className={styles.title} data-testid="refund-requested-title">Refund Requested</div>
-                <div className={styles.subtitle} data-testid="refund-requested-subtitle">The refund request is pending action <br></br>from you.</div>
+                <div className={styles.subtitle} data-testid="refund-requested-subtitle"> The refund request is pending action from you.<br />
+                    <p className={styles.warning}>This request will be automatically rejected on {formattedAutoRejectionDate} if no action is taken by you.</p></div>
                 <div className={styles.sectionTitle}>
                     <span className={styles.paymentTitle} data-testid="refund-details-title">Refund Details</span>
                 </div>
@@ -215,7 +227,7 @@ const RefundReview = () => {
                 </div>
 
             </div>
-            <RefundRejectReason {...{refund, transaction, formatDate, formatTimestamp, showOverlay, setShowOverlay, declineRefundRequest, reply, setReply}}/>
+            <RefundRejectReason {...{ refund, transaction, formatDate, formatTimestamp, showOverlay, setShowOverlay, declineRefundRequest, reply, setReply }} />
         </div>
     );
 };

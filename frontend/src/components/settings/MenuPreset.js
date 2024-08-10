@@ -20,30 +20,30 @@ const MenuPreset = () => {
   const [viewLayout, setViewLayout] = useState("grid");
   const { user } = useAuth();
 
-  
+
   const fetchAllMenuItems = useCallback(async () => {
     if (user) {
-        try {
-            const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
-            if (response.status === 200) {
-                const fetchedItems = response.data.map(item => ({
-                    id: item.id.toString(),
-                    name: item.name,
-                    price: parseFloat(item.price.replace('$', '')),
-                    imageUrl: item.image || defaultFood, 
-                    favourite: item.favourite === "true" || item.favourite === true,
-                    created_at: new Date(item.created_at)
-                }));
-                setMenuItems(fetchedItems);
-                setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.name));
-            } else {
-                console.error('Unexpected response status:', response.status);
-            }
-        } catch (error) {
-            console.error('Failed to fetch menu items:', error);
+      try {
+        const response = await axiosInstance.get(`/users/${user.user_id}/items/`);
+        if (response.status === 200) {
+          const fetchedItems = response.data.map(item => ({
+            id: item.id.toString(),
+            name: item.name,
+            price: parseFloat(item.price.replace('$', '')),
+            imageUrl: item.image || defaultFood,
+            favourite: item.favourite === "true" || item.favourite === true,
+            created_at: new Date(item.created_at)
+          }));
+          setMenuItems(fetchedItems);
+          setFavoriteItems(fetchedItems.filter(item => item.favourite).map(item => item.id));
+        } else {
+          console.error('Unexpected response status:', response.status);
         }
+      } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+      }
     }
-}, [user]);
+  }, [user]);
 
   const handleClick = (item) => {
     navigate('/settings/edititem', { state: { item } });
@@ -55,10 +55,10 @@ const MenuPreset = () => {
 
 
   const handleFavoriteToggle = async (item) => {
-    const isFavorite = !favoriteItems.includes(item.name);
+    const isFavorite = !favoriteItems.includes(item.id); // Check by ID
     const updatedFavoriteItems = isFavorite 
-      ? [...favoriteItems, item.name] 
-      : favoriteItems.filter((name) => name !== item.name);
+      ? [...favoriteItems, item.id] // Add ID
+      : favoriteItems.filter((id) => id !== item.id); 
 
     setFavoriteItems(updatedFavoriteItems);
 
@@ -74,7 +74,7 @@ const MenuPreset = () => {
     } catch (error) {
       console.error('Failed to update favorite status:', error);
     }
-  };
+};
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -83,13 +83,13 @@ const MenuPreset = () => {
   const filteredItems = menuItems.filter((item) => {
     const matchesSearchQuery = item.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
       item.id.toLowerCase().startsWith(searchQuery.toLowerCase());
-    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.name) : true;
+    const matchesFavorite = tabValue === 1 ? favoriteItems.includes(item.id) : true;
     return matchesSearchQuery && matchesFavorite;
   });
 
   const sortedItems = [...filteredItems].sort((a, b) => {
-    const isAFavorite = favoriteItems.includes(a.name);
-    const isBFavorite = favoriteItems.includes(b.name);
+    const isAFavorite = favoriteItems.includes(a.id);
+    const isBFavorite = favoriteItems.includes(b.id);
     if (isAFavorite && !isBFavorite) return -1;
     if (!isAFavorite && isBFavorite) return 1;
     return b.created_at - a.created_at;
@@ -104,41 +104,43 @@ const MenuPreset = () => {
       />
       <div className={styles.content}>
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate('/settings/capturemenu')} className={`${styles.generateButton} ${styles.Button}`}>
+          <button onClick={() => navigate('/settings/capturemenu')} className={`${styles.generateButton} ${styles.Button}`} data-testid="auto-generate-button">
             <div className={styles.buttonContent}><AutoFixHigh /> Auto-Generate Menu Item(s)</div>
             <ChevronRight />
           </button>
-          <button onClick={() => navigate('/settings/additem')} className={styles.Button}>
+          <button onClick={() => navigate('/settings/additem')} className={styles.Button} data-testid="add-item-button">
             <div className={styles.buttonContent}><AddCircle /> Add Menu Item</div>
             <ChevronRight />
           </button>
         </div>
 
         <MenuHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} {...{ tabValue, setTabValue, viewLayout, setViewLayout }} />
-        <div className={styles.menuItems}>
+        <div className={styles.menuItems} data-testid="menu-items">
           {(viewLayout === "row") ? sortedItems.map((item, index) => (
             <MenuItem
-              key={index}
+              key={item.id}
               name={item.name}
               price={item.price}
               imageUrl={item.imageUrl}
               onClick={() => handleClick(item)}
               initialLabel="Edit"
-              isFavorited={favoriteItems.includes(item.name)}
+              isFavorited={favoriteItems.includes(item.id)}
               onFavoriteToggle={() => handleFavoriteToggle(item)}
+              data-testid={`menu-item-${item.id}`}
             />
           )) :
-            <div className={styles.gridLayout} >
+            <div className={styles.gridLayout} data-testid="grid-layout">
               {sortedItems.map((item, index) => (
                 <MenuGridItem
-                  key={index}
+                  key={item.id}
                   name={item.name}
                   price={item.price}
                   imageUrl={item.imageUrl}
                   onClick={() => handleClick(item)}
                   initialLabel="Edit"
-                  isFavorited={favoriteItems.includes(item.name)}
+                  isFavorited={favoriteItems.includes(item.id)}
                   onFavoriteToggle={() => handleFavoriteToggle(item)}
+                  data-testid={`menu-grid-item-${item.id}`}
                 />
               ))}
             </div>

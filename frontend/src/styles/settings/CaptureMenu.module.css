@@ -46,7 +46,7 @@
     background: none;
     border: 2px dashed var(--primary);
     color: var(--text-light);
-    padding: 1.6rem 1rem;
+    padding: 3rem 1rem;
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
@@ -62,16 +62,31 @@
     display: flex;
     justify-content: center;
     width: 100%;
+
 }
 
 .camera_button {
+    background-color: var(--background);
+    color: var(--background);
+    padding: 0 2rem;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.chooseAnother_button {
     background-color: #fff;
     color: var(--primary);
     padding: 1rem 2rem;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     text-align: center;
+    cursor: pointer;
     width: 100%;
     display: flex;
     align-items: center;
@@ -94,8 +109,9 @@
 }
 
 .label {
-    color: var(--text-light);
+    color: var(--background);
     font-weight: 600;
+    font-size: 0.1rem;
 }
 
 .fullScreenCamera {
@@ -119,7 +135,8 @@
     cursor: pointer;
     text-align: center;
     margin-top: 1rem;
-    border-radius: 50%;
+    margin-bottom: 14px;
+    border-radius: 999px;
     height: 84px;
     width: 84px;
 }
@@ -135,6 +152,7 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    margin-bottom: 4px;
     text-align: center;
 }
 

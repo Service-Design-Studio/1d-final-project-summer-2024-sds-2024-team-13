@@ -33,6 +33,7 @@ jobs:
       run: gcloud builds submit --config cloudbuild.yaml --substitutions _SERVICE_NAME=dbsbizapp,_INSTANCE_NAME=dbsbiz-pg-instance,_REGION=asia-southeast1,_SECRET_NAME=rails_secret --timeout=20m
       working-directory: backend
 
+
     - name: Fetch the latest image tag
       id: get-latest-tag
       run: |

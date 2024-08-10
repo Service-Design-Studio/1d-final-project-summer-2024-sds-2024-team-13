@@ -71,6 +71,7 @@ function ConditionalNavigation() {
     && location.pathname !== '/refunds' && location.pathname !== '/refunds/request'
     && location.pathname !== '/refunds/details' && location.pathname !== '/refunds/review'
     && location.pathname !== '/settings/autoGenerate' 
+    && location.pathname !== '/payment/QRPay' 
   ) ? <Navigation /> : null;
 }
 

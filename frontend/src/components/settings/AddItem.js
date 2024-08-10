@@ -72,18 +72,18 @@ const AddItem = () => {
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupRow}>
               <h3 className={styles.label} htmlFor="itemName">Item Name</h3>
-              <input type="text" id="itemName" placeholder="E.g. Chicken Rice" value={itemName} onChange={(e) => setItemName(e.target.value)} className={styles.input} />
+              <input type="text" id="itemName" placeholder="E.g. Chicken Rice" value={itemName} onChange={(e) => setItemName(e.target.value)} className={styles.input} data-testid="input_name-add" />
             </div>
             <div className={styles.inputGroupRow}>
               <h3 className={styles.label} htmlFor="idNo">Item Number (Optional)</h3>
-              <input type="text" id="idNo" placeholder='E.g. 8' value={idNo} onChange={(e) => setIdNo(e.target.value)} className={styles.input} />
+              <input type="text" id="idNo" placeholder='E.g. 8' value={idNo} onChange={(e) => setIdNo(e.target.value)} className={styles.input} data-testid="input_num-add"/>
             </div>
           </div>
           <h3 className={styles.labelHeader}>Enter Menu Item Price</h3>
           <div className={styles.inputGroup}>
             <div className={styles.inputGroupRow}>
               <h3 className={styles.label} htmlFor="price">Item Price</h3>
-              <input type="text" id="price" placeholder="$0.00" value={price} onChange={(e) => setPrice(e.target.value)} className={styles.input} />
+              <input type="text" id="price" placeholder="$0.00" value={price} onChange={(e) => setPrice(e.target.value)} className={styles.input} data-testid="input_money-add"/>
             </div>
           </div>
           <h3 className={styles.labelHeader}>Upload Image (Optional)</h3>
@@ -91,7 +91,7 @@ const AddItem = () => {
             <label className={styles.uploadButton} htmlFor="uploadImage">
               <Upload />
               Browse images...
-              <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} className={styles.fileInput} />
+              <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} className={styles.fileInput} data-testid="input_image-add" />
             </label>
           </div>
           <div className={styles.imagePreviewContainer}>

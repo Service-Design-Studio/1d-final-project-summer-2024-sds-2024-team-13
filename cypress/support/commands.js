@@ -1,4 +1,5 @@
 // cypress/support/commands.js
+import 'cypress-file-upload';
 
 Cypress.Commands.add('login', () => {
   cy.viewport('iphone-6+');

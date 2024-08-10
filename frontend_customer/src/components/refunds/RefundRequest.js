@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import RefundRequestNav from './RefundRequestNav';
+import TopNav from '../TopNav';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ErrorOutline } from '@mui/icons-material';
 import styles from "../../styles/refunds/RefundRequest.module.css";
@@ -9,13 +9,14 @@ import axiosInstance from '../../utils/axiosConfig';
 
 const RefundRequest = () => {
     const location = useLocation();
-    const { transaction } = location.state || {};
+    const { transaction } = location.state || {}; // Ensure `transaction` is defined
     const [reason, setReason] = useState("");
     const [expectedPayment, setExpectedPayment] = useState("");
     const [expectedRefund, setExpectedRefund] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hasError, setHasError] = useState(false);
     const { customer } = useAuth();
+    const navigate = useNavigate();
 
     const handleReasonChange = (e) => {
         if (e.target.value.length <= 250) {
@@ -74,8 +75,6 @@ const RefundRequest = () => {
         }
     };
 
-    const navigate = useNavigate();
-
     const handleSubmit = () => {
         setIsSubmitted(true);
         createRefundRequest();
@@ -88,7 +87,7 @@ const RefundRequest = () => {
             try {
                 const requestBody = {
                     refund_request: {
-                        transaction_id: transaction?.transaction_id ?? "",
+                        user_id: transaction?.user_id ?? "",
                         status: "pending",
                         expect_amount: expectedPayment,
                         refund_amount: expectedRefund,
@@ -108,12 +107,13 @@ const RefundRequest = () => {
                 console.error('Failed to create refund request:', error.response);
             }
         }
-    }, [customer, expectedPayment, expectedRefund, transaction?.transaction_id, navigate, reason]);
+    }, [customer, expectedPayment, expectedRefund, transaction?.transaction_id, transaction?.user_id, navigate, reason]);
 
     const formatTimestamp = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toUpperCase();
     };
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB', {
@@ -125,109 +125,119 @@ const RefundRequest = () => {
 
     return (
         <div className={styles.screen} data-testid="refund-request-view">
-            <RefundRequestNav />
-            <div className={styles.content}>
-                <div className={styles.sectionTitle}>
-                    <span className={styles.paymentTitle}>Payment Details</span>
+            <TopNav
+                title="Refund Request"
+                pathname={-1}
+                hasBackButton="yes"
+            />
+            {!transaction ? (
+                <div className={styles.error} data-testid="no-transaction-error">
+                    Transaction details not available
                 </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>You've paid</span>
+            ) : (
+                <div className={styles.content}>
+                    <div className={styles.sectionTitle}>
+                        <span className={styles.paymentTitle}>Payment Details</span>
                     </div>
-                    <div className={styles.row}>
-                        <span></span>
-                        <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(transaction.amount).toFixed(2)}</span>
+                    <div className={styles.fullWidthSection}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>You've paid</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span></span>
+                            <span className={styles.amount} data-testid="refund-amount">SGD {parseFloat(transaction.amount).toFixed(2)}</span>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Paid to</span>
-                        <span data-testid="refund-hawker"><b>{transaction.user_name}</b></span>
+                    <div className={styles.fullWidthSection}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Paid to</span>
+                            <span data-testid="refund-hawker"><b>{transaction.user_name}</b></span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Paid by</span>
+                            <span data-testid="refund-customer-mobile"><b>{transaction.customer_number}</b></span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Date and Time</span>
+                            <span data-testid="refund-timestamp"><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
+                        </div>
                     </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Paid by</span>
-                        <span data-testid="refund-customer-mobile"><b>{transaction.customer_number}</b></span>
-                    </div>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Date and Time</span>
-                        <span data-testid="refund-timestamp"><b>{formatDate(transaction.created_at)}, {formatTimestamp(transaction.created_at)}</b></span>
-                    </div>
-                </div>
 
-                <div className={styles.fullWidthSection}>
-                    <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Expected Payment from You</div>
-                        <div className={styles.inputWrapper}>
-                            <span className={styles.prefix}>S$</span>
+                    <div className={styles.fullWidthSection}>
+                        <div className={styles.section}>
+                            <div className={styles.sectionTitle}>Expected Payment from You</div>
+                            <div className={styles.inputWrapper}>
+                                <span className={styles.prefix}>S$</span>
+                                <input
+                                    type="text"
+                                    placeholder="0.00"
+                                    className={styles.input}
+                                    value={expectedPayment}
+                                    onChange={handleExpectedPaymentChange}
+                                    onBlur={() => handleBlur("payment")}
+                                    data-testid="expected-payment-input"
+                                />
+                                {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount) && (
+                                    <ErrorOutline className={styles.errorIcon} />
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.section}>
+                            <div className={styles.sectionTitle}>Amount to be Refunded</div>
+                            <div className={styles.inputWrapper}>
+                                <span className={styles.prefix}>S$</span>
+                                <input
+                                    type="text"
+                                    placeholder="0.00"
+                                    className={styles.input}
+                                    value={expectedRefund}
+                                    onChange={handleExpectedRefundChange}
+                                    onBlur={() => handleBlur("refund")}
+                                    data-testid="expected-refund-input"
+                                />
+                                {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount) && (
+                                    <ErrorOutline className={styles.errorIcon} />
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.section}>
+                            <div className={styles.sectionTitle}>Reason(s) for Refund</div>
                             <input
                                 type="text"
-                                placeholder="0.00"
+                                placeholder="Add comments"
                                 className={styles.input}
-                                value={expectedPayment}
-                                onChange={handleExpectedPaymentChange}
-                                onBlur={() => handleBlur("payment")}
-                                data-testid="expected-payment-input"
+                                value={reason}
+                                onChange={handleReasonChange}
+                                data-testid="refund-reason-input"
                             />
-                            {hasError && parseFloat(expectedPayment) > parseFloat(transaction.amount) && (
-                                <ErrorOutline className={styles.errorIcon} />
-                            )}
+                            <div className={styles.charCount}>{reason.length}/250</div>
                         </div>
                     </div>
-                    <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Amount to be Refunded</div>
-                        <div className={styles.inputWrapper}>
-                            <span className={styles.prefix}>S$</span>
-                            <input
-                                type="text"
-                                placeholder="0.00"
-                                className={styles.input}
-                                value={expectedRefund}
-                                onChange={handleExpectedRefundChange}
-                                onBlur={() => handleBlur("refund")}
-                                data-testid="expected-refund-input"
-                            />
-                            {hasError && parseFloat(expectedRefund) > parseFloat(transaction.amount) && (
-                                <ErrorOutline className={styles.errorIcon} />
-                            )}
+                    <div className={styles.fullWidthTransparent}>
+                        <div className={styles.row}>
+                            <span className={styles.label}>Transaction ID</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span data-testid="refund-transaction-id"><b>{transaction.transaction_id}</b></span>
                         </div>
                     </div>
-                    <div className={styles.section}>
-                        <div className={styles.sectionTitle}>Reason(s) for Refund</div>
-                        <input
-                            type="text"
-                            placeholder="Add comments"
-                            className={styles.input}
-                            value={reason}
-                            onChange={handleReasonChange}
-                            data-testid="refund-reason-input"
-                        />
-                        <div className={styles.charCount}>{reason.length}/250</div>
-                    </div>
+                    {!isSubmitted ? (
+                        <button
+                            className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
+                            onClick={handleSubmit}
+                            disabled={isButtonDisabled}
+                            data-testid="refund-submit-button"
+                        >
+                            SUBMIT
+                        </button>
+                    ) : (
+                        <div className={styles.submittedMessage} data-testid="refund-submitted">
+                            <CheckCircleIcon className={styles.successIcon} />
+                            <span>SUBMITTED!</span>
+                        </div>
+                    )}
                 </div>
-                <div className={styles.fullWidthTransparent}>
-                    <div className={styles.row}>
-                        <span className={styles.label}>Transaction ID</span>
-                    </div>
-                    <div className={styles.row}>
-                        <span data-testid="refund-transaction-id"><b>{transaction.transaction_id}</b></span>
-                    </div>
-                </div>
-                {!isSubmitted ? (
-                    <button
-                        className={`${styles.submitButton} ${isButtonDisabled ? styles.disabledButton : ''}`}
-                        onClick={handleSubmit}
-                        disabled={isButtonDisabled}
-                        data-testid="refund-submit-button"
-                    >
-                        SUBMIT
-                    </button>
-                ) : (
-                    <div className={styles.submittedMessage} data-testid="refund-submitted">
-                        <CheckCircleIcon className={styles.successIcon} />
-                        <span>SUBMITTED!</span>
-                    </div>
-                )}
-            </div>
+            )}
         </div>
     );
 };
