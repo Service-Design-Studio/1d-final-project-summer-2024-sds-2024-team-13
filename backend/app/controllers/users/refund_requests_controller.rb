@@ -30,8 +30,7 @@ module Users
       render json: @refund_requests
     end
     def update
-      # if @refund_request.recipient == @user
-      if @refund_request.update(status: params[:status], response_reason: params[:response_reason])
+      if @refund_request.update(refund_request_params)
         render json: { status: 'Refund request status updated successfully', refund_request: @refund_request }, status: :ok
       else
         render json: { errors: @refund_request.errors.full_messages }, status: :unprocessable_entity
