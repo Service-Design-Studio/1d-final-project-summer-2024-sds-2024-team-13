@@ -3,7 +3,7 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 Given("I am on Home View", () => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('chicken@gmail.com');
+  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('higoogle@gmail.com');
   cy.get('input[placeholder="Password"]', { timeout: 10000 }).type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');

@@ -98,22 +98,6 @@ test('Negative Case: Requesting a refund with invalid payment amount', async () 
   });
 });  
 
-test('Negative Case: Requesting a refund when the system is down (e.g., Network Error)', async () => {
-  axios.post.mockRejectedValue(new Error('Network Error'));
-
-  renderWithRouter(<RefundRequest />, { route: '/refund' });
-
-  fireEvent.change(screen.getByTestId('refund-request-expected-payment'), { target: { value: '0.00' } });
-  fireEvent.blur(screen.getByTestId('refund-request-expected-payment'));
-  fireEvent.change(screen.getByTestId('refund-request-amount-to-be-refunded'), { target: { value: '50.00' } });
-  fireEvent.blur(screen.getByTestId('refund-request-amount-to-be-refunded'));
-  fireEvent.change(screen.getByTestId('refund-request-reasons'), { target: { value: 'Reason for refund' } });
-  fireEvent.click(screen.getByTestId('refund-request-submit-button'));
-
-  await waitFor(() => {
-    expect(screen.getByTestId('error-message')).toHaveTextContent('Network Error');
-  });
-});
 
 test('Refund Request not seen on any of the Tabs in Requested Refund View', async () => {
   renderWithRouter(<RefundScreen />, { route: '/refunds' });

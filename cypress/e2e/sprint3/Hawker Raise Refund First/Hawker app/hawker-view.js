@@ -3,14 +3,14 @@ import { Before, Given, When, Then } from "@badeball/cypress-cucumber-preprocess
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('chicken@gmail.com');
-  cy.get('input[placeholder="Password"]').type('123');
+  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('chicken@gmail.com');
+  cy.get('input[placeholder="Password"]', { timeout: 10000 }).type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
 });
 
 Given("on Transaction History View", () => {
-  cy.contains("History").click();
+  cy.contains("History", { timeout: 10000 }).click();
   cy.url().should('include', '/history');
 });
 
@@ -50,7 +50,7 @@ Then("I should see a Refund Customer button", () => {
 });
 
 Given("that I click on the Refund Customer button", () => {
-  cy.get('[data-testid="refund-customer-button"]').click();
+  cy.get('[data-testid="refund-customer-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should be redirected to Refund Customer View", () => {
@@ -91,7 +91,7 @@ Then("I should see Submit Button", () => {
 });
 
 Then("click on Submit", () => {
-  cy.get('[data-testid="refund-request-submit-button"]').click();
+  cy.get('[data-testid="refund-request-submit-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should redirect back to Requested Refund View", () => {
@@ -110,11 +110,11 @@ Then("there I should see Refund Amount, Paid To, Original Payment, Expected Paym
 });
 
 Then("a Confirm Refund Button", () => {
-  cy.get('[data-testid="confirm-refund-button"]').should('be.visible');
+  cy.get('[data-testid="confirm-refund-button"]', { timeout: 10000 }).should('be.visible');
 });
 
 Then("I click Confirm Refund Button", () => {
-  cy.get('[data-testid="confirm-refund-button"]').click();
+  cy.get('[data-testid="confirm-refund-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should be redirected back to Requested Refund View", () => {
@@ -122,24 +122,24 @@ Then("I should be redirected back to Requested Refund View", () => {
 });
 
 Then("I click on the back button", () => {
-  cy.get('[data-testid="back-button"]').click();
+  cy.get('[data-testid="back-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should see a deduction in my daily earnings and total earnings on Transaction History", () => {
-  cy.get('[data-testid^="transaction-card"]').should('contain', 'REFUNDED');
+  cy.get('[data-testid^="transaction-card"]', { timeout: 10000 }).should('contain', 'REFUNDED');
 });
 
 When("I click on Requested Refunds button", () => {
-  cy.get('[data-testid="requested-refunds-button"]').click();
+  cy.get('[data-testid="requested-refunds-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should see a Requested Refunds page", () => {
   cy.url().should('include', '/refunds');
-  cy.get('[data-testid="requested-refunds-page"]').should('be.visible');
+  cy.get('[data-testid="requested-refunds-page"]', { timeout: 10000 }).should('be.visible');
 });
 
 Then("when I click on the back button", () => {
-  cy.get('[data-testid="back-button"]').click();
+  cy.get('[data-testid="back-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should see a pending tab, refunded tab and rejected tab", () => {

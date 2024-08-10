@@ -32,7 +32,9 @@ Feature: Payment Happy Path
     And I press "." on the keypad
     And I press "2" on the keypad
     And I press "0" on the keypad
-    Then I should see the input field update to "5.20"
+    And I press "+" on the keypad
+    And I press "2" on the keypad
+    Then I should see the input field update to "2"
     And I press "=" on the keypad
     Then I should see a Next button
     When I click the Next button
@@ -40,5 +42,4 @@ Feature: Payment Happy Path
     Given that I am on QR Pay View
     When customer has made the payment within 30 seconds
     Then I should see an animation
-    Then I should be redirected to Payment View after 5 seconds
-    Then I should be redirected to Payment View
+    Then I should be redirected to Home View after 7 seconds

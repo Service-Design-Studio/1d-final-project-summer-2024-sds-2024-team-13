@@ -22,6 +22,7 @@ Feature: QR Sad Path
     When I click on the price
     Then I clear the price
     Then I input 15.00
+    Then I upload an image of Tiger Prawn
     Then I click the Confirm button
     Then I should see the price of menu item Tiger Prawn as "$15.00"
 
@@ -37,27 +38,19 @@ Feature: QR Sad Path
     Then I can see the newly created item
 
 
-  Scenario: Auto-generating from a non menu
+  Scenario: Auto-generating from a non menu with no words
     When I click into the More View
     Then I should see a "Menu Preset" button
     Then I click the "Menu Preset" button
     Then I should see an option for "Auto-Generate Menu Items"
     When I click into the "Auto-Generate Menu Items" option
-    Then I browse and select a non-Menu
+    Then I browse and select a non-Menu with no words
     Then I should see a preview of the selected image
     When I click on the "Continue" button
     Then I should see an error message
-  
-  Scenario: Auto-generating from an image with no menu or words
-    When I click into the More View
-    Then I should see a "Menu Preset" button
-    Then I click the "Menu Preset" button
-    Then I should see an option for "Auto-Generate Menu Items"
-    When I click into the "Auto-Generate Menu Items" option
-    Then I browse and select a non-Menu
-    Then I should see a preview of the selected image
-    When I click on the "Continue" button
-    Then I should see an error message
+    Then I should see a retry button and click on it
+    Then I should be redirected to menu-preset view
+
   
   Scenario: Inputting a negative amount
     Then I click into the Payment View
@@ -72,5 +65,5 @@ Feature: QR Sad Path
     And I press "-" on the keypad
     Then I press "6" on the keypad
     Then I press "=" on the keypad
-    Then I should see see the input field update to "-0.80" 
+    Then I should see the input field update to "-0.80" 
     And I should see a Next button disabled

@@ -4,7 +4,7 @@ import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocess
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('chicken@gmail.com');
+  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('higoogle@gmail.com');
   cy.get('input[placeholder="Password"]', { timeout: 10000 }).type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
@@ -155,12 +155,9 @@ Then("I should see an animation", () => {
 cy.get('[data-testid="success-animation"]').should('be.visible');
 });
 
-Then("I should be redirected to Payment View after 5 seconds", () => {
-cy.wait(5000);
-cy.url().should('include', '/payment');
+Then("I should be redirected to Home View after 7 seconds", () => {
+cy.wait(7000);
+cy.url().should('include', '/home');
 });
 
-Then("I should be redirected to Payment View", () => {
-cy.url().should('include', '/payment');
-});
 

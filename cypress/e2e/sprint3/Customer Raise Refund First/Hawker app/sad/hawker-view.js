@@ -3,14 +3,14 @@ import { Before, Given, When, Then } from "@badeball/cypress-cucumber-preprocess
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]').type('chicken@gmail.com');
-  cy.get('input[placeholder="Password"]').type('123');
+  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('chicken@gmail.com');
+  cy.get('input[placeholder="Password"]', { timeout: 10000 }).type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
 });
 
 Given("I am on Transaction History View", () => {
-  cy.contains("History").click();
+  cy.contains("History", { timeout: 10000 }).click();
   cy.url().should('include', '/history');
 });
 
@@ -20,7 +20,7 @@ Given("I am on Refund Request view", () => {
 });
 
 When("I click on transaction card that contains {string}", (status) => {
-  cy.get('[data-testid^="refund-card"]')
+  cy.get('[data-testid^="refund-card"]', { timeout: 10000 })
     .first()
     .should('be.visible')
     .click({ force: true });
@@ -39,7 +39,7 @@ Then("I should see accept button", () => {
 });
 
 Then("I click on the decline button", () => {
-  cy.get('[data-testid="decline-button"]').click();
+  cy.get('[data-testid="decline-button"]', { timeout: 10000 }).click();
 });
 
 Then("I should see the Decline Refund overlay", () => {
@@ -51,9 +51,9 @@ Then("I did not give a reason for rejection", () => {
 });
 
 Then("I should see that the Decline Request button is greyed out", () => {
-  cy.get('[data-testid="reject-confirm-button"]').should('have.attr', 'disabled');
+  cy.get('[data-testid="reject-confirm-button"]', { timeout: 10000 }).should('have.attr', 'disabled');
 });
 
 Then("I should not be able to press it", () => {
-  cy.get('[data-testid="reject-confirm-button"]').should('be.disabled');
+  cy.get('[data-testid="reject-confirm-button"]', { timeout: 10000 }).should('be.disabled');
 });

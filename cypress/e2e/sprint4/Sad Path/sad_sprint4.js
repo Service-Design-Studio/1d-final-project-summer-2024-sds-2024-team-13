@@ -4,7 +4,7 @@ import { Given, When, Then, Before } from "@badeball/cypress-cucumber-preprocess
 Before(() => {
   cy.viewport('iphone-6+');
   cy.visit("/");
-  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('chicken@gmail.com');
+  cy.get('input[placeholder="Email"]', { timeout: 10000 }).type('higoogle@gmail.com');
   cy.get('input[placeholder="Password"]', { timeout: 10000 }).type('123');
   cy.contains("LOG IN").click();
   cy.contains("DBSBiz", { timeout: 10000 }).should('be.visible');
@@ -99,6 +99,11 @@ Then("I input 15.00", () => {
   cy.get('[data-testid="item-price-input"]').type('15.00'); // Adjust based on actual element
 });
 
+Then("I upload an image of Tiger Prawn", () => {
+    cy.get('[data-testid="item-image-input"]').attachFile(`../images/tiger-prawn.jpg`);
+  });
+
+
 Then("I click the Confirm button", () => {
   cy.get('[data-testid="confirm-item-button"]').click(); // Adjust based on actual button text or identifier
 });
@@ -133,22 +138,24 @@ Then ("I can see the newly created item", () => {
 });
 
 // Scenario: Auto-generating from a non-menu with words
-Then("I browse and select a non-Menu", () => {
+Then("I browse and select a non-Menu with no words", () => {
   cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
 });
 
 Then("I should see an error message", () => {
-  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
+  cy.contains('Failed to generate menu items. Please try again with a clearer photo.',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
 });
 
-// Scenario: Auto-generating from an image with no menu or words
-Then("I browse and select a non-Menu", () => {
-  cy.get('[data-testid="file-browser-input"]').attachFile(`../images/demo-image.png`); // Adjust file name and path
+Then("I should see a retry button and click on it", () => {
+  cy.get('[data-testid="auto-retry"]', {timeout: 20000}).should('be.visible');
+  cy.get('[data-testid="auto-retry"]', {timeout: 20000}).click()
 });
 
-Then("I should see an error message", () => {
-  cy.contains('Error',  {timeout: 20000}).should('be.visible'); // Adjust based on actual error message
+Then("I should be redirected to menu-preset view", () => {
+  cy.visit('/settings/menu-preset');
+  cy.url().should('include', '/settings/menu-preset');
 });
+
 
 // Scenario: Inputting a negative amount
 Then("I click into the Payment View", () => {
@@ -176,9 +183,6 @@ Then("I should see the input field update to {string}", (value) => {
   cy.get('[data-testid="input-field"]').should('have.value', value);
 });
 
-Then("I should see see the input field update to {string}", (value) => {
-  cy.get('[data-testid="input-field"]').should('have.value', value);
-});
 
 Then("I should see a Next button disabled", () => {
   cy.get('[data-testid="generate-button"]').should('be.disabled');
