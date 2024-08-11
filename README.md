@@ -20,7 +20,7 @@
 ---
 
 ## DBSBiz
-**DBSBiz** is the Ultimate Everyday Haeker App designed to help with hawkers' end-to-end operations!
+**DBSBiz** is the Ultimate Everyday Hawker App designed to help with hawkers' end-to-end operations!
 
 With DBSBiz, you can **Live More, Err Less** *with e-payment that’s non-disruptive, easy-to-use and just the way you ordered*.
 
@@ -67,5 +67,5 @@ Coming together as a strong team of 6, we bring different and unique skillsets t
 - [Teo Yan Zhen](https://github.com/yanzhenteo): SUTD Design and Artificial Intelligence
 - [Noah Huang](https://github.com/Noahhuang78): SUTD Computer Science and Design
 - [Yihe Wang](https://github.com/wang-yihe): SUTD Design and Artificial Intelligence
-  
+
 [<img src="https://github.com/user-attachments/assets/83c3a3c2-15b7-4d09-a1a6-fe073a75d251">](https://sites.google.com/view/byteballers/about-us)
