@@ -125,38 +125,42 @@ const RefundDetails = () => {
 
                         {["pending", "APPROVED"].includes(refund.status) && (
                             <>
-                                <div className={styles.section}>
-                                    <div className={styles.row}>
-                                        <span className={styles.label}>Expected Payment from Customer</span>
+                                <div className={styles.fullWidthSection}>
+                                    <div className={styles.section}>
+                                        <div className={styles.row}>
+                                            <span className={styles.label}>Expected Payment from Customer</span>
+                                        </div>
+                                        <div className={styles.row}>
+                                            <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
+                                        </div>
                                     </div>
-                                    <div className={styles.row}>
-                                        <span data-testid="refund-expected-payment">SGD {parseFloat(refund.expect_amount).toFixed(2)}</span>
-                                    </div>
-                                </div>
-                                <div className={styles.section}>
-                                    <div className={styles.row}>
-                                        <span className={styles.label}>Reason(s) for Refund</span>
-                                    </div>
-                                    <div className={styles.row}>
-                                        <span data-testid="refund-reasons">{refund.request_reason ? refund.request_reason : "N.A"}</span>
+                                    <div className={styles.section}>
+                                        <div className={styles.row}>
+                                            <span className={styles.label}>Reason(s) for Refund</span>
+                                        </div>
+                                        <div className={styles.row}>
+                                            <span data-testid="refund-reasons">{refund.request_reason ? refund.request_reason : "N.A"}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </>
                         )}
 
                         {refund.status === "REJECTED" && (
-                            <div className={styles.section}>
-                                <div className={styles.row}>
-                                    <span className={styles.label}>Customer Reason(s) for Refund</span>
-                                </div>
-                                <div className={styles.row}>
-                                    <span>{refund.request_reason ? refund.request_reason : "N.A"}</span>
-                                </div>
-                                <div className={styles.row}>
-                                    <span className={styles.label}>Your response:</span>
-                                </div>
-                                <div className={styles.row}>
-                                    <span>{refund.response_reason ? refund.response_reason : "N.A"}</span>
+                            <div className={styles.fullWidthSection}>
+                                <div className={styles.section}>
+                                    <div className={styles.row}>
+                                        <span className={styles.label}>Customer Reason(s) for Refund</span>
+                                    </div>
+                                    <div className={styles.row}>
+                                        <span>{refund.request_reason ? refund.request_reason : "N.A"}</span>
+                                    </div>
+                                    <div className={styles.row}>
+                                        <span className={styles.label}>Your Response:</span>
+                                    </div>
+                                    <div className={styles.row}>
+                                        <span>{refund.response_reason ? refund.response_reason : "N.A"}</span>
+                                    </div>
                                 </div>
                             </div>
                         )}
