@@ -1,7 +1,7 @@
 [<img src="https://github.com/user-attachments/assets/7bea759c-1fda-4667-bb78-cafd72ea1979">](https://dbsbiz.as.r.appspot.com/)
 
 <h4 align="center">
-  <a href="">Pitch Video</a>
+  <a href="https://youtu.be/_uEbiwWEjNo">Pitch Video</a>
   <span> · </span>
   <a href="https://www.figma.com/slides/cl4KM7nePC7bmzhn7DxA3x/SLIDES?node-id=136-90&t=2L9ntezfUuoA9Usq-1">Pitch Deck</a>
   <span> · </span>
