@@ -57,8 +57,11 @@ Customers and hawkers often experience delays at hawker centres due to the time-
 <img src="https://framerusercontent.com/images/XsM2LvBDpkUpXpzVE62zmpT4QE.jpg" width=40>
 #### Testing Files: ####
 Cypress: /cypress/e2e
+
 RSpec: /backend/spec
+
 Jest: /frontend/src/tests
+
 #### Build Process: ####
 ![CI/CD Github Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF.svg?style=for-the-badge&logo=GitHub-Actions&logoColor=white)
 ![Google Cloud Run + Build](https://img.shields.io/badge/google%20cloud-%234285F4.svg?&style=for-the-badge&logo=google%20cloud&logoColor=white)
